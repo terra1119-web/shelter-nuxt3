@@ -20,8 +20,8 @@
 </div>
 </template>
 
-<script setup>
-const { data } = await useFetch(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&status=publish&per_page=12`)
+<script setup lang="ts">
+const { data } = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&status=publish&per_page=12`)
 
 const getDate = (item) => {
 	return '20220907'

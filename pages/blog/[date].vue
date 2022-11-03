@@ -7,7 +7,7 @@
 			SHeLTeR
 		</NuxtLink>
 	</h1>
-	<div v-for="(item, index) in data" :key="index">
+	<div v-for="(item, index) in blogData" :key="index">
 		<div v-if="item._embedded['wp:featuredmedia']">
 			<img
 				:src="item._embedded['wp:featuredmedia'][0].source_url"
@@ -29,8 +29,8 @@ const year: number = dayjs(paramsDateString).year()
 const month: number = dayjs(paramsDateString).month() + 1
 const date: number = dayjs(paramsDateString).date()
 const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
-const { data } = await useFetch<any>(
-	`https://www.at-shelter.com/wp-json/wp/v2/posts?_embed&order=asc&per_page=1&after=${dateString}`,
+const { data: blogData } = await useFetch<any>(
+	`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&order=asc&per_page=1&after=${dateString}`,
 	{
 		initialCache: false
 	}

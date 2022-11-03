@@ -2,7 +2,7 @@
 <div>
 	<h2>Schedule</h2>
 	<ul>
-		<li v-for="(item, index) in data" :key="index">
+		<li v-for="(item, index) in data" :key="getDate(item.date)">
 			<NuxtLink
 				:to="`/schedule/${getDate(item.date)}`"
 			>
@@ -20,10 +20,10 @@
 
 	<nav>
 		<ul>
-			<li @click="onClickPrev" v-if="previousData.data.value.length">
+			<li @click="onClickPrev" v-if="Object.keys(previousData.data.value).length">
 				prev
 			</li>
-			<li @click="onClickNext" v-if="nextData.data.value.length">
+			<li @click="onClickNext" v-if="Object.keys(nextData.data.value).length">
 				next
 			</li>
 		</ul>
@@ -31,25 +31,25 @@
 </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import dayjs from 'dayjs'
 const route = useRoute()
 const router = useRouter()
 
-const ym = route.query.ym
+const { ym } = route.query
 const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
-const monthQuery = ym ? +ym.slice(4, 6) : dayjs().month()+1
+const monthQuery = ym ? +ym.slice(4, 6) : dayjs().month() + 1
 const year = ref(yearQuery)
 const month = ref(monthQuery)
-const lastDate = dayjs([year.value, month.value]).endOf('month').date()
+const lastDate = dayjs(new Date(year.value, month.value - 1)).endOf('month').date()
 
-const { data, refresh } = await useFetch(`/posts`,
+const { data, refresh } = await useFetch<any>(`/posts`,
 	{
 		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
 		params: {
 			_embed: true,
-			after: `${year.value}-${dayjs([year.value, month.value]).format('MM')}-01T00:00:00`,
-			before: `${year.value}-${dayjs([year.value, month.value]).format('MM')}-${lastDate}T23:59:59`,
+			after: `${year.value}-${dayjs(new Date(year.value, month.value - 1)).format('MM')}-01T00:00:00`,
+			before: `${year.value}-${dayjs(new Date(year.value, month.value - 1)).format('MM')}-${lastDate}T23:59:59`,
 			order: 'asc',
 			category_name: 'party',
 			status: 'publish',
@@ -70,33 +70,35 @@ const { data, refresh } = await useFetch(`/posts`,
 	}
 )
 
-const previousMonthDays = dayjs([year.value, month.value]).subtract(1, 'month')
+const previousMonthDays = dayjs(new Date(year.value, month.value - 1)).subtract(1, 'month')
 const previousData = await useFetch(`/posts`,
 	{
 		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
 		params: {
-			after: `${previousMonthDays.year()}-${dayjs([previousMonthDays.year(), previousMonthDays.month()]).format('MM')}-01T00:00:00`,
-			before: `${previousMonthDays.year()}-${dayjs([previousMonthDays.year(), previousMonthDays.month()]).format('MM')}-${lastDate}T23:59:59`,
+			after: `${previousMonthDays.year()}-${dayjs(new Date(previousMonthDays.year(), previousMonthDays.month())).format('MM')}-01T00:00:00`,
+			before: `${previousMonthDays.year()}-${dayjs(new Date(previousMonthDays.year(), previousMonthDays.month())).format('MM')}-${lastDate}T23:59:59`,
 			category_name: 'party',
 			status: 'publish',
 			per_page: 31
 		}
 	}
 )
+console.log('previousData', previousData.data.value)
 
-const nextMonthDays = dayjs([year.value, month.value]).add(1, 'month')
+const nextMonthDays = dayjs(new Date(year.value, month.value - 1)).add(1, 'month')
 const nextData = await useFetch(`/posts`,
 	{
 		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
 		params: {
-			after: `${nextMonthDays.year()}-${dayjs([nextMonthDays.year(), nextMonthDays.month() + 1]).format('MM')}-01T00:00:00`,
-			before: `${nextMonthDays.year()}-${dayjs([nextMonthDays.year(), nextMonthDays.month() + 1]).format('MM')}-${lastDate}T23:59:59`,
+			after: `${nextMonthDays.year()}-${dayjs(new Date(nextMonthDays.year(), nextMonthDays.month())).format('MM')}-01T00:00:00`,
+			before: `${nextMonthDays.year()}-${dayjs(new Date(nextMonthDays.year(), nextMonthDays.month())).format('MM')}-${lastDate}T23:59:59`,
 			category_name: 'party',
 			status: 'publish',
 			per_page: 31
 		}
 	}
 )
+console.log('nextData', nextData.data.value)
 
 const getDate = date => {
 	return dayjs(date).format('YYYYMMDD')
@@ -115,18 +117,18 @@ const onClickNext = ()=> {
 }
 
 const changeMonth = tagetMonth => {
-	const days = tagetMonth === 'previous' ? dayjs([year.value, month.value]).subtract(1, 'month') : dayjs([year.value, month.value]).add(1, 'month')
+	const days = tagetMonth === 'previous' ? dayjs(new Date(year.value, month.value - 1)).subtract(1, 'month') : dayjs(new Date(year.value, month.value - 1)).add(1, 'month')
 	month.value = days.month()+1
 	year.value = days.year()
 	router.push({
 		path: '/schedule/',
 		query: {
-			ym: `${year.value}${dayjs([year.value, month.value]).format('MM')}`
+			ym: `${year.value}${dayjs(new Date(year.value, month.value - 1)).format('MM')}`
 		},
 	})
 }
 
-watch(() => route.query.ym, () => location.reload())
+watch(() => route.query, () => location.reload())
 </script>
 
 <style scoped>
