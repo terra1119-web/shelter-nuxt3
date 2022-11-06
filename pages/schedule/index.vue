@@ -38,18 +38,18 @@ const router = useRouter()
 
 const { ym } = route.query
 const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
-const monthQuery = ym ? +ym.slice(4, 6) : dayjs().month() + 1
+const monthQuery = ym ? +ym.slice(4, 6) - 1 : dayjs().month()
 const year = ref(yearQuery)
 const month = ref(monthQuery)
-const lastDate = dayjs(new Date(year.value, month.value - 1)).endOf('month').date()
+const lastDate = dayjs(new Date(year.value, month.value)).endOf('month').date()
 
 const { data, refresh } = await useFetch<any>(`/posts`,
 	{
 		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
 		params: {
 			_embed: true,
-			after: `${year.value}-${dayjs(new Date(year.value, month.value - 1)).format('MM')}-01T00:00:00`,
-			before: `${year.value}-${dayjs(new Date(year.value, month.value - 1)).format('MM')}-${lastDate}T23:59:59`,
+			after: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-01T00:00:00`,
+			before: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-${lastDate}T23:59:59`,
 			order: 'asc',
 			category_name: 'party',
 			status: 'publish',
@@ -57,20 +57,22 @@ const { data, refresh } = await useFetch<any>(`/posts`,
 		},
 		initialCache: false,
 		onRequest (ctx) {
-			// ctx.options.params = {
-			// 	_embed: true,
-			// 	after: `${year.value}-${dayjs([year.value, month.value]).format('MM')}-01T00:00:00`,
-			// 	before: `${year.value}-${dayjs([year.value, month.value]).format('MM')}-${lastDate}`,
-			// 	order: 'asc',
-			// 	category_name: 'party',
-			// 	status: 'publish',
-			// 	per_page: 31
-			// }
+			console.log('onRequest: month', month.value)
+			console.log('onRequest: year', year.value)
+			ctx.options.params = {
+				_embed: true,
+				after: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-01T00:00:00`,
+				before: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-${lastDate}T23:59:59`,
+				order: 'asc',
+				category_name: 'party',
+				status: 'publish',
+				per_page: 31
+			}
 		}
 	}
 )
 
-const previousMonthDays = dayjs(new Date(year.value, month.value - 1)).subtract(1, 'month')
+const previousMonthDays = dayjs(new Date(year.value, month.value)).subtract(1, 'month')
 const previousData = await useFetch(`/posts`,
 	{
 		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
@@ -84,7 +86,7 @@ const previousData = await useFetch(`/posts`,
 	}
 )
 
-const nextMonthDays = dayjs(new Date(year.value, month.value - 1)).add(1, 'month')
+const nextMonthDays = dayjs(new Date(year.value, month.value)).add(1, 'month')
 const nextData = await useFetch(`/posts`,
 	{
 		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
@@ -115,7 +117,9 @@ const onClickNext = ()=> {
 }
 
 const changeMonth = tagetMonth => {
-	const days = tagetMonth === 'previous' ? dayjs(new Date(year.value, month.value - 1)).subtract(1, 'month') : dayjs(new Date(year.value, month.value - 1)).add(1, 'month')
+	const days = (tagetMonth === 'previous') ? dayjs(new Date(year.value, month.value)).subtract(1, 'month') : dayjs(new Date(year.value, month.value)).add(1, 'month')
+	console.log('changeMonth: month', days.month())
+	console.log('changeMonth: year', days.year())
 	month.value = days.month()
 	year.value = days.year()
 	router.push({
@@ -126,7 +130,8 @@ const changeMonth = tagetMonth => {
 	})
 }
 
-watch(() => route.query, () => location.reload())
+// watch(() => route.query, () => location.reload())
+watch(() => month.value, () => refresh())
 </script>
 
 <style scoped>
