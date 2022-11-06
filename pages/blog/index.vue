@@ -2,7 +2,7 @@
 <div>
 	<h2>Schedule</h2>
 	<ul>
-		<li v-for="(item, index) in data" :key="index">
+		<li v-for="(item, index) in blogData" :key="index">
 			<NuxtLink
 				:to="`/blog/${getDate(item)}`"
 			>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-const { data } = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&status=publish&per_page=12`)
+const { data: blogData } = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&status=publish&per_page=12`)
 
 const getDate = (item) => {
 	return '20220907'

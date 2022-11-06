@@ -4,7 +4,7 @@
 	<ul>
 		<li v-for="(item, index) in data" :key="getDate(item.date)">
 			<NuxtLink
-				:to="`/schedule/${getDate(item.date)}`"
+				:to="`/schedule/${getDate(item.date)}/`"
 			>
 				<div v-if="item._embedded['wp:featuredmedia']">
 					<img
@@ -83,7 +83,6 @@ const previousData = await useFetch(`/posts`,
 		}
 	}
 )
-console.log('previousData', previousData.data.value)
 
 const nextMonthDays = dayjs(new Date(year.value, month.value - 1)).add(1, 'month')
 const nextData = await useFetch(`/posts`,
@@ -98,7 +97,6 @@ const nextData = await useFetch(`/posts`,
 		}
 	}
 )
-console.log('nextData', nextData.data.value)
 
 const getDate = date => {
 	return dayjs(date).format('YYYYMMDD')
@@ -118,12 +116,12 @@ const onClickNext = ()=> {
 
 const changeMonth = tagetMonth => {
 	const days = tagetMonth === 'previous' ? dayjs(new Date(year.value, month.value - 1)).subtract(1, 'month') : dayjs(new Date(year.value, month.value - 1)).add(1, 'month')
-	month.value = days.month()+1
+	month.value = days.month()
 	year.value = days.year()
 	router.push({
 		path: '/schedule/',
 		query: {
-			ym: `${year.value}${dayjs(new Date(year.value, month.value - 1)).format('MM')}`
+			ym: `${year.value}${dayjs(new Date(year.value, month.value)).format('MM')}`
 		},
 	})
 }

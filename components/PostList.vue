@@ -26,7 +26,6 @@
 <script setup>
 const { data } = await useFetch(`https://www.at-shelter.com/wp-json/wp/v2/pages/?_embed`)
 const topData = data.value.filter(page => page.id === 2)[0]
-console.log(topData)
 const topImageFields = topData.acf.top_image_field
 const topStoreItems = topData.acf.store_item
 // const images = topData.acf.top_image_field.map(post => {
