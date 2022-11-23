@@ -2,5 +2,6 @@
 	"singleQuote": true,
 	"semi": false,
 	"tab": true,
+	"tabWidth": 4,
 	"vueIndentScriptAndStyle": true
 }

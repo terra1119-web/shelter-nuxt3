@@ -57,8 +57,6 @@ const { data, refresh } = await useFetch<any>(`/posts`,
 		},
 		initialCache: false,
 		onRequest (ctx) {
-			console.log('onRequest: month', month.value)
-			console.log('onRequest: year', year.value)
 			ctx.options.params = {
 				_embed: true,
 				after: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-01T00:00:00`,
@@ -118,8 +116,6 @@ const onClickNext = ()=> {
 
 const changeMonth = tagetMonth => {
 	const days = (tagetMonth === 'previous') ? dayjs(new Date(year.value, month.value)).subtract(1, 'month') : dayjs(new Date(year.value, month.value)).add(1, 'month')
-	console.log('changeMonth: month', days.month())
-	console.log('changeMonth: year', days.year())
 	month.value = days.month()
 	year.value = days.year()
 	router.push({
