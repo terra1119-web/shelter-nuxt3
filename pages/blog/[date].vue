@@ -32,7 +32,7 @@ const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
 const { data: blogData } = await useFetch<any>(
 	`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&order=asc&per_page=1&after=${dateString}`,
 	{
-		initialCache: false
+		// initialCache: false
 	}
 )
 

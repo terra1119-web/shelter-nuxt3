@@ -30,10 +30,7 @@ const month: number = dayjs(paramsDateString).month() + 1
 const date: number = dayjs(paramsDateString).date()
 const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
 const { data } = await useFetch<any>(
-	`https://www.at-shelter.com/wp-json/wp/v2/posts?_embed&order=asc&per_page=1&after=${dateString}`,
-	{
-		initialCache: false
-	}
+	`https://www.at-shelter.com/wp-json/wp/v2/posts?_embed&order=asc&per_page=1&after=${dateString}`
 )
 
 const getDate = (dateString: string): string => {

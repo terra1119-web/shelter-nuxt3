@@ -55,8 +55,8 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 
-const { data } = await useFetch(`https://www.at-shelter.com/wp-json/wp/v2/pages/2?_embed`)
-const blog = await useFetch(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&per_page=3`)
+const { data } = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/pages/2?_embed`)
+const blog = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&per_page=3`)
 const topData: any = data.value
 const topImageFields = topData.acf.top_image_field
 const topStoreItems = topData.acf.store_item

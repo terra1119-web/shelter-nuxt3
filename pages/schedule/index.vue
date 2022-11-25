@@ -2,29 +2,29 @@
 <div>
 	<h2>Schedule</h2>
 	<ul>
-		<li v-for="(item, index) in data" :key="getDate(item.date)">
+		<li v-for="(schedule, index) in schedules" :key="getDate(schedule.date)">
 			<NuxtLink
-				:to="`/schedule/${getDate(item.date)}/`"
+				:to="`/schedule/${getDate(schedule.date)}/`"
 			>
-				<div v-if="item._embedded['wp:featuredmedia']">
+				<div v-if="schedule._embedded['wp:featuredmedia']">
 					<img
-						:src="item._embedded['wp:featuredmedia'][0].source_url"
+						:src="schedule._embedded['wp:featuredmedia'][0].source_url"
 						alt=""
 					/>
 				</div>
-				{{ item.title.rendered }}
-				{{ getDateString(item.date) }}
+				{{ schedule.title.rendered }}
+				{{ getDateString(schedule.date) }}
 			</NuxtLink>
 		</li>
 	</ul>
 
 	<nav>
 		<ul>
-			<li @click="onClickPrev" v-if="Object.keys(previousData.data.value).length">
-				prev
+			<li v-if="previousData.length">
+				<button @click.prevent="onClickPrev">prev</button>
 			</li>
-			<li @click="onClickNext" v-if="Object.keys(nextData.data.value).length">
-				next
+			<li @click="onClickNext" v-if="nextData.length">
+				<button @click.prevent="onClickNext">next</button>
 			</li>
 		</ul>
 	</nav>
@@ -41,72 +41,97 @@ const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
 const monthQuery = ym ? +ym.slice(4, 6) - 1 : dayjs().month()
 const year = ref(yearQuery)
 const month = ref(monthQuery)
-const lastDate = dayjs(new Date(year.value, month.value)).endOf('month').date()
+const lastDate = ref(dayjs(new Date(year.value, month.value)).endOf('month').date())
 
-const { data, refresh } = await useFetch<any>(`/posts`,
-	{
-		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
-		params: {
-			_embed: true,
-			after: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-01T00:00:00`,
-			before: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-${lastDate}T23:59:59`,
-			order: 'asc',
-			category_name: 'party',
-			status: 'publish',
-			per_page: 31
-		},
-		initialCache: false,
-		onRequest (ctx) {
-			ctx.options.params = {
+const previousMonthDays = ref(dayjs(new Date(year.value, month.value)).subtract(1, 'month'))
+const previousLastDate = ref(dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).endOf('month').date())
+
+const nextMonthDays = ref(dayjs(new Date(year.value, month.value)).add(1, 'month'))
+const nextLastDate = ref(dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).endOf('month').date())
+
+const [
+	{ data: schedules, refresh },
+	{ data: previousData, refresh: refreshPreviousData },
+	{ data: nextData, refresh: refreshNextData }
+] = await Promise.all([
+	useFetch<any>(`/posts`,
+		{
+			baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
+			params: {
 				_embed: true,
 				after: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-01T00:00:00`,
-				before: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-${lastDate}T23:59:59`,
+				before: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-${lastDate.value}T23:59:59`,
 				order: 'asc',
 				category_name: 'party',
 				status: 'publish',
 				per_page: 31
+			},
+			onRequest (ctx) {
+				ctx.options.params = {
+					_embed: true,
+					after: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-01T00:00:00`,
+					before: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-${lastDate.value}T23:59:59`,
+					order: 'asc',
+					category_name: 'party',
+					status: 'publish',
+					per_page: 31
+				}
 			}
 		}
-	}
-)
-
-const previousMonthDays = dayjs(new Date(year.value, month.value)).subtract(1, 'month')
-const previousData = await useFetch(`/posts`,
-	{
-		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
-		params: {
-			after: `${previousMonthDays.year()}-${dayjs(new Date(previousMonthDays.year(), previousMonthDays.month())).format('MM')}-01T00:00:00`,
-			before: `${previousMonthDays.year()}-${dayjs(new Date(previousMonthDays.year(), previousMonthDays.month())).format('MM')}-${lastDate}T23:59:59`,
-			category_name: 'party',
-			status: 'publish',
-			per_page: 31
+	),
+	useFetch<any>(`/posts`,
+		{
+			baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
+			params: {
+				after: `${previousMonthDays.value.year()}-${dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).format('MM')}-01T00:00:00`,
+				before: `${previousMonthDays.value.year()}-${dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).format('MM')}-${previousLastDate.value}T23:59:59`,
+				category_name: 'party',
+				status: 'publish',
+				per_page: 31
+			},
+			onRequest (ctx) {
+				ctx.options.params = {
+					after: `${previousMonthDays.value.year()}-${dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).format('MM')}-01T00:00:00`,
+					before: `${previousMonthDays.value.year()}-${dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).format('MM')}-${previousLastDate.value}T23:59:59`,
+					category_name: 'party',
+					status: 'publish',
+					per_page: 31
+				}
+			}
 		}
-	}
-)
-
-const nextMonthDays = dayjs(new Date(year.value, month.value)).add(1, 'month')
-const nextData = await useFetch(`/posts`,
-	{
-		baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
-		params: {
-			after: `${nextMonthDays.year()}-${dayjs(new Date(nextMonthDays.year(), nextMonthDays.month())).format('MM')}-01T00:00:00`,
-			before: `${nextMonthDays.year()}-${dayjs(new Date(nextMonthDays.year(), nextMonthDays.month())).format('MM')}-${lastDate}T23:59:59`,
-			category_name: 'party',
-			status: 'publish',
-			per_page: 31
+	),
+	useFetch<any>(`/posts`,
+		{
+			baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
+			params: {
+				after: `${nextMonthDays.value.year()}-${dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).format('MM')}-01T00:00:00`,
+				before: `${nextMonthDays.value.year()}-${dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).format('MM')}-${nextLastDate.value}T23:59:59`,
+				category_name: 'party',
+				status: 'publish',
+				per_page: 31
+			},
+			onRequest (ctx) {
+				ctx.options.params = {
+					after: `${nextMonthDays.value.year()}-${dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).format('MM')}-01T00:00:00`,
+					before: `${nextMonthDays.value.year()}-${dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).format('MM')}-${nextLastDate.value}T23:59:59`,
+					category_name: 'party',
+					status: 'publish',
+					per_page: 31
+				}
+			}
 		}
-	}
-)
+	)
+])
 
-const getDate = date => {
+const getDate = (date: Date) => {
 	return dayjs(date).format('YYYYMMDD')
 }
 
-const getDateString = date => {
+const getDateString = (date: Date) => {
 	return dayjs(date).format('YYYY/MM/DD')
 }
 
-const onClickPrev = ()=> {
+const onClickPrev = () => {
 	changeMonth('previous')
 }
 
@@ -114,10 +139,18 @@ const onClickNext = ()=> {
 	changeMonth('next')
 }
 
-const changeMonth = tagetMonth => {
+const changeMonth = (tagetMonth: string) => {
 	const days = (tagetMonth === 'previous') ? dayjs(new Date(year.value, month.value)).subtract(1, 'month') : dayjs(new Date(year.value, month.value)).add(1, 'month')
 	month.value = days.month()
 	year.value = days.year()
+	lastDate.value = dayjs(new Date(year.value, month.value)).endOf('month').date()
+
+	previousMonthDays.value = dayjs(new Date(year.value, month.value)).subtract(1, 'month')
+	previousLastDate.value = dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).endOf('month').date()
+
+	nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(1, 'month')
+	nextLastDate.value = dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).endOf('month').date()
+
 	router.push({
 		path: '/schedule/',
 		query: {
@@ -126,8 +159,11 @@ const changeMonth = tagetMonth => {
 	})
 }
 
-// watch(() => route.query, () => location.reload())
-watch(() => month.value, () => refresh())
+watch(() => month.value, () => {
+	refresh()
+	refreshPreviousData()
+	refreshNextData()
+})
 </script>
 
 <style scoped>
