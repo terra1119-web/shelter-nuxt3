@@ -23,7 +23,7 @@
 			<li v-if="previousData.length">
 				<button @click.prevent="onClickPrev">prev</button>
 			</li>
-			<li @click="onClickNext" v-if="nextData.length">
+			<li v-if="nextData.length">
 				<button @click.prevent="onClickNext">next</button>
 			</li>
 		</ul>
@@ -135,7 +135,7 @@ const onClickPrev = () => {
 	changeMonth('previous')
 }
 
-const onClickNext = ()=> {
+const onClickNext = () => {
 	changeMonth('next')
 }
 
