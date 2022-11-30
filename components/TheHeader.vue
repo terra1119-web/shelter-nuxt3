@@ -1,0 +1,9 @@
+<template>
+	<h1>
+		<NuxtLink
+			:to="`/`"
+		>
+			SHeLTeR
+		</NuxtLink>
+	</h1>
+</template>

@@ -1,12 +1,4 @@
 <template>
-<div>
-	<h1>
-		<NuxtLink
-			:to="`/`"
-		>
-			SHeLTeR
-		</NuxtLink>
-	</h1>
 	<div v-for="(blog, index) in blogs" :key="index">
 		<div v-if="blog._embedded['wp:featuredmedia']">
 			<img
@@ -17,7 +9,6 @@
 		{{ blog.title.rendered }}
 		{{ getDate(blog.date) }}
 	</div>
-</div>
 </template>
 
 <script setup lang="ts">

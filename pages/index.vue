@@ -1,5 +1,4 @@
 <template>
-<div>
 	<NuxtLink
 		:to="`/schedule/`"
 	>
@@ -55,7 +54,6 @@
 			</NuxtLink>
 		</li>
 	</ul>
-</div>
 </template>
 
 <script setup lang="ts">

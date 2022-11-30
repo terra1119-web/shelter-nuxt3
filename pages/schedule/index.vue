@@ -1,5 +1,4 @@
 <template>
-<div>
 	<h2>Schedule</h2>
 	<ul>
 		<li v-for="(schedule, index) in schedules" :key="getDate(schedule.date)">
@@ -28,7 +27,6 @@
 			</li>
 		</ul>
 	</nav>
-</div>
 </template>
 
 <script setup lang="ts">

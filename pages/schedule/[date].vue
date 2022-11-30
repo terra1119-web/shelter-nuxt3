@@ -1,12 +1,4 @@
 <template>
-<div>
-	<h1>
-		<NuxtLink
-			:to="`/`"
-		>
-			SHeLTeR
-		</NuxtLink>
-	</h1>
 	<div v-for="(schedule, index) in schedules" :key="index">
 		<div v-if="schedule._embedded['wp:featuredmedia']">
 			<img
@@ -17,7 +9,6 @@
 		{{ schedule.title.rendered }}
 		{{ getDate(schedule.date) }}
 	</div>
-</div>
 </template>
 
 <script setup lang="ts">
