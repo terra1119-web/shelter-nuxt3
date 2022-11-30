@@ -37,9 +37,10 @@ const route = useRoute()
 const perPage: number = 12
 const totalCount = ref<string | null>(null)
 const totalPages = ref(1)
-const currentPage = ref(route.params.page || 1)
+const currentPage = ref(+route.params.page || 1)
 
 const { data: blogs } = await useFetch<any>(`/blog`, {
+	key: `blog-${Date.now()}`,
 	baseURL: apiBase,
 	params: {
 		_embed: true,
@@ -47,11 +48,13 @@ const { data: blogs } = await useFetch<any>(`/blog`, {
 		per_page: perPage,
 		page: currentPage
 	},
-	onResponse({ response }) {
+	async onResponse({ response }) {
 		totalCount.value = response.headers.get('x-wp-total')
 		totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
 	}
 })
+
+console.log(totalPages.value)
 
 const onClickPage = (page: number) => {
 	currentPage.value = page
