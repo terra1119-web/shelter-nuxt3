@@ -33,6 +33,9 @@
 
 <script setup lang="ts">
 import dayjs from 'dayjs'
+
+const config = useRuntimeConfig()
+const apiBase = config.public.apiBase
 const route = useRoute()
 const router = useRouter()
 
@@ -56,7 +59,7 @@ const [
 ] = await Promise.all([
 	useFetch<any>(`/posts`,
 		{
-			baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
+			baseURL: apiBase,
 			params: {
 				_embed: true,
 				after: `${year.value}-${dayjs(new Date(year.value, month.value)).format('MM')}-01T00:00:00`,
@@ -81,7 +84,7 @@ const [
 	),
 	useFetch<any>(`/posts`,
 		{
-			baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
+			baseURL: apiBase,
 			params: {
 				after: `${previousMonthDays.value.year()}-${dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).format('MM')}-01T00:00:00`,
 				before: `${previousMonthDays.value.year()}-${dayjs(new Date(previousMonthDays.value.year(), previousMonthDays.value.month())).format('MM')}-${previousLastDate.value}T23:59:59`,
@@ -102,7 +105,7 @@ const [
 	),
 	useFetch<any>(`/posts`,
 		{
-			baseURL: 'https://www.at-shelter.com/wp-json/wp/v2',
+			baseURL: apiBase,
 			params: {
 				after: `${nextMonthDays.value.year()}-${dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).format('MM')}-01T00:00:00`,
 				before: `${nextMonthDays.value.year()}-${dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month())).format('MM')}-${nextLastDate.value}T23:59:59`,

@@ -37,7 +37,7 @@
 
 	<h2>Blog</h2>
 	<ul>
-		<li v-for="(blog, index) in blogData">
+		<li v-for="(blog, index) in blogs">
 			<NuxtLink
 				:to="`/blog/${getBlogDate(blog)}/`"
 			>
@@ -55,12 +55,34 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 
-const { data } = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/pages/2?_embed`)
-const blog = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&per_page=3`)
-const topData: any = data.value
-const topImageFields = topData.acf.top_image_field
-const topStoreItems = topData.acf.store_item
-const blogData: any = blog.data.value
+const config = useRuntimeConfig()
+const apiBase = config.public.apiBase
+
+const [
+	{ data: schedules },
+	{ data: blogs },
+] = await Promise.all([
+	useFetch<any>(`/pages/2`,
+		{
+			baseURL: apiBase,
+			params: {
+				_embed: true,
+			}
+		}
+	),
+	useFetch<any>(`/blog`,
+		{
+			baseURL: apiBase,
+			params: {
+				_embed: true,
+				per_page: 3
+			},
+		}
+	)
+])
+
+const topImageFields = schedules.value.acf.top_image_field
+const topStoreItems = schedules.value.acf.store_item
 
 const getFeaturedDate = (field: any): string => {
 	return dayjs(field.top_image_field_date).format('YYYYMMDD')

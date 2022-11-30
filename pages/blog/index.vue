@@ -1,19 +1,19 @@
 <template>
 <div>
-	<h2>Schedule</h2>
+	<h2>Blog</h2>
 	<ul>
-		<li v-for="(item, index) in blogData" :key="index">
+		<li v-for="(blog, index) in blogs" :key="index">
 			<NuxtLink
-				:to="`/blog/${getDate(item)}`"
+				:to="`/blog/${getBlogDateUrl(blog)}`"
 			>
 				<div>
 					<img
-						:src="item._embedded['wp:featuredmedia'][0].source_url"
+						:src="blog._embedded['wp:featuredmedia'][0].source_url"
 						alt=""
 					/>
 				</div>
-				{{ item.title.rendered }}
-				{{ item.date }}
+				{{ blog.title.rendered }}
+				{{ getBlogDate(blog) }}
 			</NuxtLink>
 		</li>
 	</ul>
@@ -21,11 +21,28 @@
 </template>
 
 <script setup lang="ts">
-const { data: blogData } = await useFetch<any>(`https://www.at-shelter.com/wp-json/wp/v2/blog?_embed&status=publish&per_page=12`)
+import dayjs from 'dayjs'
 
-const getDate = (item) => {
-	return '20220907'
+const config = useRuntimeConfig()
+const apiBase = config.public.apiBase
+
+const { data: blogs } = await useFetch<any>(`/blog`, {
+	baseURL: apiBase,
+	params: {
+		_embed: true,
+		status: 'publish',
+		per_page: 12
+	}
+})
+
+const getBlogDateUrl = (blogData: any): string => {
+	return dayjs(blogData.date).format('YYYYMMDD')
 }
+
+const getBlogDate = (blogData: any): string => {
+	return dayjs(blogData.date).format('YYYY/MM/DD')
+}
+
 </script>
 
 <style scoped>
