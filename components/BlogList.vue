@@ -17,7 +17,6 @@
 		</li>
 	</ul>
 
-	<ClientOnly>
 	<nav>
 		<ul>
 			<li v-for="(page, index) in totalPages">
@@ -25,7 +24,6 @@
 			</li>
 		</ul>
 	</nav>
-	</ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -51,7 +49,7 @@ const { data: blogs } = await useFetch<any>(`/blog`, {
 	},
 	async onResponse({ response }) {
 		totalCount.value = response.headers.get('x-wp-total')
-		totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
+		// totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
 	}
 })
 
@@ -70,6 +68,10 @@ const getBlogDateUrl = (date: string): string => {
 const getBlogDate = (date: string): string => {
 	return dayjs(date).format('YYYY/MM/DD')
 }
+
+onMounted(() => {
+	totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
+})
 
 </script>
 
