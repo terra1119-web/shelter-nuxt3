@@ -20,12 +20,7 @@
 	<nav>
 		<ul>
 			<li v-for="(page, index) in totalPages">
-				<NuxtLink
-					:to="`/blog/pages/${index + 1}`"
-				>
-					{{ index + 1 }}
-				</NuxtLink>
-				<!-- <button @click.prevent="onClickPage(index + 1)">{{ index + 1 }}</button> -->
+				<button @click.prevent="onClickPage(index + 1)">{{ index + 1 }}</button>
 			</li>
 		</ul>
 	</nav>
@@ -52,7 +47,7 @@ const { data: blogs } = await useFetch<any>(`/blog`, {
 		per_page: perPage,
 		page: currentPage
 	},
-	onResponse({ response }) {
+	async onResponse({ response }) {
 		totalCount.value = response.headers.get('x-wp-total')
 		totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
 	}
