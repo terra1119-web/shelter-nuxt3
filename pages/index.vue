@@ -4,6 +4,7 @@
 	>
 		Schedule
 	</NuxtLink>
+
 	<h2>Featured</h2>
 	<ul>
 		<li v-for="(field, index) in topImageFields">
@@ -35,17 +36,13 @@
 	</ul>
 
 	<h2>
-		<NuxtLink
-			:to="`/blog/`"
-		>
+		<NuxtLink :to="`/blog/`">
 			Blog
 		</NuxtLink>
 	</h2>
 	<ul>
 		<li v-for="(blog, index) in blogs">
-			<NuxtLink
-				:to="`/blog/${getBlogDate(blog)}/`"
-			>
+			<NuxtLink :to="`/blog/${getBlogDate(blog)}/`">
 				<div v-if="blog._embedded['wp:featuredmedia']">
 					<img :src="blog._embedded['wp:featuredmedia'][0].source_url" alt="" />
 				</div>

@@ -3,5 +3,6 @@
 	"semi": false,
 	"useTabs": true,
 	"tabWidth": 4,
-	"vueIndentScriptAndStyle": true
+	"vueIndentScriptAndStyle": true,
+	"trailingComma": "none"
 }
