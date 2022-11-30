@@ -20,7 +20,12 @@
 	<nav>
 		<ul>
 			<li v-for="(page, index) in totalPages">
-				<button @click.prevent="onClickPage(index + 1)">{{ index + 1 }}</button>
+				<NuxtLink
+					:to="`/blog/pages/${index + 1}`"
+				>
+					{{ index + 1 }}
+				</NuxtLink>
+				<!-- <button @click.prevent="onClickPage(index + 1)">{{ index + 1 }}</button> -->
 			</li>
 		</ul>
 	</nav>
@@ -35,7 +40,7 @@ const router = useRouter()
 const route = useRoute()
 
 const perPage: number = 12
-const totalCount = ref<string | null>('0')
+const totalCount = ref<string | null>(null)
 const totalPages = ref(1)
 const currentPage = ref(route.params.page || 1)
 
@@ -50,8 +55,6 @@ const { data: blogs } = await useFetch<any>(`/blog`, {
 	onResponse({ response }) {
 		totalCount.value = response.headers.get('x-wp-total')
 		totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
-		console.log(totalCount.value)
-		console.log(totalPages.value)
 	}
 })
 
