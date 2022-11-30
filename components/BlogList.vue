@@ -47,9 +47,9 @@ const { data: blogs } = await useFetch<any>(`/blog`, {
 		per_page: perPage,
 		page: currentPage
 	},
-	async onResponse({ response }) {
+	onResponse({ response }) {
 		totalCount.value = response.headers.get('x-wp-total')
-		// totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
+		totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
 	}
 })
 
@@ -71,6 +71,7 @@ const getBlogDate = (date: string): string => {
 
 onMounted(() => {
 	totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
+	totalPages.value = 6
 })
 
 </script>
