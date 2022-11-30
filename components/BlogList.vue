@@ -69,11 +69,6 @@ const getBlogDate = (date: string): string => {
 	return dayjs(date).format('YYYY/MM/DD')
 }
 
-onMounted(() => {
-	totalPages.value = totalCount.value ? Math.ceil(+totalCount.value / perPage) : 1
-	totalPages.value = 6
-})
-
 </script>
 
 <style scoped>
