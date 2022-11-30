@@ -54,8 +54,6 @@ const { data: blogs } = await useFetch<any>(`/blog`, {
 	}
 })
 
-console.log(totalPages.value)
-
 const onClickPage = (page: number) => {
 	currentPage.value = page
 	const path = currentPage.value === 1 ? `/blog/` : `/blog/pages/${currentPage.value}/`
