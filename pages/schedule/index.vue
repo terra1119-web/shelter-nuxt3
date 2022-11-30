@@ -162,10 +162,11 @@ const changeMonth = (tagetMonth: string) => {
 	})
 }
 
-watch(() => month.value, () => {
-	refresh()
-	refreshPreviousData()
-	refreshNextData()
+watch(() => month.value, async () => {
+	await refresh()
+	window.scrollTo(0, 0)
+	await refreshPreviousData()
+	await refreshNextData()
 })
 </script>
 

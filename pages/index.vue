@@ -35,7 +35,13 @@
 		</li>
 	</ul>
 
-	<h2>Blog</h2>
+	<h2>
+		<NuxtLink
+			:to="`/blog/`"
+		>
+			Blog
+		</NuxtLink>
+	</h2>
 	<ul>
 		<li v-for="(blog, index) in blogs">
 			<NuxtLink
