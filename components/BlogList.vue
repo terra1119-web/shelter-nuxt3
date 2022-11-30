@@ -17,6 +17,7 @@
 		</li>
 	</ul>
 
+	<ClientOnly>
 	<nav>
 		<ul>
 			<li v-for="(page, index) in totalPages">
@@ -24,6 +25,7 @@
 			</li>
 		</ul>
 	</nav>
+	</ClientOnly>
 </template>
 
 <script setup lang="ts">
