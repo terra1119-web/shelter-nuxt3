@@ -12,34 +12,34 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from 'dayjs'
+	import dayjs from 'dayjs'
 
-const config = useRuntimeConfig()
-const apiBase = config.public.apiBase
+	const config = useRuntimeConfig()
+	const apiBase = config.public.apiBase
 
-const route = useRoute()
-const paramsDateString: string = route.params.date as string
-const year: number = dayjs(paramsDateString).year()
-const month: number = dayjs(paramsDateString).month() + 1
-const date: number = dayjs(paramsDateString).date()
-const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
-const { data: blogs } = await useFetch<any>(`/blog`, {
-	baseURL: apiBase,
-	params: {
-		_embed: true,
-		order: 'asc',
-		per_page: 1,
-		after: dateString
+	const route = useRoute()
+	const paramsDateString: string = route.params.date as string
+	const year: number = dayjs(paramsDateString).year()
+	const month: number = dayjs(paramsDateString).month() + 1
+	const date: number = dayjs(paramsDateString).date()
+	const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
+	const { data: blogs } = await useFetch<any>(`/blog`, {
+		baseURL: apiBase,
+		params: {
+			_embed: true,
+			order: 'asc',
+			per_page: 1,
+			after: dateString
+		}
+	})
+
+	const getDate = (dateString: string): string => {
+		return dayjs(dateString).format('YYYY/MM/DD')
 	}
-})
-
-const getDate = (dateString: string): string => {
-	return dayjs(dateString).format('YYYY/MM/DD')
-}
 </script>
 
 <style scoped>
-img {
-	width: 100%;
-}
+	img {
+		width: 100%;
+	}
 </style>

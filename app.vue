@@ -1,5 +1,7 @@
 <template>
-	<TheHeader />
+	<div class="bg-gray-900">
+		<TheHeader />
 
-	<NuxtPage />
+		<NuxtPage />
+	</div>
 </template>
