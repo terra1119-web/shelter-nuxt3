@@ -6,8 +6,65 @@
 				alt=""
 			/>
 		</div>
-		{{ schedule.title.rendered }}
-		{{ getDate(schedule.date) }}
+		<h1>{{ schedule.title.rendered }}</h1>
+
+		<time
+			:datetime="`${useDateString({
+				date: schedule.date,
+				format: 'YYYY/MM/DD ddd'
+			})}`"
+		>
+			{{
+				useDateString({
+					date: schedule.date,
+					format: 'YYYY/MM/DD ddd'
+				})
+			}}
+		</time>
+
+		<p v-if="schedule.acf.party_genre">{{ schedule.acf.party_genre }}</p>
+		<p v-if="schedule.acf.party_open">{{ schedule.acf.party_open }}</p>
+		<p v-if="schedule.acf.party_charge">{{ schedule.acf.party_charge }}</p>
+		<p
+			v-if="schedule.acf.party_guest"
+			v-html="schedule.acf.party_guest"
+		></p>
+		<p v-if="schedule.acf.party_dj" v-html="schedule.acf.party_dj"></p>
+
+		<ul>
+			<li v-if="schedule.previous">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: schedule.previous.date,
+						format: 'YYYYMMDD'
+					})}/`"
+					class="underline hover:no-underline"
+				>
+					{{
+						useDateString({
+							date: schedule.previous.date,
+							format: 'YYYY/MM/DD'
+						})
+					}}
+				</NuxtLink>
+			</li>
+			<li v-if="schedule.next">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: schedule.next.date,
+						format: 'YYYYMMDD'
+					})}/`"
+					class="underline hover:no-underline"
+				>
+					{{
+						useDateString({
+							date: schedule.next.date,
+							format: 'YYYY/MM/DD'
+						})
+					}}
+				</NuxtLink>
+			</li>
+		</ul>
 	</div>
 </template>
 
@@ -32,10 +89,6 @@
 			after: dateString
 		}
 	})
-
-	const getDate = (dateString: string): string => {
-		return dayjs(dateString).format('YYYY/MM/DD')
-	}
 </script>
 
 <style scoped>

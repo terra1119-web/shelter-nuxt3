@@ -1,0 +1,50 @@
+{
+  "background": {
+    "value": "#1a1a1a",
+    "type": "color"
+  },
+  "surface": {
+    "nuetral": {
+      "primary": {
+        "value": "#2A2A2A",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "#171717",
+        "type": "color"
+      }
+    },
+    "accent": {
+      "value": "#EA3A3A",
+      "type": "color"
+    }
+  },
+  "text": {
+    "primary": {
+      "value": "#ffffff",
+      "type": "color"
+    }
+  },
+  "spacing": {
+    "1": {
+      "value": "8px",
+      "type": "spacing"
+    },
+    "2": {
+      "value": "16px",
+      "type": "spacing"
+    },
+    "3": {
+      "value": "24px",
+      "type": "spacing"
+    },
+    "4": {
+      "value": "32px",
+      "type": "spacing"
+    },
+    "5": {
+      "value": "40px",
+      "type": "spacing"
+    }
+  }
+}

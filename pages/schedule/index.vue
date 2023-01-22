@@ -1,8 +1,21 @@
 <template>
 	<h2>Schedule</h2>
 	<ul>
-		<li v-for="schedule in schedules" :key="getDate(schedule.date)">
-			<NuxtLink :to="`/schedule/${getDate(schedule.date)}/`">
+		<li
+			v-for="schedule in schedules"
+			:key="
+				useDateString({
+					date: schedule.date,
+					format: 'YYYYMMDD'
+				})
+			"
+		>
+			<NuxtLink
+				:to="`/schedule/${useDateString({
+					date: schedule.date,
+					format: 'YYYYMMDD'
+				})}/`"
+			>
 				<div v-if="schedule._embedded['wp:featuredmedia']">
 					<img
 						:src="
@@ -12,7 +25,12 @@
 					/>
 				</div>
 				{{ schedule.title.rendered }}
-				{{ getDateString(schedule.date) }}
+				{{
+					useDateString({
+						date: schedule.date,
+						format: 'YYYY/MM/DD'
+					})
+				}}
 			</NuxtLink>
 		</li>
 	</ul>
@@ -184,14 +202,6 @@
 			}
 		})
 	])
-
-	const getDate = (date: Date) => {
-		return dayjs(date).format('YYYYMMDD')
-	}
-
-	const getDateString = (date: Date) => {
-		return dayjs(date).format('YYYY/MM/DD')
-	}
 
 	const onClickPrev = () => {
 		changeMonth('previous')

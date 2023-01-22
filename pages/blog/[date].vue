@@ -6,8 +6,15 @@
 				alt=""
 			/>
 		</div>
-		{{ blog.title.rendered }}
-		{{ getDate(blog.date) }}
+		<h1>{{ blog.title.rendered }}</h1>
+		{{
+			useDateString({
+				date: blog.date,
+				format: 'YYYY/MM/DD ddd'
+			})
+		}}
+
+		<div v-html="blog.content.rendered"></div>
 	</div>
 </template>
 
@@ -32,10 +39,6 @@
 			after: dateString
 		}
 	})
-
-	const getDate = (dateString: string): string => {
-		return dayjs(dateString).format('YYYY/MM/DD')
-	}
 </script>
 
 <style scoped>

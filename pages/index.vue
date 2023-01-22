@@ -1,11 +1,12 @@
 <template>
-	<NuxtLink :to="`/schedule/`"> Schedule </NuxtLink>
-
 	<h2>Featured</h2>
 	<ul>
 		<li v-for="(field, index) in topImageFields" :key="index" class="mt-12">
 			<NuxtLink
-				:to="`/schedule/${getFeaturedDate(field)}/`"
+				:to="`/schedule/${useDateString({
+					date: field.top_image_field_date,
+					format: 'YYYYMMDD'
+				})}/`"
 				class="underline hover:no-underline"
 			>
 				<div v-if="field.top_image_field_image">
@@ -42,7 +43,12 @@
 	</h2>
 	<ul>
 		<li v-for="(blog, index) in blogs" :key="index" class="mt-12">
-			<NuxtLink :to="`/blog/${getBlogDate(blog)}/`">
+			<NuxtLink
+				:to="`/blog/${useDateString({
+					date: blog.date,
+					format: 'YYYYMMDD'
+				})}/`"
+			>
 				<div v-if="blog._embedded['wp:featuredmedia']">
 					<img
 						:src="blog._embedded['wp:featuredmedia'][0].source_url"
@@ -51,15 +57,18 @@
 					/>
 				</div>
 				{{ blog.title.rendered }}
-				{{ getBlogDate(blog) }}
+				{{
+					useDateString({
+						date: blog.date,
+						format: 'YYYY/MM/DD'
+					})
+				}}
 			</NuxtLink>
 		</li>
 	</ul>
 </template>
 
 <script setup lang="ts">
-	import dayjs from 'dayjs'
-
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 
@@ -81,14 +90,6 @@
 
 	const topImageFields = schedules.value.acf.top_image_field
 	const topStoreItems = schedules.value.acf.store_item
-
-	const getFeaturedDate = (field: any): string => {
-		return dayjs(field.top_image_field_date).format('YYYYMMDD')
-	}
-
-	const getBlogDate = (blogData: any): string => {
-		return dayjs(blogData.date).format('YYYYMMDD')
-	}
 </script>
 
 <style scoped></style>

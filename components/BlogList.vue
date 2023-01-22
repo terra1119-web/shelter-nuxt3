@@ -2,7 +2,12 @@
 	<h2>Blog</h2>
 	<ul>
 		<li v-for="(blog, index) in blogs" :key="index">
-			<NuxtLink :to="`/blog/${getBlogDateUrl(blog.date)}/`">
+			<NuxtLink
+				:to="`/blog/${useDateString({
+					date: blog.date,
+					format: 'YYYYMMDD'
+				})}/`"
+			>
 				<div v-if="blog._embedded">
 					<img
 						:src="blog._embedded['wp:featuredmedia'][0].source_url"
@@ -10,7 +15,12 @@
 					/>
 				</div>
 				{{ blog.title.rendered }}
-				{{ getBlogDate(blog.date) }}
+				{{
+					useDateString({
+						date: blog.date,
+						format: 'YYYY/MM/DD'
+					})
+				}}
 			</NuxtLink>
 		</li>
 	</ul>
@@ -27,8 +37,6 @@
 </template>
 
 <script setup lang="ts">
-	import dayjs from 'dayjs'
-
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 	const router = useRouter()
@@ -65,14 +73,6 @@
 		router.push({
 			path
 		})
-	}
-
-	const getBlogDateUrl = (date: string): string => {
-		return dayjs(date).format('YYYYMMDD')
-	}
-
-	const getBlogDate = (date: string): string => {
-		return dayjs(date).format('YYYY/MM/DD')
 	}
 </script>
 
