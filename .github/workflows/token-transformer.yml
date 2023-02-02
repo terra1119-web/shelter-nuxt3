@@ -1,0 +1,27 @@
+name: Token Transformer
+
+on:
+    push:
+        branches:
+            - figma
+        paths:
+            - ./tokens.json
+
+env:
+    ENV_VAR: ${{ secrets.ENV_VAR }}
+
+jobs:
+    token-transformer:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Install dependencies
+              run: |
+                  npm ci
+
+            - name: Run script
+              run: |
+                  npm run token-transformer
