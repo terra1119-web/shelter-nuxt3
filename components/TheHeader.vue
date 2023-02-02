@@ -1,10 +1,16 @@
 <template>
-	<div class="flex">
+	<header
+		class="flex items-center bg-surface-nuetral-overlay sticky top-0 pl-4 pr-4 h-[40px] md:h-[64px]"
+	>
 		<h1 class="text-3xl text-red-700 font-bold flex-grow">
-			<NuxtLink :to="`/`"> SHeLTeR </NuxtLink>
+			<NuxtLink
+				:to="`/`"
+				class="block w-[77px] h-[20px] bg-[url('/images/logo.svg')]"
+			>
+			</NuxtLink>
 		</h1>
-		<nav>
-			<ul class="flex gap-4">
+		<nav class="hidden md:block">
+			<ul class="flex gap-4 text-xl">
 				<li>
 					<NuxtLink :to="`/`">TOP</NuxtLink>
 				</li>
@@ -24,5 +30,5 @@
 				</li>
 			</ul>
 		</nav>
-	</div>
+	</header>
 </template>

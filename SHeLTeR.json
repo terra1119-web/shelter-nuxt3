@@ -12,39 +12,36 @@
       "secondary": {
         "value": "#171717",
         "type": "color"
+      },
+      "overlay": {
+        "value": "#0a0a0ad9",
+        "type": "color"
       }
     },
     "accent": {
       "value": "#EA3A3A",
-      "type": "color"
+      "type": "color",
+      "description": "テスト"
     }
   },
   "text": {
     "primary": {
       "value": "#ffffff",
       "type": "color"
+    },
+    "accent": {
+      "value": "#EA3A3A",
+      "type": "color"
     }
   },
-  "spacing": {
-    "1": {
-      "value": "8px",
-      "type": "spacing"
+  "border": {
+    "primary": {
+      "value": "#ffffff",
+      "type": "color"
     },
-    "2": {
-      "value": "16px",
-      "type": "spacing"
-    },
-    "3": {
-      "value": "24px",
-      "type": "spacing"
-    },
-    "4": {
-      "value": "32px",
-      "type": "spacing"
-    },
-    "5": {
-      "value": "40px",
-      "type": "spacing"
+    "accent": {
+      "value": "#EA3A3A",
+      "type": "color"
     }
   }
 }

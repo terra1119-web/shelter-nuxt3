@@ -1,3 +1,3 @@
 <template>
-	<footer>SHeLTeR</footer>
+	<footer class="bg-surface-nuetral-secondary">SHeLTeR</footer>
 </template>

@@ -21,6 +21,7 @@ module.exports = {
 	rules: {
 		'vue/no-v-model-argument': 0,
 		'vue/no-multiple-template-root': 0,
-		'vue/no-v-html': 'off'
+		'vue/no-v-html': 'off',
+		'@typescript-eslint/no-var-requires': 'off'
 	}
 }
