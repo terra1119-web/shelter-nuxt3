@@ -76,7 +76,23 @@
     "large": {
       "value": "40px",
       "type": "spacing"
+    },
+    "small": {
+      "value": "8px",
+      "type": "spacing"
+    },
+    "x-large": {
+      "value": "56px",
+      "type": "spacing"
+    },
+    "x-small": {
+      "value": "4px",
+      "type": "spacing"
     }
+  },
+  "radius-large": {
+    "value": "16px",
+    "type": "borderRadius"
   },
   "font-size": {
     "medium": {

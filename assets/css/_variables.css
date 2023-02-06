@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Mon, 06 Feb 2023 13:54:12 GMT
+ * Generated on Mon, 06 Feb 2023 15:42:29 GMT
  */
 
 :root {
@@ -23,6 +23,10 @@
   --spacing-7: 56px;
   --spacing-medium: 16px;
   --spacing-large: 40px;
+  --spacing-small: 8px;
+  --spacing-x-large: 56px;
+  --spacing-x-small: 4px;
+  --radius-large: 16px;
   --font-size-medium: 1rem;
   --family-primary-en: Roboto Condensed;
   --family-primary-ja: YuGothic;
