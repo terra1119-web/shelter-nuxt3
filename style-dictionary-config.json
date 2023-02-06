@@ -1,0 +1,14 @@
+{
+	"source": ["./SHeLTeR.json"],
+	"platforms": {
+		"css": {
+			"transformGroup": "css",
+			"files": [
+				{
+					"destination": "assets/css/_variables.css",
+					"format": "css/variables"
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,17 @@
+/**
+ * Do not edit directly
+ * Generated on Mon, 06 Feb 2023 12:00:50 GMT
+ */
+
+:root {
+  --background: #1a1a1a;
+  --surface-nuetral-primary: #2A2A2A;
+  --surface-nuetral-secondary: #171717;
+  --surface-nuetral-overlay: #0a0a0ad9;
+  --surface-accent: #EA3A3A;
+  --text-primary: #ffffff;
+  --text-accent: #EA3A3A;
+  --border-primary: #ffffff;
+  --border-accent: #EA3A3A;
+  --radius: 8px;
+}
