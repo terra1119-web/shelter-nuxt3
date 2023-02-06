@@ -1,9 +1,9 @@
 name: Token Transformer
 
 on:
-  push:
-    branches:
-      - figma
+    push:
+        branches:
+            - figma
         paths:
             - ./tokens.json
 
