@@ -6,7 +6,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "style-dictionary:build": "npx style-dictionary build -c ./style-dictionary-config.json",
-    "token-transformer": "npx token-transformer ./tokens.json ./SHeLTeR.json global,SHeLTeR global"
+    "token-transformer": "npx token-transformer ./tokens.json ./tokens/SHeLTeR-alias.json global,SHeLTeR-alias"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.0.0",

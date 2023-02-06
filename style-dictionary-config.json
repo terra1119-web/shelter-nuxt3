@@ -1,5 +1,5 @@
 {
-	"source": ["./SHeLTeR.json"],
+	"source": ["./tokens/SHeLTeR-alias.json"],
 	"platforms": {
 		"css": {
 			"transformGroup": "css",
