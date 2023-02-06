@@ -7,21 +7,19 @@ on:
         paths:
             - ./tokens.json
 
-env:
-    ENV_VAR: ${{ secrets.ENV_VAR }}
-
 jobs:
-    token-transformer:
+    build:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-
-            - name: Install dependencies
-              run: |
-                  npm ci
-
-            - name: Run script
-              run: |
-                  npm run token-transformer
+            - uses: actions/checkout@v2
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v2.4.0
+            # Transform Figma Tokens JSON to something Style Dictionary can read
+            - run: npx token-transformer tokens.json tokens/SHeLTeR-alias.json
+            # Convert tokens according to Style Dictionary config
+            - run: npx style-dictionary build --config style-dictionary-config.json
+            # Add files that were created during a run, e.g. created files from style dictionary or token-transformer.
+            - uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  commit_message: Update Tokens

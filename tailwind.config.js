@@ -1,4 +1,4 @@
-const tokens = require('./SHeLTeR.json')
+const tokens = require('./tokens/SHeLTeR-alias.json')
 
 const getColorTokens = (tokens) => {
 	return Object.keys(tokens).reduce((prev, current) => {

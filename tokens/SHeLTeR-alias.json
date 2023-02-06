@@ -1,0 +1,104 @@
+{
+  "color-background": {
+    "value": "#1a1a1a",
+    "type": "color"
+  },
+  "color-surface-nuetral-primary": {
+    "value": "#2A2A2A",
+    "type": "color"
+  },
+  "color-surface-nuetral-secondary": {
+    "value": "#171717",
+    "type": "color"
+  },
+  "color-surface-nuetral-overlay": {
+    "value": "#0a0a0ad9",
+    "type": "color"
+  },
+  "color-surface-accent": {
+    "value": "#EA3A3A",
+    "type": "color",
+    "description": "テスト"
+  },
+  "color-text-primary": {
+    "value": "#ffffff",
+    "type": "color"
+  },
+  "color-text-accent": {
+    "value": "#EA3A3A",
+    "type": "color"
+  },
+  "color-border-primary": {
+    "value": "#ffffff",
+    "type": "color"
+  },
+  "color-border-accent": {
+    "value": "#EA3A3A",
+    "type": "color"
+  },
+  "radius": {
+    "value": "8px",
+    "type": "borderRadius"
+  },
+  "spacing": {
+    "1": {
+      "value": "8px",
+      "type": "spacing"
+    },
+    "2": {
+      "value": "16px",
+      "type": "spacing"
+    },
+    "3": {
+      "value": "24px",
+      "type": "spacing"
+    },
+    "4": {
+      "value": "32px",
+      "type": "spacing"
+    },
+    "5": {
+      "value": "40px",
+      "type": "spacing"
+    },
+    "6": {
+      "value": "48px",
+      "type": "spacing"
+    },
+    "7": {
+      "value": "56px",
+      "type": "spacing"
+    },
+    "medium": {
+      "value": "16px",
+      "type": "spacing"
+    },
+    "large": {
+      "value": "40px",
+      "type": "spacing"
+    }
+  },
+  "font-size": {
+    "medium": {
+      "value": "1rem",
+      "type": "fontSizes"
+    }
+  },
+  "family-primary": {
+    "en": {
+      "value": "Roboto Condensed",
+      "type": "fontFamilies"
+    },
+    "ja": {
+      "value": "YuGothic",
+      "type": "fontFamilies",
+      "description": "游ゴシック"
+    }
+  },
+  "family-secondary": {
+    "en": {
+      "value": "Roboto",
+      "type": "fontFamilies"
+    }
+  }
+}
