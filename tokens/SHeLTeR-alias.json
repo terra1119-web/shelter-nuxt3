@@ -4,19 +4,17 @@
     "type": "color"
   },
   "color-surface": {
-    "nuetral": {
-      "primary": {
-        "value": "#2A2A2A",
-        "type": "color"
-      },
-      "secondary": {
-        "value": "#171717",
-        "type": "color"
-      },
-      "overlay": {
-        "value": "#0a0a0ad9",
-        "type": "color"
-      }
+    "nuetral-primary": {
+      "value": "#2A2A2A",
+      "type": "color"
+    },
+    "nuetral-secondary": {
+      "value": "#171717",
+      "type": "color"
+    },
+    "nuetral-overlay": {
+      "value": "#0a0a0ad9",
+      "type": "color"
     },
     "accent": {
       "value": "#EA3A3A",
