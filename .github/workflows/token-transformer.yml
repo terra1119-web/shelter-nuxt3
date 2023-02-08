@@ -34,8 +34,8 @@ jobs:
             - name: 🔨 transform token
               run: npm run token-transformer
 
-            - name: 🔨 style-dictionary build
-              run: npm run style-dictionary:build
+            # - name: 🔨 style-dictionary build
+            #   run: npm run style-dictionary:build
 
             - name: 🐈‍⬛ git commit
               uses: stefanzweifel/git-auto-commit-action@v4
