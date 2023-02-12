@@ -1,20 +1,27 @@
 const tokens = require('./tokens/SHeLTeR-alias.json')
 
-const getColorTokens = (tokens) => {
-	return Object.keys(tokens).reduce((prev, current) => {
-		const tokenValue = tokens[current]
-		const key = current.replace('color-', '')
-		const lowerCamelCaseKey = key[0].toLowerCase() + key.slice(1)
+const filterByColor = (tokens) => {
+	const filtered = {}
 
-		prev[lowerCamelCaseKey] = `var(--${current}, ${tokenValue.value})`
-		return prev
-	}, {})
+	Object.keys(tokens).forEach((key) => {
+		if (key.includes('color-') && tokens[key]?.type === 'color') {
+			const replaceKey = key.replace('color-', '')
+			filtered[replaceKey] = tokens[key].value
+		} else if (key.includes('color-') && !tokens[key].type) {
+			Object.keys(tokens[key]).forEach((props) => {
+				const replaceKey = key.replace('color-', '')
+				filtered[`${replaceKey}-${props}`] = tokens[key][props].value
+			})
+		}
+	})
+
+	return filtered
 }
 
-const shelterColors = getColorTokens(tokens)
+const colotTokens = filterByColor(tokens)
 
 const colors = {
-	...shelterColors,
+	...colotTokens,
 	transparent: 'transparent',
 	current: 'currentColor',
 	inherit: 'inherit'
@@ -29,28 +36,9 @@ module.exports = {
 		'./pages/**/*.vue'
 	],
 	theme: {
-		// extend: {
-		// 	colors: {
-		// 		background: tokens.background.value,
-		// 		text: {
-		// 			primary: tokens.text.primary.value,
-		// 			accent: tokens.text.accent.value
-		// 		},
-		// 		surface: {
-		// 			nuetral: {
-		// 				primary: tokens.surface.nuetral.primary.value,
-		// 				secondary: tokens.surface.nuetral.secondary.value,
-		// 				overlay: tokens.surface.nuetral.overlay.value
-		// 			},
-		// 			accent: tokens.surface.accent.value
-		// 		},
-		// 		border: {
-		// 			primary: tokens.border.primary.value,
-		// 			accent: tokens.border.accent.value
-		// 		}
-		// 	}
-		// }
-		colors
+		extend: {
+			colors
+		}
 	},
 	plugins: []
 }

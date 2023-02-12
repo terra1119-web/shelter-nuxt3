@@ -3,38 +3,44 @@
     "value": "#1a1a1a",
     "type": "color"
   },
-  "color-surface-nuetral-primary": {
-    "value": "#2A2A2A",
-    "type": "color"
+  "color-surface": {
+    "nuetral-primary": {
+      "value": "#2A2A2A",
+      "type": "color"
+    },
+    "nuetral-secondary": {
+      "value": "#171717",
+      "type": "color"
+    },
+    "nuetral-overlay": {
+      "value": "#0a0a0ad9",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#EA3A3A",
+      "type": "color",
+      "description": "テスト"
+    }
   },
-  "color-surface-nuetral-secondary": {
-    "value": "#171717",
-    "type": "color"
+  "color-text": {
+    "primary": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#EA3A3A",
+      "type": "color"
+    }
   },
-  "color-surface-nuetral-overlay": {
-    "value": "#0a0a0ad9",
-    "type": "color"
-  },
-  "color-surface-accent": {
-    "value": "#EA3A3A",
-    "type": "color",
-    "description": "テスト"
-  },
-  "color-text-primary": {
-    "value": "#ffffff",
-    "type": "color"
-  },
-  "color-text-accent": {
-    "value": "#EA3A3A",
-    "type": "color"
-  },
-  "color-border-primary": {
-    "value": "#ffffff",
-    "type": "color"
-  },
-  "color-border-accent": {
-    "value": "#EA3A3A",
-    "type": "color"
+  "color-border": {
+    "primary": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#EA3A3A",
+      "type": "color"
+    }
   },
   "radius": {
     "value": "8px",
@@ -92,6 +98,10 @@
   },
   "radius-large": {
     "value": "16px",
+    "type": "borderRadius"
+  },
+  "radius-smal": {
+    "value": "4px",
     "type": "borderRadius"
   },
   "font-size": {
