@@ -1,24 +1,29 @@
 const tokens = require('./tokens/SHeLTeR-alias.json')
 
-const filterByColor = (tokens) => {
-	const filtered = {}
+const extractPropertiesWithValue = (obj, targetKey, targetValue) => {
+	const result = {}
 
-	Object.keys(tokens).forEach((key) => {
-		if (key.includes('color-') && tokens[key]?.type === 'color') {
-			const replaceKey = key.replace('color-', '')
-			filtered[replaceKey] = tokens[key].value
-		} else if (key.includes('color-') && !tokens[key].type) {
-			Object.keys(tokens[key]).forEach((props) => {
-				const replaceKey = key.replace('color-', '')
-				filtered[`${replaceKey}-${props}`] = tokens[key][props].value
-			})
+	for (const [key, val] of Object.entries(obj)) {
+		if (val[targetKey] === targetValue) {
+			result[key] = obj[key].value
+		} else if (typeof val === 'object' && val !== null) {
+			/* eslint-disable @typescript-eslint/no-unused-vars */
+			for (const [childKey, childVal] of Object.entries(obj[key])) {
+				if (childVal[targetKey] === targetValue) {
+					result[key] = extractPropertiesWithValue(
+						obj[key],
+						targetKey,
+						targetValue
+					)
+				}
+			}
 		}
-	})
+	}
 
-	return filtered
+	return result
 }
 
-const colotTokens = filterByColor(tokens)
+const colotTokens = extractPropertiesWithValue(tokens, 'type', 'color')
 
 const colors = {
 	...colotTokens,
