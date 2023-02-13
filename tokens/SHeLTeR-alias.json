@@ -1,9 +1,9 @@
 {
-  "color-background": {
+  "background": {
     "value": "#1a1a1a",
     "type": "color"
   },
-  "color-surface": {
+  "surface": {
     "nuetral-primary": {
       "value": "#2A2A2A",
       "type": "color"
@@ -22,7 +22,7 @@
       "description": "テスト"
     }
   },
-  "color-text": {
+  "text": {
     "primary": {
       "value": "#ffffff",
       "type": "color"
@@ -32,7 +32,7 @@
       "type": "color"
     }
   },
-  "color-border": {
+  "border": {
     "primary": {
       "value": "#ffffff",
       "type": "color"
