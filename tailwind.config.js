@@ -1,21 +1,19 @@
-const tokens = require('./tokens/SHeLTeR-alias.json')
+import tokens from './tokens/SHeLTeR-alias.json'
 
-const extractPropertiesWithValue = (obj, targetKey, targetValue) => {
+const extractTokenItems = (tokens, targetKey, targetValue) => {
 	const result = {}
 
-	for (const [key, val] of Object.entries(obj)) {
-		if (val[targetKey] === targetValue) {
-			result[key] = obj[key].value
-		} else if (typeof val === 'object' && val !== null) {
-			/* eslint-disable @typescript-eslint/no-unused-vars */
-			for (const [childKey, childVal] of Object.entries(obj[key])) {
-				if (childVal[targetKey] === targetValue) {
-					result[key] = extractPropertiesWithValue(
-						obj[key],
-						targetKey,
-						targetValue
-					)
-				}
+	for (const [key, value] of Object.entries(tokens)) {
+		if (value[targetKey] === targetValue) {
+			result[key] = value.value
+		} else if (typeof value === 'object' && value !== null) {
+			const nestedResult = extractTokenItems(
+				value,
+				targetKey,
+				targetValue
+			)
+			if (Object.keys(nestedResult).length !== 0) {
+				result[key] = nestedResult
 			}
 		}
 	}
@@ -23,7 +21,7 @@ const extractPropertiesWithValue = (obj, targetKey, targetValue) => {
 	return result
 }
 
-const colotTokens = extractPropertiesWithValue(tokens, 'type', 'color')
+const colotTokens = extractTokenItems(tokens, 'type', 'color')
 
 const colors = {
 	...colotTokens,
