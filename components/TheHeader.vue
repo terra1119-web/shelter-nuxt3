@@ -2,12 +2,11 @@
 	<header
 		class="flex items-center bg-surface-nuetral-overlay sticky top-0 pl-4 pr-4 h-[40px] md:h-[64px]"
 	>
-		<h1 class="text-3xl text-red-700 font-bold flex-grow">
+		<h1 class="flex-grow">
 			<NuxtLink
 				:to="`/`"
 				class="block w-[77px] h-[20px] bg-[url('/images/logo.svg')]"
-			>
-			</NuxtLink>
+			/>
 		</h1>
 		<nav class="hidden md:block">
 			<ul class="flex gap-4 text-xl">
@@ -26,7 +25,7 @@
 					<NuxtLink :to="`/information/`">INFORMATION</NuxtLink>
 				</li>
 				<li>
-					<NuxtLink :to="`/blog/`">SCHEDULE</NuxtLink>
+					<NuxtLink :to="`/blog/`">BLOG</NuxtLink>
 				</li>
 			</ul>
 		</nav>
