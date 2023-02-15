@@ -1,6 +1,6 @@
 <template>
 	<header
-		class="flex items-center bg-surface-nuetral-overlay sticky top-0 pl-4 pr-4 h-[40px] md:h-[64px]"
+		class="flex items-center bg-surface-nuetral-overlay sticky top-0 pl-4 md:pl-10 pr-10 h-[40px] md:h-[64px]"
 	>
 		<h1 class="flex-grow">
 			<NuxtLink
@@ -9,7 +9,7 @@
 			/>
 		</h1>
 		<nav class="hidden md:block">
-			<ul class="flex gap-4 text-xl">
+			<ul class="flex gap-10 text-xl">
 				<li>
 					<NuxtLink :to="`/`">TOP</NuxtLink>
 				</li>

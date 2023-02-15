@@ -2,7 +2,7 @@ module.exports = {
 	root: true,
 	env: {
 		browser: true,
-		es2021: true,
+		es2022: true,
 		node: true
 	},
 	extends: [
@@ -22,6 +22,12 @@ module.exports = {
 		'vue/no-v-model-argument': 0,
 		'vue/no-multiple-template-root': 0,
 		'vue/no-v-html': 'off',
-		'@typescript-eslint/no-var-requires': 'off'
+		'@typescript-eslint/no-var-requires': 'off',
+		'prettier/prettier': [
+			'error',
+			{
+				trailingComma: 'auto'
+			}
+		]
 	}
 }
