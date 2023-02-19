@@ -41,7 +41,14 @@ module.exports = {
 	theme: {
 		extend: {
 			colors
+		},
+		fontFamily: {
+			sans: [
+				tokens['family-primary'].en.value,
+				tokens['family-primary'].ja.value,
+				'sans-serif'
+			]
 		}
 	},
-	plugins: []
+	plugins: [],
 }

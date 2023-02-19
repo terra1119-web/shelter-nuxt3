@@ -2,12 +2,24 @@
 export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
-			apiBase: process.env.NUXT_WP_API_URL
-		}
+			apiBase: process.env.NUXT_WP_API_URL,
+		},
 	},
 	postcss: {
-		plugins: { tailwindcss: {} }
+		plugins: { tailwindcss: {} },
 	},
-	css: ['~/assets/css/tailwind.css'],
-	modules: ['@nuxtjs/tailwindcss']
+	css: [
+		'~/assets/css/tailwind.css',
+		'@fortawesome/fontawesome-svg-core/styles.css',
+	],
+	modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
+	googleFonts: {
+		families: {
+			'Roboto Condensed': true,
+		},
+	},
+	plugins: ['@/plugins/fontawesome.ts'],
+	build: {
+		transpile: ['@fortawesome/vue-fontawesome'],
+	},
 })

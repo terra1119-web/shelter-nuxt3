@@ -4,5 +4,5 @@
 	"useTabs": true,
 	"tabWidth": 4,
 	"vueIndentScriptAndStyle": true,
-	"trailingComma": "none"
+	"trailingComma": "es5"
 }
