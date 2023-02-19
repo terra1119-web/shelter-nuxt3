@@ -9,11 +9,16 @@
     "token-transformer": "npx token-transformer ./tokens.json ./tokens/SHeLTeR-alias.json global,SHeLTeR-alias"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-brands-svg-icons": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/google-fonts": "^3.0.0-1",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vue/eslint-config-prettier": "^7.0.0",
+    "@vueuse/core": "^9.13.0",
     "dayjs": "^1.11.5",
     "eslint": "^8.29.0",
     "eslint-plugin-prettier": "^4.2.1",
