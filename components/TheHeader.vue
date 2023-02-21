@@ -41,7 +41,8 @@
 					'w-full',
 					'h-[calc(100vh_-_40px)]',
 					'overscroll-y-none',
-					'text-center'
+					'text-center',
+					'z-40'
 
 				] : ['h-0', 'w-0', 'hidden'], 'md:hidden', 'transition'
 			]"

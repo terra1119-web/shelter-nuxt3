@@ -22,7 +22,7 @@
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 
-	const { data: information } = useFetch<any>(`/pages/4`, {
+	const { data: information } = await useFetch<any>(`/pages/4`, {
 		baseURL: apiBase,
 		params: {
 			_embed: true
