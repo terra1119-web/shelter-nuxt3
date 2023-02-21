@@ -1,5 +1,5 @@
 <template>
-	<h2>Featured</h2>
+	<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4 mt-4">Featured</h2>
 	<ul>
 		<li v-for="(field, index) in topImageFields" :key="index" class="mt-12">
 			<NuxtLink

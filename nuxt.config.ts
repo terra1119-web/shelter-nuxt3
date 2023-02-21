@@ -16,6 +16,9 @@ export default defineNuxtConfig({
 	googleFonts: {
 		families: {
 			'Roboto Condensed': true,
+			Roboto: {
+				wght: [100, 400],
+			},
 		},
 	},
 	plugins: ['@/plugins/fontawesome.ts'],
