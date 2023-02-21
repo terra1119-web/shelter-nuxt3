@@ -1,5 +1,5 @@
 <template>
-	<Body :class="[useMenuOpen ? 'overflow-hidden' : '', 'text-text-primary', 'bg-background', 'relative']" />
+	<Body :class="[useMenuOpen ? 'overflow-hidden' : '', 'text-text-primary', 'bg-background', 'relative', 'pt-[40px]', 'md:pt-[64px]']" />
 	<TheHeader />
 	<slot />
 	<TheFooter />
