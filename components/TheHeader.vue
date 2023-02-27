@@ -9,7 +9,6 @@
 				class="block w-[77px] h-[20px] bg-[url('/images/logo.svg')]"
 			/>
 		</h1>
-		<p>{{ isScrollDown }} {{ scrollState.y }}</p>
 		<nav class="hidden md:block">
 			<ul class="flex gap-10 text-xl">
 				<li>
