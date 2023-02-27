@@ -6,7 +6,7 @@
 				alt=""
 			/>
 		</div>
-		<h1>{{ blog.title.rendered }}</h1>
+		<h1 v-html="blog.title.rendered" />
 		{{
 			useDateString({
 				date: blog.date,
@@ -14,31 +14,12 @@
 			})
 		}}
 
-		<div v-html="blog.content.rendered"></div>
+		<div v-html="blog.content.rendered" />
 	</div>
 </template>
 
 <script setup lang="ts">
-	import dayjs from 'dayjs'
-
-	const config = useRuntimeConfig()
-	const apiBase = config.public.apiBase
-
-	const route = useRoute()
-	const paramsDateString: string = route.params.date as string
-	const year: number = dayjs(paramsDateString).year()
-	const month: number = dayjs(paramsDateString).month() + 1
-	const date: number = dayjs(paramsDateString).date()
-	const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
-	const { data: blogs } = await useFetch<any>(`/blog`, {
-		baseURL: apiBase,
-		params: {
-			_embed: true,
-			order: 'asc',
-			per_page: 1,
-			after: dateString
-		}
-	})
+	const blogs = await useSinglePost({postType: 'blog'})
 </script>
 
 <style scoped>

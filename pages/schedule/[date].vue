@@ -6,7 +6,7 @@
 				alt=""
 			/>
 		</div>
-		<h1>{{ schedule.title.rendered }}</h1>
+		<h1 v-html="schedule.title.rendered" />
 
 		<time
 			:datetime="`${useDateString({
@@ -28,8 +28,8 @@
 		<p
 			v-if="schedule.acf.party_guest"
 			v-html="schedule.acf.party_guest"
-		></p>
-		<p v-if="schedule.acf.party_dj" v-html="schedule.acf.party_dj"></p>
+		/>
+		<p v-if="schedule.acf.party_dj" v-html="schedule.acf.party_dj" />
 
 		<ul>
 			<li v-if="schedule.previous">
@@ -69,26 +69,7 @@
 </template>
 
 <script setup lang="ts">
-	import dayjs from 'dayjs'
-
-	const config = useRuntimeConfig()
-	const apiBase = config.public.apiBase
-
-	const route = useRoute()
-	const paramsDateString: string = route.params.date as string
-	const year: number = dayjs(paramsDateString).year()
-	const month: number = dayjs(paramsDateString).month() + 1
-	const date: number = dayjs(paramsDateString).date()
-	const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
-	const { data: schedules } = await useFetch<any>(`/posts`, {
-		baseURL: apiBase,
-		params: {
-			_embed: true,
-			order: 'asc',
-			per_page: 1,
-			after: dateString
-		}
-	})
+	const schedules = await useSinglePost()
 </script>
 
 <style scoped>
