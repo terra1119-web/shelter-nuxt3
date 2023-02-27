@@ -1,27 +1,19 @@
 <template>
-	<h2>Blog</h2>
+	<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">BLOG</h2>
 	<ul>
 		<li v-for="(blog, index) in blogs" :key="index">
-			<NuxtLink
-				:to="`/blog/${useDateString({
+			<Card
+				:url="`/blog/${useDateString({
 					date: blog.date,
 					format: 'YYYYMMDD'
 				})}/`"
-			>
-				<div v-if="blog._embedded">
-					<img
-						:src="blog._embedded['wp:featuredmedia'][0].source_url"
-						alt=""
-					/>
-				</div>
-				{{ blog.title.rendered }}
-				{{
-					useDateString({
-						date: blog.date,
-						format: 'YYYY/MM/DD'
-					})
-				}}
-			</NuxtLink>
+				:image="blog._embedded['wp:featuredmedia'][0].source_url"
+				:title="blog.title.rendered"
+				:date="useDateString({
+					date: blog.date,
+					format: 'YYYY/MM/DD'
+				})"
+			/>
 		</li>
 	</ul>
 
@@ -75,11 +67,3 @@
 		})
 	}
 </script>
-
-<style scoped>
-	img {
-		width: 50%;
-		aspect-ratio: 16 / 9;
-		object-fit: cover;
-	}
-</style>
