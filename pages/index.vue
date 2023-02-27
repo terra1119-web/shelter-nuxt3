@@ -1,69 +1,45 @@
 <template>
-	<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4 mt-4">Featured</h2>
-	<ul>
-		<li v-for="(field, index) in topImageFields" :key="index" class="mt-12">
-			<NuxtLink
-				:to="`/schedule/${useDateString({
+	<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">FEATURED</h2>
+	<ul class="relative mt-4">
+		<li v-for="(field, index) in topImageFields" :key="index" class="">
+			<Card
+				:url="`/schedule/${useDateString({
 					date: field.top_image_field_date,
 					format: 'YYYYMMDD'
 				})}/`"
-				class="underline hover:no-underline"
-			>
-				<div v-if="field.top_image_field_image">
-					<img
-						:src="field.top_image_field_image"
-						:alt="field.top_image_field_text"
-						class="w-full object-cover aspect-video"
-					/>
-				</div>
-				{{ field.top_image_field_text }}
-				{{ field.top_image_field_date }}
-			</NuxtLink>
+				:image="field.top_image_field_image"
+				:title="field.top_image_field_text"
+				:date="field.top_image_field_date"
+			/>
 		</li>
 	</ul>
 
-	<h2>Store</h2>
+	<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">STORE</h2>
 	<ul>
 		<li v-for="(item, index) in topStoreItems" :key="index" class="mt-12">
-			<NuxtLink :to="item.store_item_url" target="_blank">
-				<div v-if="item.store_item_img">
-					<img
-						:src="item.store_item_img"
-						:alt="item.store_item_name"
-						class="w-full object-cover aspect-video"
-					/>
-				</div>
-				{{ item.store_item_name }}
-			</NuxtLink>
+			<Card
+				:url="item.store_item_url"
+				:image="item.store_item_img"
+				:title="item.store_item_name"
+			/>
 		</li>
 	</ul>
 
-	<h2>
-		<NuxtLink :to="`/blog/`"> Blog </NuxtLink>
-	</h2>
+	<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">BLOG</h2>
 	<ul>
 		<li v-for="(blog, index) in blogs" :key="index" class="mt-12">
-			<NuxtLink
-				:to="`/blog/${useDateString({
+			<Card
+				:url="`/blog/${useDateString({
 					date: blog.date,
 					format: 'YYYYMMDD'
 				})}/`"
-			>
-				<div v-if="blog._embedded['wp:featuredmedia']">
-					<img
-						:src="blog._embedded['wp:featuredmedia'][0].source_url"
-						alt=""
-						class="w-full object-cover aspect-video"
-					/>
-				</div>
-				{{ blog.title.rendered }}
-				{{
-					useDateString({
-						date: blog.date,
-						format: 'YYYY/MM/DD'
-					})
-				}}
-			</NuxtLink>
+				:image="blog._embedded['wp:featuredmedia'][0].source_url"
+				:title="blog.title.rendered"
+				:date="useDateString({
+					date: blog.date,
+					format: 'YYYY/MM/DD'
+				})"
+			/>
 		</li>
 	</ul>
 </template>

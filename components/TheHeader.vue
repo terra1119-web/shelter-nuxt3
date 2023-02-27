@@ -1,6 +1,6 @@
 <template>
 	<header
-		class="flex justify-center md:justify-start items-center bg-surface-nuetral-overlay fixed top-0 pl-4 md:pl-10 pr-4 md:pr-10 h-[40px] md:h-[64px] w-full transition-[top] duration-300 ease-out delay-300"
+		class="flex justify-center md:justify-start items-center bg-surface-nuetral-overlay fixed top-0 pl-4 md:pl-10 pr-4 md:pr-10 h-[40px] md:h-[64px] w-full transition-[top] duration-300 ease-out delay-300 z-40"
 		:class="[isScrollDown ? 'top-[-40px] md:top-[-64px]' : '']"
 	>
 		<h1 class="md:flex-grow">
@@ -41,8 +41,7 @@
 					'w-full',
 					'h-[calc(100vh_-_40px)]',
 					'overscroll-y-none',
-					'text-center',
-					'z-40'
+					'text-center'
 
 				] : ['h-0', 'w-0', 'hidden'], 'md:hidden', 'transition'
 			]"
