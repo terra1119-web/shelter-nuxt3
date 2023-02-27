@@ -13,7 +13,11 @@ export const useScroll = () => {
 
 	watch(y, (newY, oldY) => {
 		state.isUp = newY < oldY
-		state.isDown = newY > oldY && y.value >= 0
+		state.isDown = newY > oldY
+		if (y.value <= 0) {
+			state.isUp = false
+			state.isDown = false
+		}
 	})
 
 	return {
