@@ -8,6 +8,7 @@
 				:to="`/`"
 				class="block w-[77px] h-[20px] bg-[url('/images/logo.svg')]"
 			/>
+			{{ isScrollDown }}
 		</h1>
 		<nav class="hidden md:block">
 			<ul class="flex gap-10 text-xl">
