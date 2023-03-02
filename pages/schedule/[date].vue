@@ -11,13 +11,13 @@
 		<time
 			:datetime="`${useDateString({
 				date: schedule.date,
-				format: 'YYYY/MM/DD ddd'
+				format: 'YYYY/MM/DD ddd',
 			})}`"
 		>
 			{{
 				useDateString({
 					date: schedule.date,
-					format: 'YYYY/MM/DD ddd'
+					format: 'YYYY/MM/DD ddd',
 				})
 			}}
 		</time>
@@ -25,10 +25,7 @@
 		<p v-if="schedule.acf.party_genre">{{ schedule.acf.party_genre }}</p>
 		<p v-if="schedule.acf.party_open">{{ schedule.acf.party_open }}</p>
 		<p v-if="schedule.acf.party_charge">{{ schedule.acf.party_charge }}</p>
-		<p
-			v-if="schedule.acf.party_guest"
-			v-html="schedule.acf.party_guest"
-		/>
+		<p v-if="schedule.acf.party_guest" v-html="schedule.acf.party_guest" />
 		<p v-if="schedule.acf.party_dj" v-html="schedule.acf.party_dj" />
 
 		<ul>
@@ -36,14 +33,14 @@
 				<NuxtLink
 					:to="`/schedule/${useDateString({
 						date: schedule.previous.date,
-						format: 'YYYYMMDD'
+						format: 'YYYYMMDD',
 					})}/`"
 					class="underline hover:no-underline"
 				>
 					{{
 						useDateString({
 							date: schedule.previous.date,
-							format: 'YYYY/MM/DD'
+							format: 'YYYY/MM/DD',
 						})
 					}}
 				</NuxtLink>
@@ -52,14 +49,14 @@
 				<NuxtLink
 					:to="`/schedule/${useDateString({
 						date: schedule.next.date,
-						format: 'YYYYMMDD'
+						format: 'YYYYMMDD',
 					})}/`"
 					class="underline hover:no-underline"
 				>
 					{{
 						useDateString({
 							date: schedule.next.date,
-							format: 'YYYY/MM/DD'
+							format: 'YYYY/MM/DD',
 						})
 					}}
 				</NuxtLink>

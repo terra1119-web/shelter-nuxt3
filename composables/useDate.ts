@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 export const useDateString = ({
 	date,
-	format
+	format,
 }: {
 	date: string
 	format: string

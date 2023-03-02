@@ -25,8 +25,8 @@
 	const { data: information } = await useFetch<any>(`/pages/4`, {
 		baseURL: apiBase,
 		params: {
-			_embed: true
-		}
+			_embed: true,
+		},
 	})
 
 	const informationImageFields = information.value.acf.information_image_field

@@ -1,39 +1,42 @@
 <template>
-	<h2>Schedule</h2>
-	<ul>
-		<li
-			v-for="schedule in schedules"
-			:key="
-				useDateString({
-					date: schedule.date,
-					format: 'YYYYMMDD'
-				})
-			"
-		>
-			<NuxtLink
-				:to="`/schedule/${useDateString({
-					date: schedule.date,
-					format: 'YYYYMMDD'
-				})}/`"
-			>
-				<div v-if="schedule._embedded['wp:featuredmedia']">
-					<img
-						:src="
-							schedule._embedded['wp:featuredmedia'][0].source_url
-						"
-						alt=""
-					/>
-				</div>
-				{{ schedule.title.rendered }}
-				{{
+	<section>
+		<h1>Schedule</h1>
+		<ul>
+			<li
+				v-for="schedule in schedules"
+				:key="
 					useDateString({
 						date: schedule.date,
-						format: 'YYYY/MM/DD'
+						format: 'YYYYMMDD',
 					})
-				}}
-			</NuxtLink>
-		</li>
-	</ul>
+				"
+			>
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: schedule.date,
+						format: 'YYYYMMDD',
+					})}/`"
+				>
+					<div v-if="schedule._embedded['wp:featuredmedia']">
+						<img
+							:src="
+								schedule._embedded['wp:featuredmedia'][0]
+									.source_url
+							"
+							alt=""
+						/>
+					</div>
+					{{ schedule.title.rendered }}
+					{{
+						useDateString({
+							date: schedule.date,
+							format: 'YYYY/MM/DD',
+						})
+					}}
+				</NuxtLink>
+			</li>
+		</ul>
+	</section>
 
 	<nav>
 		<ul>
@@ -90,7 +93,7 @@
 	const [
 		{ data: schedules, refresh },
 		{ data: previousData, refresh: refreshPreviousData },
-		{ data: nextData, refresh: refreshNextData }
+		{ data: nextData, refresh: refreshNextData },
 	] = await Promise.all([
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -105,7 +108,7 @@
 				order: 'asc',
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31
+				per_page: 31,
 			},
 			onRequest(ctx) {
 				ctx.options.params = {
@@ -119,9 +122,9 @@
 					order: 'asc',
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31
+					per_page: 31,
 				}
-			}
+			},
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -140,7 +143,7 @@
 				).format('MM')}-${previousLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31
+				per_page: 31,
 			},
 			onRequest(ctx) {
 				ctx.options.params = {
@@ -158,9 +161,9 @@
 					).format('MM')}-${previousLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31
+					per_page: 31,
 				}
-			}
+			},
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -179,7 +182,7 @@
 				).format('MM')}-${nextLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31
+				per_page: 31,
 			},
 			onRequest(ctx) {
 				ctx.options.params = {
@@ -197,10 +200,10 @@
 					).format('MM')}-${nextLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31
+					per_page: 31,
 				}
-			}
-		})
+			},
+		}),
 	])
 
 	const onClickPrev = () => {
@@ -249,8 +252,8 @@
 			query: {
 				ym: `${year.value}${dayjs(
 					new Date(year.value, month.value)
-				).format('MM')}`
-			}
+				).format('MM')}`,
+			},
 		})
 	}
 
