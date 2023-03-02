@@ -27,7 +27,7 @@ const colors = {
 	...colotTokens,
 	transparent: 'transparent',
 	current: 'currentColor',
-	inherit: 'inherit'
+	inherit: 'inherit',
 }
 
 /** @type {import('tailwindcss').Config} */
@@ -36,19 +36,19 @@ module.exports = {
 		'./*.vue',
 		'./components/**/*.vue',
 		'./layouts/**/*.vue',
-		'./pages/**/*.vue'
+		'./pages/**/*.vue',
 	],
 	theme: {
 		extend: {
-			colors
+			colors,
 		},
 		fontFamily: {
 			sans: [
 				tokens['family-primary'].en.value,
 				tokens['family-primary'].ja.value,
-				'sans-serif'
-			]
-		}
+				'sans-serif',
+			],
+		},
 	},
 	plugins: [],
 }

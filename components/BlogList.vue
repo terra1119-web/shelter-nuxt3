@@ -1,21 +1,27 @@
 <template>
-	<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">BLOG</h2>
-	<ul>
-		<li v-for="(blog, index) in blogs" :key="index">
-			<Card
-				:url="`/blog/${useDateString({
-					date: blog.date,
-					format: 'YYYYMMDD'
-				})}/`"
-				:image="blog._embedded['wp:featuredmedia'][0].source_url"
-				:title="blog.title.rendered"
-				:date="useDateString({
-					date: blog.date,
-					format: 'YYYY/MM/DD'
-				})"
-			/>
-		</li>
-	</ul>
+	<section>
+		<h1 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
+			BLOG
+		</h1>
+		<ul>
+			<li v-for="(blog, index) in blogs" :key="index">
+				<Card
+					:url="`/blog/${useDateString({
+						date: blog.date,
+						format: 'YYYYMMDD',
+					})}/`"
+					:image="blog._embedded['wp:featuredmedia'][0].source_url"
+					:title="blog.title.rendered"
+					:date="
+						useDateString({
+							date: blog.date,
+							format: 'YYYY/MM/DD',
+						})
+					"
+				/>
+			</li>
+		</ul>
+	</section>
 
 	<nav>
 		<ul>
@@ -46,14 +52,14 @@
 			_embed: true,
 			status: 'publish',
 			per_page: perPage,
-			page: currentPage
+			page: currentPage,
 		},
 		onResponse({ response }) {
 			totalCount.value = response.headers.get('x-wp-total')
 			totalPages.value = totalCount.value
 				? Math.ceil(+totalCount.value / perPage)
 				: 1
-		}
+		},
 	})
 
 	const onClickPage = (page: number) => {
@@ -63,7 +69,7 @@
 				? `/blog/`
 				: `/blog/pages/${currentPage.value}/`
 		router.push({
-			path
+			path,
 		})
 	}
 </script>

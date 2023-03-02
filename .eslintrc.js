@@ -3,19 +3,19 @@ module.exports = {
 	env: {
 		browser: true,
 		es2022: true,
-		node: true
+		node: true,
 	},
 	extends: [
 		'plugin:vue/vue3-recommended',
 		'eslint:recommended',
 		'@nuxtjs/eslint-config-typescript',
-		'@vue/prettier'
+		'@vue/prettier',
 	],
 	overrides: [],
 	parserOptions: {
 		parser: '@typescript-eslint/parser',
 		ecmaVersion: 'latest',
-		sourceType: 'module'
+		sourceType: 'module',
 	},
 	plugins: ['vue', '@typescript-eslint'],
 	rules: {
@@ -23,11 +23,8 @@ module.exports = {
 		'vue/no-multiple-template-root': 0,
 		'vue/no-v-html': 'off',
 		'@typescript-eslint/no-var-requires': 'off',
-		'prettier/prettier': [
-			'error',
-			{
-				trailingComma: 'auto'
-			}
-		]
-	}
+		'vue/script-setup-uses-vars': 'error',
+		'@typescript-eslint/no-unused-vars': ['error'],
+		'vue/multi-word-component-names': 'off',
+	},
 }
