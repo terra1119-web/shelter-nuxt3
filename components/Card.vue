@@ -29,7 +29,7 @@
 <script setup lang="ts">
 	type Props = {
 		url: string
-		image?: string
+		image?: string | boolean
 		title: string
 		date?: string
 		target?: string
