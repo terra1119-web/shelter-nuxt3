@@ -3,6 +3,7 @@
 		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
 			FEATURED
 		</h2>
+
 		<ul class="relative mt-4">
 			<li v-for="(field, index) in topImageFields" :key="index">
 				<Card
@@ -16,12 +17,22 @@
 				/>
 			</li>
 		</ul>
+
+		<div class="mt-6 flex justify-center">
+			<Button
+				icon-right="fa-solid fa-chevron-right"
+				@click="onScheduleClick"
+			>
+				VIEW MORE SCHEDULE
+			</Button>
+		</div>
 	</section>
 
 	<section>
 		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
 			STORE
 		</h2>
+
 		<ul>
 			<li
 				v-for="(item, index) in topStoreItems"
@@ -36,12 +47,22 @@
 				/>
 			</li>
 		</ul>
+
+		<div class="mt-6 flex justify-center">
+			<Button
+				icon-right="fa-solid fa-chevron-right"
+				@click="onStoreClick"
+			>
+				VIEW MORE STORE
+			</Button>
+		</div>
 	</section>
 
 	<section>
 		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
 			BLOG
 		</h2>
+
 		<ul>
 			<li v-for="(blog, index) in blogs" :key="index" class="mt-4">
 				<Card
@@ -60,12 +81,19 @@
 				/>
 			</li>
 		</ul>
+
+		<div class="mt-6 flex justify-center">
+			<Button icon-right="fa-solid fa-chevron-right" @click="onBlogClick">
+				VIEW MORE BLOG
+			</Button>
+		</div>
 	</section>
 
 	<section></section>
 </template>
 
 <script setup lang="ts">
+	const router = useRouter()
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 
@@ -87,6 +115,19 @@
 
 	const topImageFields = schedules.value.acf.top_image_field
 	const topStoreItems = schedules.value.acf.store_item
+
+	const onScheduleClick = () => {
+		router.push('/schedule/')
+	}
+
+	const onStoreClick = () => {
+		const url = 'https://store.at-shelter.com/'
+		window.open(url)
+	}
+
+	const onBlogClick = () => {
+		router.push('/blog/')
+	}
 </script>
 
 <style scoped></style>
