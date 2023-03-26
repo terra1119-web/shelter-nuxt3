@@ -3,7 +3,7 @@ name: Token Transformer
 on:
     push:
         branches:
-            - figma
+            - 'figma/**'
         paths:
             - tokens.json
 
