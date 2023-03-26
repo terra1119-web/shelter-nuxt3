@@ -24,11 +24,14 @@
 	</section>
 
 	<nav>
-		<ul>
+		<ul class="flex mt-6 gap-4 justify-center">
 			<li v-for="(page, index) in totalPages" :key="index">
-				<button @click.prevent="onClickPage(index + 1)">
+				<Button
+					:type="computedButtonType(index + 1)"
+					@click="onClickPage(index + 1)"
+				>
 					{{ index + 1 }}
-				</button>
+				</Button>
 			</li>
 		</ul>
 	</nav>
@@ -63,6 +66,8 @@
 	})
 
 	const onClickPage = (page: number) => {
+		if (currentPage.value === page) return
+
 		currentPage.value = page
 		const path =
 			currentPage.value === 1
@@ -71,5 +76,11 @@
 		router.push({
 			path,
 		})
+	}
+
+	const computedButtonType = (index: number) => {
+		const type: string =
+			currentPage.value === index ? 'secondary' : 'primary'
+		return type
 	}
 </script>
