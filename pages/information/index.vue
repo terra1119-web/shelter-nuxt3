@@ -1,19 +1,5 @@
 <template>
-	<ul>
-		<li
-			v-for="(field, index) in informationImageFields"
-			:key="index"
-			class="mt-12"
-		>
-			<div v-if="field.information_image">
-				<img
-					:src="field.information_image"
-					:alt="`SHeLTeR Image ${index + 1}`"
-					class="w-full object-cover aspect-video"
-				/>
-			</div>
-		</li>
-	</ul>
+	<SlideShow :slides="slides" />
 
 	<article v-html="information.content.rendered"></article>
 </template>
@@ -29,5 +15,11 @@
 		},
 	})
 
+	const slides: any = ref([])
 	const informationImageFields = information.value.acf.information_image_field
+	informationImageFields.forEach((field: any) => {
+		slides.value.push({
+			imagePath: field.information_image,
+		})
+	})
 </script>
