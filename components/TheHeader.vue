@@ -1,6 +1,6 @@
 <template>
 	<header
-		class="flex justify-center md:justify-start items-center bg-surface-nuetral-overlay fixed top-0 pl-4 md:pl-10 pr-4 md:pr-10 h-[40px] md:h-[64px] w-full transition-[top] duration-300 ease-out delay-300 z-40"
+		class="flex justify-center md:justify-start items-center bg-surface-nuetral-overlay fixed top-0 pl-4 md:pl-10 pr-4 md:pr-10 h-[40px] md:h-[64px] w-full transition-[top] duration-300 ease-out delay-300 z-[110]"
 		:class="[isScrollDown ? 'top-[-40px] md:top-[-64px]' : '']"
 	>
 		<Component :is="tagName" class="md:flex-grow">

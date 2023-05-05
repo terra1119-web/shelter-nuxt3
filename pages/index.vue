@@ -1,22 +1,10 @@
 <template>
 	<section>
-		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
+		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4 mb-4">
 			FEATURED
 		</h2>
 
-		<ul class="relative mt-4">
-			<li v-for="(field, index) in topImageFields" :key="index">
-				<Card
-					:url="`/schedule/${useDateString({
-						date: field.top_image_field_date,
-						format: 'YYYYMMDD',
-					})}/`"
-					:image="field.top_image_field_image"
-					:title="field.top_image_field_text"
-					:date="field.top_image_field_date"
-				/>
-			</li>
-		</ul>
+		<SlideShow :slides="slides" />
 
 		<div class="mt-6 flex justify-center">
 			<Button
@@ -113,7 +101,23 @@
 		}),
 	])
 
+	const slides: any = ref([])
 	const topImageFields = schedules.value.acf.top_image_field
+	topImageFields.forEach((field: any) => {
+		slides.value.push({
+			url: `/schedule/${useDateString({
+				date: field.top_image_field_date,
+				format: 'YYYYMMDD',
+			})}/`,
+			imagePath: field.top_image_field_image,
+			title: field.top_image_field_text,
+			date: useDateString({
+				date: field.top_image_field_date,
+				format: 'YYYY/MM/DD',
+			}),
+		})
+	})
+
 	const topStoreItems = schedules.value.acf.store_item
 
 	const onScheduleClick = () => {

@@ -41,6 +41,15 @@ module.exports = {
 	theme: {
 		extend: {
 			colors,
+			keyframes: {
+				fade: {
+					'0%': { opacity: 0, 'z-index': 10 },
+					'5%': { opacity: 1 },
+					'80%': { opacity: 1 },
+					'99.9%': { opacity: 0, 'z-index': 0 },
+					'100%': { opacity: 0, 'z-index': 0 },
+				},
+			},
 		},
 		fontFamily: {
 			sans: [
