@@ -7,8 +7,8 @@
 			:class="``"
 			:style="{
 				'animation-iteration-count': 'infinite',
-				'animation-delay': `${i * fadeSecons}s`,
-				'animation-duration': `${slides.length * fadeSecons}s`,
+				'animation-delay': `${i * fadeSecondTime}s`,
+				'animation-duration': `${slides.length * fadeSecondTime}s`,
 			}"
 		>
 			<Card
@@ -35,7 +35,7 @@
 
 	defineProps<Props>()
 
-	const fadeSecons = 8
+	const fadeSecondTime = 8
 </script>
 
 <style scoped></style>

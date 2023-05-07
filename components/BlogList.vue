@@ -1,8 +1,9 @@
 <template>
 	<section>
-		<h1 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
-			BLOG
-		</h1>
+		<header class="mt-4 mb-4">
+			<TheTitle tag-name="h1">BLOG</TheTitle>
+		</header>
+
 		<ul>
 			<li v-for="(blog, index) in blogs" :key="index">
 				<Card

@@ -6,7 +6,12 @@
 				alt=""
 			/>
 		</figure>
-		<h1 v-html="blog.title.rendered" />
+
+		<header class="mt-4 mb-4">
+			<TheTitle tag-name="h1" type="secondary">{{
+				blog.title.rendered
+			}}</TheTitle>
+		</header>
 
 		<time
 			:datetime="

@@ -1,6 +1,10 @@
 <template>
 	<SlideShow :slides="slides" />
 
+	<header class="mt-4 mb-4">
+		<TheTitle tag-name="h2">INFORMATION</TheTitle>
+	</header>
+
 	<article v-html="information.content.rendered"></article>
 </template>
 
