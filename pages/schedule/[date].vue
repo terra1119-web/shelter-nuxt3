@@ -6,36 +6,55 @@
 				alt=""
 			/>
 		</div>
-		<h1 v-html="schedule.title.rendered" />
 
-		<time
-			:datetime="`${useDateString({
-				date: schedule.date,
-				format: 'YYYY/MM/DD ddd',
-			})}`"
-		>
-			{{
-				useDateString({
+		<header class="mt-4 px-4">
+			<TheTitle tag-name="h1" type="secondary">{{
+				schedule.title.rendered
+			}}</TheTitle>
+		</header>
+
+		<div class="text-center px-4 text-2xl">
+			<time
+				:datetime="`${useDateString({
 					date: schedule.date,
 					format: 'YYYY/MM/DD ddd',
-				})
-			}}
-		</time>
+				})}`"
+				class="block mt-4"
+			>
+				{{
+					useDateString({
+						date: schedule.date,
+						format: 'YYYY/MM/DD ddd',
+					})
+				}}
+			</time>
 
-		<p v-if="schedule.acf.party_genre">{{ schedule.acf.party_genre }}</p>
-		<p v-if="schedule.acf.party_open">{{ schedule.acf.party_open }}</p>
-		<p v-if="schedule.acf.party_charge">{{ schedule.acf.party_charge }}</p>
-		<p v-if="schedule.acf.party_guest" v-html="schedule.acf.party_guest" />
-		<p v-if="schedule.acf.party_dj" v-html="schedule.acf.party_dj" />
+			<p v-if="schedule.acf.party_genre" class="mt-4">
+				{{ schedule.acf.party_genre }}
+			</p>
+			<p v-if="schedule.acf.party_open" class="mt-4">
+				{{ schedule.acf.party_open }}
+			</p>
+			<p v-if="schedule.acf.party_charge" class="mt-4">
+				{{ schedule.acf.party_charge }}
+			</p>
+			<p
+				v-if="schedule.acf.party_guest"
+				class="mt-4"
+				v-html="schedule.acf.party_guest"
+			/>
+			<p
+				v-if="schedule.acf.party_dj"
+				class="mt-4"
+				v-html="schedule.acf.party_dj"
+			/>
+		</div>
 
-		<ul>
+		<ul class="mt-8 px-4 flex justify-between">
 			<li v-if="schedule.previous">
-				<NuxtLink
-					:to="`/schedule/${useDateString({
-						date: schedule.previous.date,
-						format: 'YYYYMMDD',
-					})}/`"
-					class="underline hover:no-underline"
+				<Button
+					icon-left="fa-solid fa-chevron-left"
+					@click="onClick(schedule.previous.date)"
 				>
 					{{
 						useDateString({
@@ -43,15 +62,12 @@
 							format: 'YYYY/MM/DD',
 						})
 					}}
-				</NuxtLink>
+				</Button>
 			</li>
 			<li v-if="schedule.next">
-				<NuxtLink
-					:to="`/schedule/${useDateString({
-						date: schedule.next.date,
-						format: 'YYYYMMDD',
-					})}/`"
-					class="underline hover:no-underline"
+				<Button
+					icon-right="fa-solid fa-chevron-right"
+					@click="onClick(schedule.next.date)"
 				>
 					{{
 						useDateString({
@@ -59,14 +75,24 @@
 							format: 'YYYY/MM/DD',
 						})
 					}}
-				</NuxtLink>
+				</Button>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script setup lang="ts">
+	const router = useRouter()
 	const schedules = await useSinglePost()
+
+	const onClick = (date: string) => {
+		router.push(
+			`/schedule/${useDateString({
+				date,
+				format: 'YYYYMMDD',
+			})}/`
+		)
+	}
 </script>
 
 <style scoped>

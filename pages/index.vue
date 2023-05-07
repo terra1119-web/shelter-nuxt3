@@ -1,8 +1,8 @@
 <template>
 	<section>
-		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4 mb-4">
-			FEATURED
-		</h2>
+		<header class="mt-4 mb-4">
+			<TheTitle tag-name="h2">FEATURED</TheTitle>
+		</header>
 
 		<SlideShow :slides="slides" />
 
@@ -17,9 +17,9 @@
 	</section>
 
 	<section>
-		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
-			STORE
-		</h2>
+		<header class="mt-4">
+			<TheTitle tag-name="h2">STORE</TheTitle>
+		</header>
 
 		<ul>
 			<li
@@ -47,9 +47,9 @@
 	</section>
 
 	<section>
-		<h2 class="font-['Roboto'] font-thin text-4xl text-center mt-4">
-			BLOG
-		</h2>
+		<header class="mt-4">
+			<TheTitle tag-name="h2">BLOG</TheTitle>
+		</header>
 
 		<ul>
 			<li v-for="(blog, index) in blogs" :key="index" class="mt-4">
