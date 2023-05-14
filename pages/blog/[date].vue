@@ -20,6 +20,7 @@
 					format: 'YYYY-MM-DD',
 				})
 			"
+			class="block mt-4 text-center px-4 text-2xl"
 		>
 			{{
 				useDateString({
@@ -29,7 +30,7 @@
 			}}
 		</time>
 
-		<div v-html="blog.content.rendered" />
+		<div class="mt-4 px-4 text-base" v-html="blog.content.rendered" />
 	</article>
 </template>
 

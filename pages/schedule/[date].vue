@@ -29,15 +29,21 @@
 				}}
 			</time>
 
-			<p v-if="schedule.acf.party_genre" class="mt-4">
-				{{ schedule.acf.party_genre }}
-			</p>
-			<p v-if="schedule.acf.party_open" class="mt-4">
-				{{ schedule.acf.party_open }}
-			</p>
-			<p v-if="schedule.acf.party_charge" class="mt-4">
-				{{ schedule.acf.party_charge }}
-			</p>
+			<p
+				v-if="schedule.acf.party_genre"
+				class="mt-4"
+				v-html="schedule.acf.party_genre"
+			/>
+			<p
+				v-if="schedule.acf.party_open"
+				class="mt-4"
+				v-html="schedule.acf.party_open"
+			/>
+			<p
+				v-if="schedule.acf.party_charge"
+				class="mt-4"
+				v-html="schedule.acf.party_charge"
+			/>
 			<p
 				v-if="schedule.acf.party_guest"
 				class="mt-4"
@@ -49,6 +55,19 @@
 				v-html="schedule.acf.party_dj"
 			/>
 		</div>
+
+		<div
+			v-if="schedule.acf.party_freetxt"
+			class="mt-4 px-4 text-xl schedule__freetxt"
+			v-html="schedule.acf.party_freetxt"
+		/>
+
+		<ul>
+			<li v-for="media in mediaData" :key="media.title">
+				{{ String(media.image) }}
+				<p v-html="String(media.caption)"></p>
+			</li>
+		</ul>
 
 		<ul class="mt-8 px-4 flex justify-between">
 			<li v-if="schedule.previous">
@@ -85,6 +104,21 @@
 	const router = useRouter()
 	const schedules = await useSinglePost()
 
+	const partyProfileField: Array<any> =
+		schedules.value[0].acf.party_profile_field
+	const mediaData: Array<any> = partyProfileField
+		? partyProfileField.map(async (profile: any) => {
+				const image: any = await useMedia(profile.pofile_image)
+				const obj = {
+					image: image.value.source_url,
+					title: image.value.title.rendered,
+					caption: image.value.caption.rendered,
+				}
+				console.log(obj)
+				return obj
+		  })
+		: []
+
 	const onClick = (date: string) => {
 		router.push(
 			`/schedule/${useDateString({
@@ -95,8 +129,8 @@
 	}
 </script>
 
-<style scoped>
-	img {
-		width: 100%;
+<style>
+	.schedule__freetxt iframe {
+		@apply w-full;
 	}
 </style>
