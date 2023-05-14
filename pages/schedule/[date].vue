@@ -15,18 +15,10 @@
 
 		<div class="text-center px-4 text-2xl">
 			<time
-				:datetime="`${useDateString({
-					date: schedule.date,
-					format: 'YYYY/MM/DD ddd',
-				})}`"
+				:datetime="getDate(schedule.date, 'YYYY/MM/DD ddd')"
 				class="block mt-4"
 			>
-				{{
-					useDateString({
-						date: schedule.date,
-						format: 'YYYY/MM/DD ddd',
-					})
-				}}
+				{{ getDate(schedule.date, 'YYYY/MM/DD ddd') }}
 			</time>
 
 			<p
@@ -75,12 +67,7 @@
 					icon-left="fa-solid fa-chevron-left"
 					@click="onClick(schedule.previous.date)"
 				>
-					{{
-						useDateString({
-							date: schedule.previous.date,
-							format: 'YYYY/MM/DD',
-						})
-					}}
+					{{ getDate(schedule.previous.date, 'YYYY/MM/DD') }}
 				</Button>
 			</li>
 			<li v-if="schedule.next">
@@ -88,12 +75,7 @@
 					icon-right="fa-solid fa-chevron-right"
 					@click="onClick(schedule.next.date)"
 				>
-					{{
-						useDateString({
-							date: schedule.next.date,
-							format: 'YYYY/MM/DD',
-						})
-					}}
+					{{ getDate(schedule.next.date, 'YYYY/MM/DD') }}
 				</Button>
 			</li>
 		</ul>
@@ -104,9 +86,8 @@
 	const router = useRouter()
 	const schedules = await useSinglePost()
 
-	const partyProfileField: Array<any> =
-		schedules.value[0].acf.party_profile_field
-	const mediaData: Array<any> = partyProfileField
+	const partyProfileField: any[] = schedules.value[0].acf.party_profile_field
+	const mediaData: any[] = partyProfileField
 		? partyProfileField.map(async (profile: any) => {
 				const image: any = await useMedia(profile.pofile_image)
 				const obj = {
@@ -114,10 +95,16 @@
 					title: image.value.title.rendered,
 					caption: image.value.caption.rendered,
 				}
-				console.log(obj)
 				return obj
 		  })
 		: []
+
+	const getDate = (date: string, format: string) => {
+		return useDateString({
+			date,
+			format,
+		})
+	}
 
 	const onClick = (date: string) => {
 		router.push(
