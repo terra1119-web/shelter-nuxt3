@@ -14,27 +14,25 @@
 		</header>
 
 		<time
-			:datetime="
-				useDateString({
-					date: blog.date,
-					format: 'YYYY-MM-DD',
-				})
-			"
+			:datetime="getDate(blog.date, 'YYYY-MM-DD')"
+			class="block mt-4 text-center px-4 text-2xl"
 		>
-			{{
-				useDateString({
-					date: blog.date,
-					format: 'YYYY/MM/DD ddd',
-				})
-			}}
+			{{ getDate(blog.date, 'YYYY/MM/DD ddd') }}
 		</time>
 
-		<div v-html="blog.content.rendered" />
+		<div class="mt-4 px-4 text-base" v-html="blog.content.rendered" />
 	</article>
 </template>
 
 <script setup lang="ts">
 	const blogs = await useSinglePost({ postType: 'blog' })
+
+	const getDate = (date: string, format: string) => {
+		return useDateString({
+			date,
+			format,
+		})
+	}
 </script>
 
 <style scoped>
