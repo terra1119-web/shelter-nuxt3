@@ -3,7 +3,11 @@
 		<div v-if="schedule._embedded['wp:featuredmedia']">
 			<img
 				:src="schedule._embedded['wp:featuredmedia'][0].source_url"
-				alt=""
+				:alt="`${schedule.title.rendered} : ${getDate(
+					schedule.date,
+					'YYYY/MM/DD ddd'
+				)}`"
+				class="w-full"
 			/>
 		</div>
 
@@ -55,9 +59,12 @@
 		/>
 
 		<ul>
-			<li v-for="media in mediaData" :key="media.title">
-				{{ String(media.image) }}
-				<p v-html="String(media.caption)"></p>
+			<li v-for="media in mediaData" :key="media.title" class="mt-4 px-4">
+				<fegure>
+					<img :src="media.image" :alt="media.title" class="w-full" />
+				</fegure>
+				<p>{{ media.title }}</p>
+				<div v-html="media.description" />
 			</li>
 		</ul>
 
@@ -87,16 +94,28 @@
 	const schedules = await useSinglePost()
 
 	const partyProfileField: any[] = schedules.value[0].acf.party_profile_field
-	const mediaData: any[] = partyProfileField
-		? partyProfileField.map(async (profile: any) => {
-				const image: any = await useMedia(profile.pofile_image)
-				const obj = {
-					image: image.value.source_url,
-					title: image.value.title.rendered,
-					caption: image.value.caption.rendered,
-				}
-				return obj
-		  })
+	const mediaData: any = partyProfileField
+		? await Promise.all(
+				partyProfileField.map(async (profile: any) => {
+					const image: any = await useMedia(profile.pofile_image)
+					const descriptionRegExp =
+						// eslint-disable-next-line
+						/^<p class\=\"attachment\">.*<\/p>/
+
+					const description =
+						image.value.description.rendered.replace(
+							descriptionRegExp,
+							''
+						)
+
+					const obj = {
+						image: image.value.source_url,
+						title: image.value.title.rendered,
+						description,
+					}
+					return obj
+				})
+		  )
 		: []
 
 	const getDate = (date: string, format: string) => {
