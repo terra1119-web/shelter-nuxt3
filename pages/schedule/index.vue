@@ -1,53 +1,90 @@
 <template>
-	<section>
-		<h1>Schedule</h1>
-		<ul>
-			<li
-				v-for="schedule in schedules"
-				:key="
-					useDateString({
-						date: schedule.date,
-						format: 'YYYYMMDD',
-					})
-				"
-			>
-				<NuxtLink
-					:to="`/schedule/${useDateString({
-						date: schedule.date,
-						format: 'YYYYMMDD',
-					})}/`"
-				>
-					<div v-if="schedule._embedded['wp:featuredmedia']">
-						<img
-							:src="
-								schedule._embedded['wp:featuredmedia'][0]
-									.source_url
-							"
-							alt=""
-						/>
-					</div>
-					{{ schedule.title.rendered }}
-					{{
-						useDateString({
-							date: schedule.date,
-							format: 'YYYY/MM/DD',
-						})
-					}}
-				</NuxtLink>
-			</li>
-		</ul>
-	</section>
+	<div class="md:max-w-5xl md:px-8 md:mx-auto">
+		<section>
+			<header class="mt-6 px-4">
+				<TheTitle tag-name="h1" type="primary">
+					{{ getDate(`${year}${month + 1}`, 'YYYY MMMM') }}
+				</TheTitle>
+			</header>
 
-	<nav>
-		<ul>
-			<li v-if="previousData.length">
-				<button @click.prevent="onClickPrev">prev</button>
-			</li>
-			<li v-if="nextData.length">
-				<button @click.prevent="onClickNext">next</button>
-			</li>
-		</ul>
-	</nav>
+			<ul class="w-full border border-white grid mt-6 md:grid-cols-7">
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+				>
+					Sun
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+				>
+					Mon
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+				>
+					Tue
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+				>
+					Wed
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+				>
+					Thu
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+				>
+					Fri
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+				>
+					Sat
+				</li>
+				<li
+					v-for="(day, index) in calendars"
+					:key="index"
+					class="md:min-h-[112px] p-4 border-r border-b border-white break-all"
+				>
+					<NuxtLink
+						:to="`/schedule/${day.dateUrl}/`"
+						class="block h-full"
+					>
+						<p class="text-xl font-bold">{{ day.date }}</p>
+						<h2 class="text-xl font-bold" v-html="day.title" />
+					</NuxtLink>
+				</li>
+			</ul>
+		</section>
+
+		<nav>
+			<ul class="flex justify-between mt-6 px-4 md:px-0">
+				<li v-if="previousData.length">
+					<Button
+						icon-left="fa-solid fa-chevron-left"
+						@click="onClickPrev"
+					>
+						{{
+							getDate(
+								String(previousMonthDays.month() + 1),
+								'MMMM'
+							)
+						}}
+					</Button>
+				</li>
+				<li v-if="nextData.length" class="ml-auto">
+					<Button
+						icon-right="fa-solid fa-chevron-right"
+						@click="onClickNext"
+					>
+						{{ getDate(String(nextMonthDays.month() + 1), 'MMMM') }}
+					</Button>
+				</li>
+			</ul>
+		</nav>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -89,6 +126,8 @@
 			.endOf('month')
 			.date()
 	)
+
+	const currentDate = ref(dayjs(new Date(year.value, month.value)))
 
 	const [
 		{ data: schedules, refresh },
@@ -247,6 +286,9 @@
 			.endOf('month')
 			.date()
 
+		currentDate.value = dayjs(new Date(year.value, month.value))
+		calendars.value = getCalendar()
+
 		router.push({
 			path: '/schedule/',
 			query: {
@@ -257,10 +299,68 @@
 		})
 	}
 
+	const getDate = (date: string, format: string) => {
+		return useDateString({
+			date,
+			format,
+		})
+	}
+
+	const getStartDate = (currentDate: dayjs.Dayjs) => {
+		const date = dayjs(currentDate).startOf('month')
+		const weekNum = date.day()
+		return date.subtract(weekNum, 'day')
+	}
+
+	const getEndDate = (currentDate: dayjs.Dayjs) => {
+		const date = dayjs(currentDate).endOf('month')
+		const weekNum = date.day()
+		return date.add(6 - weekNum, 'day')
+	}
+
+	const getCalendar = () => {
+		let startDate = getStartDate(currentDate.value)
+		const endDate = getEndDate(currentDate.value)
+		const weekNumber = Math.ceil(endDate.diff(startDate, 'day') / 7)
+
+		const calendars = []
+		for (let week = 0; week < weekNumber; week++) {
+			const weekRow: any[] = []
+			for (let day = 0; day < 7; day++) {
+				// console.log(schedules.value)
+				const date = startDate.get('date')
+				const month = startDate.get('month')
+				const nowScheduleDay = schedules.value.filter(
+					(scheduleDay: any) => {
+						// console.log(dayjs(scheduleDay.date).date())
+						return (
+							date === dayjs(scheduleDay.date).date() &&
+							month === dayjs(scheduleDay.date).month()
+						)
+					}
+				)
+				// console.log(nowScheduleDay)
+				weekRow.push({
+					date,
+					title: nowScheduleDay[0]?.title.rendered,
+					dateUrl: getDate(nowScheduleDay[0]?.date, 'YYYYMMDD'),
+					isNowMonth: true,
+				})
+				startDate = startDate.add(1, 'day')
+			}
+			calendars.push(weekRow)
+		}
+		const flatCalendars = calendars.flat()
+		return flatCalendars
+	}
+
+	const calendars = ref(getCalendar())
+
 	watch(
 		() => month.value,
 		async () => {
 			await refresh()
+			calendars.value = getCalendar()
 			window.scrollTo(0, 0)
 			await refreshPreviousData()
 			await refreshNextData()

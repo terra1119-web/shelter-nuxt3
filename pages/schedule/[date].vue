@@ -11,60 +11,60 @@
 			/>
 		</div>
 
-		<header class="mt-4 px-4">
-			<TheTitle tag-name="h1" type="secondary">{{
-				schedule.title.rendered
-			}}</TheTitle>
+		<header class="mt-6 px-4">
+			<TheTitle tag-name="h1" type="secondary">
+				<span v-html="schedule.title.rendered" />
+			</TheTitle>
 		</header>
 
 		<div class="text-center px-4 text-2xl">
 			<time
 				:datetime="getDate(schedule.date, 'YYYY/MM/DD ddd')"
-				class="block mt-4"
+				class="block mt-6"
 			>
 				{{ getDate(schedule.date, 'YYYY/MM/DD ddd') }}
 			</time>
 
 			<p
 				v-if="schedule.acf.party_genre"
-				class="mt-4"
+				class="mt-6"
 				v-html="schedule.acf.party_genre"
 			/>
 			<p
 				v-if="schedule.acf.party_open"
-				class="mt-4"
+				class="mt-6"
 				v-html="schedule.acf.party_open"
 			/>
 			<p
 				v-if="schedule.acf.party_charge"
-				class="mt-4"
+				class="mt-6"
 				v-html="schedule.acf.party_charge"
 			/>
 			<p
 				v-if="schedule.acf.party_guest"
-				class="mt-4"
+				class="mt-6"
 				v-html="schedule.acf.party_guest"
 			/>
 			<p
 				v-if="schedule.acf.party_dj"
-				class="mt-4"
+				class="mt-6"
 				v-html="schedule.acf.party_dj"
 			/>
 		</div>
 
 		<div
 			v-if="schedule.acf.party_freetxt"
-			class="mt-4 px-4 text-xl schedule__freetxt"
+			class="mt-8 px-4 text-xl schedule__freetxt"
 			v-html="schedule.acf.party_freetxt"
 		/>
 
 		<ul>
-			<li v-for="media in mediaData" :key="media.title" class="mt-4 px-4">
+			<li v-for="media in mediaData" :key="media.title" class="mt-8 px-4">
 				<fegure>
 					<img :src="media.image" :alt="media.title" class="w-full" />
 				</fegure>
-				<p>{{ media.title }}</p>
-				<div v-html="media.description" />
+				<p class="text-xl font-bold mt-4">{{ media.title }}</p>
+				<div class="mt-4" v-html="media.description" />
 			</li>
 		</ul>
 
@@ -77,7 +77,7 @@
 					{{ getDate(schedule.previous.date, 'YYYY/MM/DD') }}
 				</Button>
 			</li>
-			<li v-if="schedule.next">
+			<li v-if="schedule.next" class="ml-auto">
 				<Button
 					icon-right="fa-solid fa-chevron-right"
 					@click="onClick(schedule.next.date)"

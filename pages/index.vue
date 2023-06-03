@@ -54,18 +54,10 @@
 		<ul>
 			<li v-for="(blog, index) in blogs" :key="index" class="mt-4">
 				<Card
-					:url="`/blog/${useDateString({
-						date: blog.date,
-						format: 'YYYYMMDD',
-					})}/`"
+					:url="`/blog/${getDate(blog.date, 'YYYYMMDD')}/`"
 					:image="blog._embedded['wp:featuredmedia'][0].source_url"
 					:title="blog.title.rendered"
-					:date="
-						useDateString({
-							date: blog.date,
-							format: 'YYYY/MM/DD',
-						})
-					"
+					:date="getDate(blog.date, 'YYYY/MM/DD')"
 				/>
 			</li>
 		</ul>
@@ -113,7 +105,7 @@
 			title: field.top_image_field_text,
 			date: useDateString({
 				date: field.top_image_field_date,
-				format: 'YYYY/MM/DD',
+				format: 'YYYY/MM/DD ddd',
 			}),
 		})
 	})
@@ -131,6 +123,13 @@
 
 	const onBlogClick = () => {
 		router.push('/blog/')
+	}
+
+	const getDate = (date: string, format: string) => {
+		return useDateString({
+			date,
+			format,
+		})
 	}
 </script>
 

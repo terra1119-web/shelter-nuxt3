@@ -15,10 +15,10 @@
 			<div
 				class="absolute left-0 bottom-0 w-full p-4 flex flex-col text-center"
 			>
-				<h2 class="order-2 text-xl font-light">
+				<h2 class="order-2 text-2xl font-light">
 					{{ title }}
 				</h2>
-				<p class="order1 text-base font-light">
+				<p class="order1 text-lg font-light">
 					<time>{{ date }}</time>
 				</p>
 			</div>
