@@ -40,6 +40,10 @@
     "accent": {
       "value": "#EA3A3A",
       "type": "color"
+    },
+    "secondary": {
+      "value": "#1a1a1a",
+      "type": "color"
     }
   },
   "radius": {
