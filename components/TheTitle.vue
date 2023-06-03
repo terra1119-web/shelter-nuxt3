@@ -7,7 +7,7 @@
 			type === 'primary'
 				? [`font-['Roboto']`, 'font-thin']
 				: type === 'secondary'
-				? [`font-['Roboto_Condensed']`]
+				? [`font-['Roboto_Condensed']`, 'font-light']
 				: '',
 		]"
 	>
