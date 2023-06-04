@@ -1,118 +1,129 @@
 <template>
-	<div class="md:max-w-5xl md:px-8 md:mx-auto">
-		<section>
-			<header class="mt-6 px-4">
-				<TheTitle tag-name="h1" type="primary">
-					{{ getDate(`${year}${month + 1}`, 'YYYY MMMM') }}
-				</TheTitle>
-			</header>
+	<Suspense>
+		<div class="md:max-w-5xl md:px-8 md:mx-auto">
+			<section>
+				<header class="mt-6 px-4">
+					<TheTitle tag-name="h1" type="primary">
+						{{ getDate(`${year}${month + 1}`, 'YYYY MMMM') }}
+					</TheTitle>
+				</header>
 
-			<ul
-				class="w-full bg-surface-nuetral-primary border-l border-t border-border-secondary grid mt-6 md:grid-cols-7"
-			>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-accent"
+				<ul
+					class="w-full bg-surface-nuetral-primary border-l border-t border-border-secondary grid mt-6 md:grid-cols-7"
 				>
-					Sun
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Mon
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Tue
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Wed
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Thu
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Fri
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-info"
-				>
-					Sat
-				</li>
-				<li
-					v-for="(day, index) in calendars"
-					:key="index"
-					class="md:min-h-[112px] border-r border-b border-border-secondary break-all"
-					:class="[
-						!day.isNowMonth || !day.title ? 'hidden md:block' : '',
-						day.isToday ? 'bg-surface-neutral-highlight' : '',
-					]"
-				>
-					<NuxtLink
-						:to="`/schedule/${day.dateUrl}/`"
+					<li
+						class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-accent"
+					>
+						Sun
+					</li>
+					<li
+						class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+					>
+						Mon
+					</li>
+					<li
+						class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+					>
+						Tue
+					</li>
+					<li
+						class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+					>
+						Wed
+					</li>
+					<li
+						class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+					>
+						Thu
+					</li>
+					<li
+						class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+					>
+						Fri
+					</li>
+					<li
+						class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-info"
+					>
+						Sat
+					</li>
+					<li
+						v-for="(day, index) in calendars"
+						:key="index"
+						class="md:min-h-[112px] border-r border-b border-border-secondary break-all"
 						:class="[
-							'block',
-							'h-full',
-							'p-4',
-							'relative',
-							!day.title ? 'pointer-events-none' : '',
+							!day.isNowMonth || !day.title
+								? 'hidden md:block'
+								: '',
+							day.isToday ? 'bg-surface-neutral-highlight' : '',
 						]"
 					>
-						<p
-							class="text-xl font-bold"
+						<NuxtLink
+							:to="`/schedule/${day.dateUrl}/`"
 							:class="[
-								day.isHoliday
-									? 'text-text-accent'
-									: day.isSaturday
-									? 'text-text-info'
-									: '',
+								'block',
+								'h-full',
+								'p-4',
+								'relative',
+								!day.title ? 'pointer-events-none' : '',
 							]"
 						>
-							{{ day.date }}
-						</p>
-						<h2 class="text-xl font-bold" v-html="day.title" />
-						<span
-							class="block md:hidden absolute top-[calc(50%-8px)] right-4"
-						>
-							<FontAwesomeIcon icon="fa-solid fa-chevron-right" />
-						</span>
-					</NuxtLink>
-				</li>
-			</ul>
-		</section>
+							<p
+								class="text-xl font-bold"
+								:class="[
+									day.isHoliday
+										? 'text-text-accent'
+										: day.isSaturday
+										? 'text-text-info'
+										: '',
+								]"
+							>
+								{{ day.date }}
+							</p>
+							<h2 class="text-xl font-bold" v-html="day.title" />
+							<span
+								class="block md:hidden absolute top-[calc(50%-8px)] right-4"
+							>
+								<FontAwesomeIcon
+									icon="fa-solid fa-chevron-right"
+								/>
+							</span>
+						</NuxtLink>
+					</li>
+				</ul>
+			</section>
 
-		<nav>
-			<ul class="flex justify-between mt-6 px-4 md:px-0">
-				<li v-if="previousData.length">
-					<Button
-						icon-left="fa-solid fa-chevron-left"
-						@click="onClickPrev"
-					>
-						{{
-							getDate(
-								String(previousMonthDays.month() + 1),
-								'MMMM'
-							)
-						}}
-					</Button>
-				</li>
-				<li v-if="nextData.length" class="ml-auto">
-					<Button
-						icon-right="fa-solid fa-chevron-right"
-						@click="onClickNext"
-					>
-						{{ getDate(String(nextMonthDays.month() + 1), 'MMMM') }}
-					</Button>
-				</li>
-			</ul>
-		</nav>
-	</div>
+			<nav>
+				<ul class="flex justify-between mt-6 px-4 md:px-0">
+					<li v-if="previousData.length">
+						<Button
+							icon-left="fa-solid fa-chevron-left"
+							@click="onClickPrev"
+						>
+							{{
+								getDate(
+									String(previousMonthDays.month() + 1),
+									'MMMM'
+								)
+							}}
+						</Button>
+					</li>
+					<li v-if="nextData.length" class="ml-auto">
+						<Button
+							icon-right="fa-solid fa-chevron-right"
+							@click="onClickNext"
+						>
+							{{
+								getDate(
+									String(nextMonthDays.month() + 1),
+									'MMMM'
+								)
+							}}
+						</Button>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</Suspense>
 </template>
 
 <script setup lang="ts">
@@ -395,11 +406,21 @@
 	watch(
 		() => month.value,
 		async () => {
+			window.scrollTo(0, 0)
 			await refresh()
 			calendars.value = getCalendar()
-			window.scrollTo(0, 0)
 			await refreshPreviousData()
 			await refreshNextData()
+		}
+	)
+
+	watch(
+		() => route.query.ym,
+		() => {
+			if (!route.query.ym) {
+				window.scrollTo(0, 0)
+				location.reload()
+			}
 		}
 	)
 </script>
