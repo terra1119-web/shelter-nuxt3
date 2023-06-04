@@ -92,6 +92,7 @@
 </template>
 
 <script setup lang="ts">
+	import { useMenuOpen } from '@/composables/useMenuOpen'
 	const route = useRoute()
 	const scrollState = useScroll()
 

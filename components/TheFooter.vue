@@ -70,3 +70,7 @@
 		</p>
 	</footer>
 </template>
+
+<script setup lang="ts">
+	import { useDateString } from '@/composables/useDateString'
+</script>

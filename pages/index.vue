@@ -54,10 +54,18 @@
 		<ul>
 			<li v-for="(blog, index) in blogs" :key="index" class="mt-4">
 				<Card
-					:url="`/blog/${getDate(blog.date, 'YYYYMMDD')}/`"
+					:url="`/blog/${useDateString({
+						date: blog.date,
+						format: 'YYYYMMDD',
+					})}/`"
 					:image="blog._embedded['wp:featuredmedia'][0].source_url"
 					:title="blog.title.rendered"
-					:date="getDate(blog.date, 'YYYY/MM/DD')"
+					:date="
+						useDateString({
+							date: blog.date,
+							format: 'YYYY/MM/DD',
+						})
+					"
 				/>
 			</li>
 		</ul>
@@ -73,6 +81,7 @@
 </template>
 
 <script setup lang="ts">
+	import { useDateString } from '@/composables/useDateString'
 	const router = useRouter()
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
@@ -123,13 +132,6 @@
 
 	const onBlogClick = () => {
 		router.push('/blog/')
-	}
-
-	const getDate = (date: string, format: string) => {
-		return useDateString({
-			date,
-			format,
-		})
 	}
 </script>
 

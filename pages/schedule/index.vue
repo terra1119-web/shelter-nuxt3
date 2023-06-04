@@ -4,7 +4,12 @@
 			<section>
 				<header class="mt-6 px-4">
 					<TheTitle tag-name="h1" type="primary">
-						{{ getDate(`${year}${month + 1}`, 'YYYY MMMM') }}
+						{{
+							useDateString({
+								date: `${year}${month + 1}`,
+								format: 'YYYY MMMM',
+							})
+						}}
 					</TheTitle>
 				</header>
 
@@ -100,10 +105,10 @@
 							@click="onClickPrev"
 						>
 							{{
-								getDate(
-									String(previousMonthDays.month() + 1),
-									'MMMM'
-								)
+								useDateString({
+									date: String(previousMonthDays.month() + 1),
+									format: 'MMMM',
+								})
 							}}
 						</Button>
 					</li>
@@ -113,10 +118,10 @@
 							@click="onClickNext"
 						>
 							{{
-								getDate(
-									String(nextMonthDays.month() + 1),
-									'MMMM'
-								)
+								useDateString({
+									date: String(nextMonthDays.month() + 1),
+									format: 'MMMM',
+								})
 							}}
 						</Button>
 					</li>
@@ -128,6 +133,7 @@
 
 <script setup lang="ts">
 	import dayjs from 'dayjs'
+	import { useDateString } from '@/composables/useDateString'
 
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
@@ -338,13 +344,6 @@
 		})
 	}
 
-	const getDate = (date: string, format: string) => {
-		return useDateString({
-			date,
-			format,
-		})
-	}
-
 	const getStartDate = (currentDate: dayjs.Dayjs) => {
 		const date = dayjs(currentDate).startOf('month')
 		const weekNum = date.day()
@@ -379,7 +378,10 @@
 				weekRow.push({
 					date: targetDate,
 					title: nowScheduleDay[0]?.title.rendered,
-					dateUrl: getDate(nowScheduleDay[0]?.date, 'YYYYMMDD'),
+					dateUrl: useDateString({
+						date: nowScheduleDay[0]?.date,
+						format: 'YYYYMMDD',
+					}),
 					isNowMonth: month.value === targetMonth,
 					isToday:
 						targetMonth === dayjs().month() &&

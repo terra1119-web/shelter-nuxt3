@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import { library, config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faFacebookF, faInstagram } from '@fortawesome/free-brands-svg-icons'
