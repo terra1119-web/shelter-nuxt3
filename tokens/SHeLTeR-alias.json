@@ -20,6 +20,14 @@
       "value": "#EA3A3A",
       "type": "color",
       "description": "テスト"
+    },
+    "neutral-highlight": {
+      "value": "#3b3b3b",
+      "type": "color"
+    },
+    "tertiary": {
+      "value": "#ffffff",
+      "type": "color"
     }
   },
   "text": {
@@ -29,6 +37,10 @@
     },
     "accent": {
       "value": "#EA3A3A",
+      "type": "color"
+    },
+    "info": {
+      "value": "#3a80ea",
       "type": "color"
     }
   },
