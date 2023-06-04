@@ -3,10 +3,10 @@
 		<div v-if="schedule._embedded['wp:featuredmedia']">
 			<img
 				:src="schedule._embedded['wp:featuredmedia'][0].source_url"
-				:alt="`${schedule.title.rendered} : ${getDate(
-					schedule.date,
-					'YYYY/MM/DD ddd'
-				)}`"
+				:alt="`${schedule.title.rendered} : ${useDateString({
+					date: schedule.date,
+					format: 'YYYY/MM/DD ddd',
+				})}`"
 				class="w-full"
 			/>
 		</div>
@@ -19,10 +19,20 @@
 
 		<div class="text-center px-4 text-2xl">
 			<time
-				:datetime="getDate(schedule.date, 'YYYY/MM/DD ddd')"
+				:datetime="
+					useDateString({
+						date: schedule.date,
+						format: 'YYYY/MM/DD ddd',
+					})
+				"
 				class="block mt-6"
 			>
-				{{ getDate(schedule.date, 'YYYY/MM/DD ddd') }}
+				{{
+					useDateString({
+						date: schedule.date,
+						format: 'YYYY/MM/DD ddd',
+					})
+				}}
 			</time>
 
 			<p
@@ -74,7 +84,12 @@
 					icon-left="fa-solid fa-chevron-left"
 					@click="onClick(schedule.previous.date)"
 				>
-					{{ getDate(schedule.previous.date, 'YYYY/MM/DD') }}
+					{{
+						useDateString({
+							date: schedule.previous.date,
+							format: 'YYYY/MM/DD',
+						})
+					}}
 				</Button>
 			</li>
 			<li v-if="schedule.next" class="ml-auto">
@@ -82,7 +97,12 @@
 					icon-right="fa-solid fa-chevron-right"
 					@click="onClick(schedule.next.date)"
 				>
-					{{ getDate(schedule.next.date, 'YYYY/MM/DD') }}
+					{{
+						useDateString({
+							date: schedule.next.date,
+							format: 'YYYY/MM/DD',
+						})
+					}}
 				</Button>
 			</li>
 		</ul>
@@ -90,6 +110,7 @@
 </template>
 
 <script setup lang="ts">
+	import { useDateString } from '@/composables/useDateString'
 	const router = useRouter()
 	const schedules = await useSinglePost()
 
@@ -117,13 +138,6 @@
 				})
 		  )
 		: []
-
-	const getDate = (date: string, format: string) => {
-		return useDateString({
-			date,
-			format,
-		})
-	}
 
 	const onClick = (date: string) => {
 		router.push(

@@ -14,10 +14,20 @@
 		</header>
 
 		<time
-			:datetime="getDate(blog.date, 'YYYY-MM-DD')"
+			:datetime="
+				useDateString({
+					date: blog.date,
+					format: 'YYYY-MM-DD',
+				})
+			"
 			class="block mt-4 text-center px-4 text-2xl"
 		>
-			{{ getDate(blog.date, 'YYYY/MM/DD ddd') }}
+			{{
+				useDateString({
+					date: blog.date,
+					format: 'YYYY/MM/DD ddd',
+				})
+			}}
 		</time>
 
 		<div class="mt-4 px-4 text-base" v-html="blog.content.rendered" />
@@ -25,14 +35,8 @@
 </template>
 
 <script setup lang="ts">
+	import { useDateString } from '@/composables/useDateString'
 	const blogs = await useSinglePost({ postType: 'blog' })
-
-	const getDate = (date: string, format: string) => {
-		return useDateString({
-			date,
-			format,
-		})
-	}
 </script>
 
 <style scoped>
