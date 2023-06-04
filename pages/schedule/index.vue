@@ -11,7 +11,7 @@
 				class="w-full bg-surface-nuetral-primary border-l border-t border-border-secondary grid mt-6 md:grid-cols-7"
 			>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-accent"
 				>
 					Sun
 				</li>
@@ -41,7 +41,7 @@
 					Fri
 				</li>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-info"
 				>
 					Sat
 				</li>
@@ -67,8 +67,11 @@
 						<p
 							class="text-xl font-bold"
 							:class="[
-								day.isSaturday ? 'text-text-info' : '',
-								day.isHoliday ? 'text-text-accent' : '',
+								day.isHoliday
+									? 'text-text-accent'
+									: day.isSaturday
+									? 'text-text-info'
+									: '',
 							]"
 						>
 							{{ day.date }}
@@ -367,9 +370,17 @@
 					title: nowScheduleDay[0]?.title.rendered,
 					dateUrl: getDate(nowScheduleDay[0]?.date, 'YYYYMMDD'),
 					isNowMonth: month.value === targetMonth,
-					isToday: true,
+					isToday:
+						targetMonth === dayjs().month() &&
+						targetDate === dayjs().date(),
 					isSaturday: day === 6,
-					isHoliday: true,
+					isHoliday:
+						day === 0 ||
+						useHoliday({
+							date: `${year.value}-${
+								targetMonth + 1
+							}-${targetDate}`,
+						}),
 				})
 				startDate = startDate.add(1, 'day')
 			}
