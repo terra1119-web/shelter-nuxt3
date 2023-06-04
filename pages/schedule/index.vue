@@ -7,53 +7,78 @@
 				</TheTitle>
 			</header>
 
-			<ul class="w-full border border-white grid mt-6 md:grid-cols-7">
+			<ul
+				class="w-full bg-surface-nuetral-primary border-l border-t border-border-secondary grid mt-6 md:grid-cols-7"
+			>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
 				>
 					Sun
 				</li>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
 				>
 					Mon
 				</li>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
 				>
 					Tue
 				</li>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
 				>
 					Wed
 				</li>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
 				>
 					Thu
 				</li>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
 				>
 					Fri
 				</li>
 				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-white"
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
 				>
 					Sat
 				</li>
 				<li
 					v-for="(day, index) in calendars"
 					:key="index"
-					class="md:min-h-[112px] p-4 border-r border-b border-white break-all"
+					class="md:min-h-[112px] border-r border-b border-border-secondary break-all"
+					:class="[
+						!day.isNowMonth || !day.title ? 'hidden md:block' : '',
+						day.isToday ? 'bg-surface-neutral-highlight' : '',
+					]"
 				>
 					<NuxtLink
 						:to="`/schedule/${day.dateUrl}/`"
-						class="block h-full"
+						:class="[
+							'block',
+							'h-full',
+							'p-4',
+							'relative',
+							!day.title ? 'pointer-events-none' : '',
+						]"
 					>
-						<p class="text-xl font-bold">{{ day.date }}</p>
+						<p
+							class="text-xl font-bold"
+							:class="[
+								day.isSaturday ? 'text-text-info' : '',
+								day.isHoliday ? 'text-text-accent' : '',
+							]"
+						>
+							{{ day.date }}
+						</p>
 						<h2 class="text-xl font-bold" v-html="day.title" />
+						<span
+							class="block md:hidden absolute top-[calc(50%-8px)] right-4"
+						>
+							<FontAwesomeIcon icon="fa-solid fa-chevron-right" />
+						</span>
 					</NuxtLink>
 				</li>
 			</ul>
@@ -327,24 +352,24 @@
 		for (let week = 0; week < weekNumber; week++) {
 			const weekRow: any[] = []
 			for (let day = 0; day < 7; day++) {
-				// console.log(schedules.value)
-				const date = startDate.get('date')
-				const month = startDate.get('month')
+				const targetDate = startDate.get('date')
+				const targetMonth = startDate.get('month')
 				const nowScheduleDay = schedules.value.filter(
 					(scheduleDay: any) => {
-						// console.log(dayjs(scheduleDay.date).date())
 						return (
-							date === dayjs(scheduleDay.date).date() &&
-							month === dayjs(scheduleDay.date).month()
+							targetDate === dayjs(scheduleDay.date).date() &&
+							targetMonth === dayjs(scheduleDay.date).month()
 						)
 					}
 				)
-				// console.log(nowScheduleDay)
 				weekRow.push({
-					date,
+					date: targetDate,
 					title: nowScheduleDay[0]?.title.rendered,
 					dateUrl: getDate(nowScheduleDay[0]?.date, 'YYYYMMDD'),
-					isNowMonth: true,
+					isNowMonth: month.value === targetMonth,
+					isToday: true,
+					isSaturday: day === 6,
+					isHoliday: true,
 				})
 				startDate = startDate.add(1, 'day')
 			}
