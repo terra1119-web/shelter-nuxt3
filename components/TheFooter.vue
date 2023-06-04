@@ -32,12 +32,25 @@
 				</li>
 				<li class="mt-4">
 					<NuxtLink
+						to="https://www.instagram.com/shelter_japan/"
+						target="_blank"
+						class="flex items-center"
+					>
+						<FontAwesomeIcon
+							icon="fa-brands fa-instagram"
+							class="text-2xl mr-4"
+						/>
+						<span class="text-xl">Instagram</span>
+					</NuxtLink>
+				</li>
+				<li class="mt-4">
+					<NuxtLink
 						to="https://www.facebook.com/pages/SHeLTeR/136886743120572"
 						target="_blank"
 						class="flex items-center"
 					>
 						<FontAwesomeIcon
-							icon="fa-brands fa-square-facebook"
+							icon="fa-brands fa-facebook-f"
 							class="text-2xl mr-4"
 						/>
 						<span class="text-xl">facebook page</span>
