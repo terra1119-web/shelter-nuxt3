@@ -1,6 +1,6 @@
 <template>
 	<footer
-		class="bg-surface-nuetral-secondary p-6 md:p-8 md:flex md:flex-row md:flex-wrap"
+		class="bg-surface-nuetral-secondary p-6 z-3 relative md:p-8 md:flex md:flex-row md:flex-wrap"
 	>
 		<figure class="md:order-2">
 			<NuxtLink
@@ -20,14 +20,16 @@
 			<ul>
 				<li class="mt-4">
 					<NuxtLink
-						to="mailto:jambo@at-shelter.com"
+						to="m&#97;i&#108;t&#111;:&#106;&#97;&#109;&#98;&#111;@&#97;&#116;&#45;&#115;&#104;&#101;l&#116;&#101;&#114;&#46;&#99;&#111;&#109;"
 						class="flex items-center"
 					>
 						<FontAwesomeIcon
 							icon="fa-regular fa-envelope"
 							class="text-2xl mr-4"
 						/>
-						<span class="text-xl">jambo@at-shelter.com</span>
+						<span class="text-xl"
+							>&#106;&#97;&#109;&#98;&#111;@&#97;&#116;&#45;&#115;&#104;&#101;l&#116;&#101;&#114;&#46;&#99;&#111;&#109;</span
+						>
 					</NuxtLink>
 				</li>
 				<li class="mt-4">

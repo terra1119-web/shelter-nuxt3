@@ -83,7 +83,7 @@
 			</ul>
 		</nav>
 
-		<div class="md:hidden absolute left-4">
+		<div class="md:hidden absolute left-6">
 			<button @click="onMenuClick">
 				<FontAwesomeIcon icon="fa-solid fa-bars" />
 			</button>

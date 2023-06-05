@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<header class="mt-4 mb-4">
+		<header class="mt-6 mb-6">
 			<TheTitle tag-name="h2">FEATURED</TheTitle>
 		</header>
 
@@ -17,7 +17,7 @@
 	</section>
 
 	<section>
-		<header class="mt-4">
+		<header class="mt-8">
 			<TheTitle tag-name="h2">STORE</TheTitle>
 		</header>
 
@@ -25,7 +25,7 @@
 			<li
 				v-for="(item, index) in topStoreItems"
 				:key="index"
-				class="mt-4"
+				class="mt-6 flex"
 			>
 				<Card
 					:url="item.store_item_url"
@@ -47,12 +47,12 @@
 	</section>
 
 	<section>
-		<header class="mt-4">
+		<header class="mt-8">
 			<TheTitle tag-name="h2">BLOG</TheTitle>
 		</header>
 
 		<ul>
-			<li v-for="(blog, index) in blogs" :key="index" class="mt-4">
+			<li v-for="(blog, index) in blogs" :key="index" class="mt-6">
 				<Card
 					:url="`/blog/${useDateString({
 						date: blog.date,
@@ -77,7 +77,37 @@
 		</div>
 	</section>
 
-	<section></section>
+	<section class="pb-8">
+		<header class="mt-8">
+			<TheTitle tag-name="h2">INFORMATION</TheTitle>
+		</header>
+
+		<figure class="mt-6">
+			<img src="/images/top_image.jpg" alt="Image shot at SHeLTeR" />
+		</figure>
+
+		<p class="mt-6 px-6">
+			SHeLTeRは東京の西端、八王子で四半世紀に渡り営業している、純度の高い音質と美味しいお酒を提供しているDJバーです。<br />
+			ディスコ、クラブ、サロン、スタジオ、ラボ、など、様々な名称や既存のイメージに捕らわれない、常に革新的かつ居心地の良い自由な空間を目指しています。
+		</p>
+		<p class="mt-6 px-6">
+			SHeLTeR is a DJ bar, located in Hachiouji-Tokyo. We are highly
+			focused on providing both quality of music and tasty alcohol to our
+			customer since 1989.<br />
+			Our aim is to create a space where is innovative, cozy and
+			openminded without captured by any existing name nor image such as
+			disco, club, salon, studio, lab, etc&#8230;
+		</p>
+
+		<div class="mt-6 flex justify-center">
+			<Button
+				icon-right="fa-solid fa-chevron-right"
+				@click="onInformationClick"
+			>
+				VIEW MORE INFORMATION
+			</Button>
+		</div>
+	</section>
 </template>
 
 <script setup lang="ts">
@@ -132,6 +162,10 @@
 
 	const onBlogClick = () => {
 		router.push('/blog/')
+	}
+
+	const onInformationClick = () => {
+		router.push('/information/')
 	}
 </script>
 

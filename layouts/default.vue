@@ -10,7 +10,7 @@
 		]"
 	/>
 	<TheHeader />
-	<main class="pb-8">
+	<main class="bg-background">
 		<slot />
 	</main>
 	<TheFooter />

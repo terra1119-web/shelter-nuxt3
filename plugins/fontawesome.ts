@@ -6,6 +6,8 @@ import {
 	faBars,
 	faChevronRight,
 	faChevronLeft,
+	faPhone,
+	faHouse,
 } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 
@@ -17,7 +19,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 		faEnvelope,
 		faChevronRight,
 		faChevronLeft,
-		faInstagram
+		faInstagram,
+		faPhone,
+		faHouse
 	)
 	nuxtApp.vueApp.component('FontAwesomeIcon', FontAwesomeIcon)
 })

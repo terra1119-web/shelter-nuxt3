@@ -10,7 +10,7 @@
 			type === 'primary'
 				? ['border-border-primary']
 				: type === 'secondary'
-				? ['bg-white', 'cursor-default']
+				? ['bg-white', 'cursor-default', 'text-text-secondary']
 				: '',
 		]"
 		@click="onClick"
