@@ -1,11 +1,11 @@
 <template>
 	<section>
-		<header class="mt-4 mb-4">
+		<header class="mt-6 mb-6">
 			<TheTitle tag-name="h1">BLOG</TheTitle>
 		</header>
 
 		<ul>
-			<li v-for="(blog, index) in blogs" :key="index">
+			<li v-for="(blog, index) in blogs" :key="index" class="mt-6">
 				<Card
 					:url="`/blog/${useDateString({
 						date: blog.date,
@@ -24,7 +24,7 @@
 		</ul>
 	</section>
 
-	<nav>
+	<nav class="pb-8">
 		<ul class="flex mt-6 gap-4 justify-center">
 			<li v-for="(page, index) in totalPages" :key="index">
 				<Button

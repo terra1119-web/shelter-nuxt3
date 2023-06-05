@@ -1,5 +1,5 @@
 <template>
-	<article v-for="(blog, index) in blogs" :key="index">
+	<article v-for="(blog, index) in blogs" :key="index" class="pb-8">
 		<figure v-if="blog._embedded['wp:featuredmedia']">
 			<img
 				:src="blog._embedded['wp:featuredmedia'][0].source_url"
@@ -7,7 +7,7 @@
 			/>
 		</figure>
 
-		<header class="mt-4 mb-4">
+		<header class="mt-6 mb-6">
 			<TheTitle tag-name="h1" type="secondary">{{
 				blog.title.rendered
 			}}</TheTitle>
@@ -30,7 +30,7 @@
 			}}
 		</time>
 
-		<div class="mt-4 px-4 text-base" v-html="blog.content.rendered" />
+		<div class="mt-6 px-6 text-base" v-html="blog.content.rendered" />
 	</article>
 </template>
 

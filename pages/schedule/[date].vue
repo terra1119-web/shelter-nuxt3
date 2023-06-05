@@ -11,13 +11,13 @@
 			/>
 		</div>
 
-		<header class="mt-6 px-4">
+		<header class="mt-6 px-6">
 			<TheTitle tag-name="h1" type="secondary">
 				<span v-html="schedule.title.rendered" />
 			</TheTitle>
 		</header>
 
-		<div class="text-center px-4 text-2xl">
+		<div class="text-center px-6 text-2xl">
 			<time
 				:datetime="
 					useDateString({
@@ -69,16 +69,16 @@
 		/>
 
 		<ul>
-			<li v-for="media in mediaData" :key="media.title" class="mt-8 px-4">
+			<li v-for="media in mediaData" :key="media.title" class="mt-8 px-6">
 				<fegure>
 					<img :src="media.image" :alt="media.title" class="w-full" />
 				</fegure>
-				<p class="text-xl font-bold mt-4">{{ media.title }}</p>
-				<div class="mt-4" v-html="media.description" />
+				<p class="text-xl font-bold mt-6">{{ media.title }}</p>
+				<div class="mt-6" v-html="media.description" />
 			</li>
 		</ul>
 
-		<ul class="mt-8 px-4 flex justify-between">
+		<ul class="mt-8 px-6 flex justify-between">
 			<li v-if="schedule.previous">
 				<Button
 					icon-left="fa-solid fa-chevron-left"
