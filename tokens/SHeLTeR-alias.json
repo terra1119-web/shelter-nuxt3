@@ -42,6 +42,10 @@
     "info": {
       "value": "#3a80ea",
       "type": "color"
+    },
+    "secondary": {
+      "value": "#171717",
+      "type": "color"
     }
   },
   "border": {
