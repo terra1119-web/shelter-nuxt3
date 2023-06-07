@@ -11,7 +11,7 @@
 						date: blog.date,
 						format: 'YYYYMMDD',
 					})}/`"
-					:image="blog._embedded['wp:featuredmedia'][0].source_url"
+					:image="getSourceUrl(blog)"
 					:title="blog.title.rendered"
 					:date="
 						useDateString({
@@ -25,13 +25,31 @@
 	</section>
 
 	<nav class="pb-8">
-		<ul class="flex mt-6 gap-4 justify-center">
+		<ul class="flex flex-wrap mt-6 gap-4 justify-center">
+			<li v-if="currentPage !== 1">
+				<Button
+					type="primary"
+					class="py-3"
+					@click="onClickPage(currentPage - 1)"
+				>
+					<FontAwesomeIcon icon="fa-solid fa-chevron-left" />
+				</Button>
+			</li>
 			<li v-for="(page, index) in totalPages" :key="index">
 				<Button
 					:type="computedButtonType(index + 1)"
 					@click="onClickPage(index + 1)"
 				>
 					{{ index + 1 }}
+				</Button>
+			</li>
+			<li v-if="currentPage !== totalPages">
+				<Button
+					type="primary"
+					class="py-3"
+					@click="onClickPage(currentPage + 1)"
+				>
+					<FontAwesomeIcon icon="fa-solid fa-chevron-right" />
 				</Button>
 			</li>
 		</ul>
@@ -45,12 +63,12 @@
 	const router = useRouter()
 	const route = useRoute()
 
-	const perPage = 12
+	const perPage = 20
 	const totalCount = ref<string | null>(null)
 	const totalPages = ref(1)
 	const currentPage = ref(+route.params.page || 1)
 
-	const { data: blogs } = await useFetch<any>(`/blog`, {
+	const { data: blogs, refresh } = await useFetch<any>(`/blog`, {
 		key: `blog-${Date.now()}`,
 		baseURL: apiBase,
 		params: {
@@ -85,4 +103,19 @@
 			currentPage.value === index ? 'secondary' : 'primary'
 		return type
 	}
+
+	const getSourceUrl = (blog: any) => {
+		const sourceUrl: string | undefined = blog._embedded
+			? blog._embedded['wp:featuredmedia'][0]?.source_url
+			: ''
+		return sourceUrl
+	}
+
+	watch(
+		() => currentPage.value,
+		async () => {
+			window.scrollTo(0, 0)
+			await refresh()
+		}
+	)
 </script>

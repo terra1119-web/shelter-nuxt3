@@ -64,10 +64,9 @@
 						:class="[
 							'block',
 							'h-full',
-							'py-6',
+							'py-4',
 							'pl-6',
 							'pr-14',
-							'md:py-4',
 							'md:pl-4',
 							'md:pr-4',
 							'relative',
@@ -432,11 +431,3 @@
 		}
 	)
 </script>
-
-<style scoped>
-	img {
-		width: 50%;
-		aspect-ratio: 16 / 9;
-		object-fit: cover;
-	}
-</style>
