@@ -111,7 +111,6 @@
 </template>
 
 <script setup lang="ts">
-	import { useDateString } from '@/composables/useDateString'
 	const router = useRouter()
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase

@@ -1,5 +1,5 @@
 <template>
-	<div v-for="(schedule, index) in schedules" :key="index">
+	<div v-for="(schedule, index) in schedules" :key="index" class="pb-8">
 		<div v-if="schedule._embedded['wp:featuredmedia']">
 			<img
 				:src="schedule._embedded['wp:featuredmedia'][0].source_url"

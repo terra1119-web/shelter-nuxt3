@@ -134,7 +134,6 @@
 
 <script setup lang="ts">
 	import dayjs from 'dayjs'
-	import { useDateString } from '@/composables/useDateString'
 
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
