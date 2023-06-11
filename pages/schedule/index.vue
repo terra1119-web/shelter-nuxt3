@@ -195,7 +195,7 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			onRequest(ctx) {
+			onRequest(ctx: any) {
 				ctx.options.params = {
 					_embed: true,
 					after: `${year.value}-${dayjs(
@@ -230,7 +230,7 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			onRequest(ctx) {
+			onRequest(ctx: any) {
 				ctx.options.params = {
 					after: `${previousMonthDays.value.year()}-${dayjs(
 						new Date(
@@ -269,7 +269,7 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			onRequest(ctx) {
+			onRequest(ctx: any) {
 				ctx.options.params = {
 					after: `${nextMonthDays.value.year()}-${dayjs(
 						new Date(

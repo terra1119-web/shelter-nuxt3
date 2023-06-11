@@ -37,5 +37,3 @@
 
 	const fadeSecondTime = 8
 </script>
-
-<style scoped></style>

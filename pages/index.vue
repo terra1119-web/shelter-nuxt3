@@ -133,7 +133,7 @@
 	])
 
 	const slides: any = ref([])
-	const topImageFields = schedules.value.acf.top_image_field
+	const topImageFields = schedules.value?.acf.top_image_field
 	topImageFields.forEach((field: any) => {
 		slides.value.push({
 			url: `/schedule/${useDateString({
@@ -149,7 +149,7 @@
 		})
 	})
 
-	const topStoreItems = schedules.value.acf.store_item
+	const topStoreItems = schedules.value?.acf.store_item
 
 	const onScheduleClick = () => {
 		router.push('/schedule/')
@@ -168,5 +168,3 @@
 		router.push('/information/')
 	}
 </script>
-
-<style scoped></style>

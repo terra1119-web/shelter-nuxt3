@@ -57,7 +57,6 @@
 </template>
 
 <script setup lang="ts">
-	import { useDateString } from '@/composables/useDateString'
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 	const router = useRouter()
@@ -77,7 +76,7 @@
 			per_page: perPage,
 			page: currentPage,
 		},
-		onResponse({ response }) {
+		onResponse({ response }: { response: any }) {
 			totalCount.value = response.headers.get('x-wp-total')
 			totalPages.value = totalCount.value
 				? Math.ceil(+totalCount.value / perPage)
