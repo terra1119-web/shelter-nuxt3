@@ -39,10 +39,6 @@
 					</NuxtLink>
 				</li>
 				<li class="mt-4">
-					<!-- <a href="https://www.at-shelter.com/"
-						><i class="fa fa-home fa-li"></i
-						>https://www.at-shelter.com/</a
-					> -->
 					<NuxtLink
 						to="https://www.at-shelter.com/"
 						target="_blank"
@@ -138,7 +134,8 @@
 	})
 
 	const slides: any = ref([])
-	const informationImageFields = information.value.acf.information_image_field
+	const informationImageFields: any =
+		information.value?.acf.information_image_field
 	informationImageFields.forEach((field: any) => {
 		slides.value.push({
 			imagePath: field.information_image,

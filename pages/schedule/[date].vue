@@ -110,9 +110,8 @@
 </template>
 
 <script setup lang="ts">
-	import { useDateString } from '@/composables/useDateString'
 	const router = useRouter()
-	const schedules = await useSinglePost()
+	const schedules: any = await useSinglePost()
 
 	const partyProfileField: any[] = schedules.value[0].acf.party_profile_field
 	const mediaData: any = partyProfileField

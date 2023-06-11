@@ -38,6 +38,5 @@
 </template>
 
 <script setup lang="ts">
-	import { useDateString } from '@/composables/useDateString'
-	const blogs = await useSinglePost({ postType: 'blog' })
+	const blogs: any = await useSinglePost({ postType: 'blog' })
 </script>
