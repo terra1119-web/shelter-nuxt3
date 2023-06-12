@@ -106,9 +106,9 @@
 					>
 						{{
 							useDateString({
-								date: (
-									previousMonthDays.month() + 1
-								).toString(),
+								date:
+									previousMonthDays.year().toString() +
+									(previousMonthDays.month() + 1).toString(),
 								format: 'MMMM',
 							})
 						}}
@@ -121,7 +121,9 @@
 					>
 						{{
 							useDateString({
-								date: (nextMonthDays.month() + 1).toString(),
+								date:
+									nextMonthDays.year().toString() +
+									(nextMonthDays.month() + 1).toString(),
 								format: 'MMMM',
 							})
 						}}
