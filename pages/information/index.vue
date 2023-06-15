@@ -1,16 +1,16 @@
 <template>
 	<div class="md:fixed md:z-0 md:top-0 md:left-0 md:right-0 md:bottom-0">
-		<SlideShow :slides="slides" />
+		<SlideShow :slides="slides" size="pt-[61.875%]" />
 	</div>
 
 	<div
 		class="relative z-1 bg-background md:text-lg md:mt-[100vh] md:py-10 md:px-[calc((100%-960px)/2)]"
 	>
 		<header class="mt-6 md:mt-0 mb-6">
-			<TheTitle tag-name="h1">INFORMATION</TheTitle>
+			<TheTitle tag-name="h1" type="primary">INFORMATION</TheTitle>
 		</header>
 
-		<article class="px-6 pb-8">
+		<article class="px-6 md:px-0 pb-8 md:pb-10">
 			<p>
 				SHeLTeRは東京の西端、八王子で四半世紀に渡り営業している、純度の高い音質と美味しいお酒を提供しているDJバーです。<br />
 				ディスコ、クラブ、サロン、スタジオ、ラボ、など、様々な名称や既存のイメージに捕らわれない、常に革新的かつ居心地の良い自由な空間を目指しています。
@@ -93,8 +93,8 @@
 				</li>
 			</ul>
 
-			<header class="mt-8">
-				<TheTitle tag-name="h2">ACCESS</TheTitle>
+			<header class="mt-8 md:mt-10">
+				<TheTitle tag-name="h2" type="primary">ACCESS</TheTitle>
 			</header>
 
 			<p class="mt-6">

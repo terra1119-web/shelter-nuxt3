@@ -1,10 +1,10 @@
 <template>
 	<section>
 		<header class="mt-6 mb-6">
-			<TheTitle tag-name="h2">FEATURED</TheTitle>
+			<TheTitle tag-name="h2" type="primary">FEATURED</TheTitle>
 		</header>
 
-		<SlideShow :slides="slides" />
+		<SlideShow :slides="slides" size="pt-[61.875%] md:pt-[480px]" />
 
 		<div class="mt-6 flex justify-center">
 			<Button
@@ -17,8 +17,8 @@
 	</section>
 
 	<section>
-		<header class="mt-8">
-			<TheTitle tag-name="h2">STORE</TheTitle>
+		<header class="mt-8 md:mt-10">
+			<TheTitle tag-name="h2" type="primary">STORE</TheTitle>
 		</header>
 
 		<ul>
@@ -32,6 +32,7 @@
 					:image="item.store_item_img"
 					:title="item.store_item_name"
 					:target="`_blank`"
+					size="pt-[61.875%] md:pt-[480px]"
 				/>
 			</li>
 		</ul>
@@ -47,12 +48,16 @@
 	</section>
 
 	<section>
-		<header class="mt-8">
-			<TheTitle tag-name="h2">BLOG</TheTitle>
+		<header class="mt-8 md:mt-10">
+			<TheTitle tag-name="h2" type="primary">BLOG</TheTitle>
 		</header>
 
-		<ul>
-			<li v-for="(blog, index) in blogs" :key="index" class="mt-6">
+		<ul class="md:grid gap-6 grid-cols-3">
+			<li
+				v-for="(blog, index) in blogs"
+				:key="index"
+				class="mt-6 relative"
+			>
 				<Card
 					:url="`/blog/${useDateString({
 						date: blog.date,
@@ -66,6 +71,7 @@
 							format: 'YYYY/MM/DD',
 						})
 					"
+					size="pt-[61.875%] md:pt-[320px]"
 				/>
 			</li>
 		</ul>
@@ -77,27 +83,31 @@
 		</div>
 	</section>
 
-	<section class="pb-8">
-		<header class="mt-8">
-			<TheTitle tag-name="h2">INFORMATION</TheTitle>
+	<section class="pb-8 md:pb-10">
+		<header class="mt-8 md:mt-10">
+			<TheTitle tag-name="h2" type="primary">INFORMATION</TheTitle>
 		</header>
 
-		<figure class="mt-6">
-			<img src="/images/top_image.jpg" alt="Image shot at SHeLTeR" />
-		</figure>
+		<div class="md:grid gap-6 grid-cols-2">
+			<figure class="mt-6">
+				<img src="/images/top_image.jpg" alt="Image shot at SHeLTeR" />
+			</figure>
 
-		<p class="mt-6 px-6">
-			SHeLTeRは東京の西端、八王子で四半世紀に渡り営業している、純度の高い音質と美味しいお酒を提供しているDJバーです。<br />
-			ディスコ、クラブ、サロン、スタジオ、ラボ、など、様々な名称や既存のイメージに捕らわれない、常に革新的かつ居心地の良い自由な空間を目指しています。
-		</p>
-		<p class="mt-6 px-6">
-			SHeLTeR is a DJ bar, located in Hachiouji-Tokyo. We are highly
-			focused on providing both quality of music and tasty alcohol to our
-			customer since 1989.<br />
-			Our aim is to create a space where is innovative, cozy and
-			openminded without captured by any existing name nor image such as
-			disco, club, salon, studio, lab, etc&#8230;
-		</p>
+			<div>
+				<p class="mt-6 px-6">
+					SHeLTeRは東京の西端、八王子で四半世紀に渡り営業している、純度の高い音質と美味しいお酒を提供しているDJバーです。<br />
+					ディスコ、クラブ、サロン、スタジオ、ラボ、など、様々な名称や既存のイメージに捕らわれない、常に革新的かつ居心地の良い自由な空間を目指しています。
+				</p>
+				<p class="mt-6 px-6">
+					SHeLTeR is a DJ bar, located in Hachiouji-Tokyo. We are
+					highly focused on providing both quality of music and tasty
+					alcohol to our customer since 1989.<br />
+					Our aim is to create a space where is innovative, cozy and
+					openminded without captured by any existing name nor image
+					such as disco, club, salon, studio, lab, etc&#8230;
+				</p>
+			</div>
+		</div>
 
 		<div class="mt-6 flex justify-center">
 			<Button

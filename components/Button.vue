@@ -7,11 +7,19 @@
 			'px-4',
 			'py-2',
 			'border',
+			'transition-all',
+			'duration-300',
+			'ease-out',
 			type === 'primary'
-				? ['border-border-primary']
+				? [
+						'border-border-primary',
+						'hover:border-border-accent',
+						'hover:text-text-accent',
+				  ]
 				: type === 'secondary'
 				? ['bg-white', 'cursor-default', 'text-text-secondary']
 				: '',
+			disabled ? ['opacity-50', 'pointer-events-none'] : '',
 		]"
 		@click="onClick"
 	>
@@ -26,6 +34,7 @@
 		iconLeft?: string
 		iconRight?: string
 		type?: string
+		disabled: boolean
 	}
 
 	type Emits = {
@@ -36,6 +45,7 @@
 		iconLeft: undefined,
 		iconRight: undefined,
 		type: 'primary',
+		disabled: false,
 	})
 
 	const emit = defineEmits<Emits>()
