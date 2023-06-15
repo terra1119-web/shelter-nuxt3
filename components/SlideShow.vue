@@ -1,5 +1,5 @@
 <template>
-	<div class="relative h-0 pt-[61.875%]">
+	<div class="relative h-0" :class="size">
 		<div
 			v-for="(slide, i) in slides"
 			:key="slide.date"
@@ -16,6 +16,7 @@
 				:image="slide.imagePath"
 				:title="slide.title"
 				:date="slide.date"
+				:size="size"
 			/>
 		</div>
 	</div>
@@ -27,10 +28,12 @@
 		imagePath: string
 		title: string
 		date: string
+		size: string
 	}
 
 	type Props = {
 		slides: Slide[]
+		size: string
 	}
 
 	defineProps<Props>()

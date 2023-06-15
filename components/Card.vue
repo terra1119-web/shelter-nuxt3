@@ -1,6 +1,7 @@
 <template>
 	<div
-		class="relative w-full h-0 pt-[61.875%] overflow-hidden bg-no-repeat bg-center bg-cover"
+		class="relative w-full h-0 overflow-hidden bg-no-repeat bg-center bg-cover"
+		:class="size"
 		:style="{
 			backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 100%), url(${
 				image || '/images/noimage.gif'
@@ -33,6 +34,7 @@
 		title: string
 		date?: string
 		target?: string
+		size: string
 	}
 
 	defineProps<Props>()

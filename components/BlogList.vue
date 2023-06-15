@@ -1,11 +1,15 @@
 <template>
-	<section>
+	<section class="md:max-w-5xl md:mx-auto">
 		<header class="mt-6 mb-6">
-			<TheTitle tag-name="h1">BLOG</TheTitle>
+			<TheTitle tag-name="h1" type="primary">BLOG</TheTitle>
 		</header>
 
-		<ul>
-			<li v-for="(blog, index) in blogs" :key="index" class="mt-6">
+		<ul class="md:grid gap-6 grid-cols-3">
+			<li
+				v-for="(blog, index) in blogs"
+				:key="index"
+				class="mt-6 md:mt-0"
+			>
 				<Card
 					:url="`/blog/${useDateString({
 						date: blog.date,
@@ -19,12 +23,13 @@
 							format: 'YYYY/MM/DD',
 						})
 					"
+					size="pt-[61.875%] md:pt-[320px]"
 				/>
 			</li>
 		</ul>
 	</section>
 
-	<nav class="pb-8">
+	<nav class="pb-8 md:pb-10">
 		<ul class="flex flex-wrap mt-6 gap-4 justify-center">
 			<li v-if="currentPage !== 1">
 				<Button
@@ -62,7 +67,7 @@
 	const router = useRouter()
 	const route = useRoute()
 
-	const perPage = 20
+	const perPage = 21
 	const totalCount = ref<string | null>(null)
 	const totalPages = ref(1)
 	const currentPage = ref(+route.params.page || 1)
