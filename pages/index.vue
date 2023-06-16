@@ -90,7 +90,11 @@
 
 		<div class="md:grid gap-6 grid-cols-2">
 			<figure class="mt-6">
-				<img src="/images/top_image.jpg" alt="Image shot at SHeLTeR" />
+				<img
+					src="/images/top_image.jpg"
+					alt="Image shot at SHeLTeR"
+					class="w-full"
+				/>
 			</figure>
 
 			<div>
@@ -106,16 +110,15 @@
 					openminded without captured by any existing name nor image
 					such as disco, club, salon, studio, lab, etc&#8230;
 				</p>
+				<div class="mt-6 flex justify-center">
+					<Button
+						icon-right="fa-solid fa-chevron-right"
+						@click="onInformationClick"
+					>
+						VIEW MORE INFORMATION
+					</Button>
+				</div>
 			</div>
-		</div>
-
-		<div class="mt-6 flex justify-center">
-			<Button
-				icon-right="fa-solid fa-chevron-right"
-				@click="onInformationClick"
-			>
-				VIEW MORE INFORMATION
-			</Button>
 		</div>
 	</section>
 </template>

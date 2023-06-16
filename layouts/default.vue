@@ -1,4 +1,5 @@
 <template>
+	<Html lang="ja" />
 	<Body
 		:class="[
 			useMenuOpen ? 'overflow-hidden' : '',

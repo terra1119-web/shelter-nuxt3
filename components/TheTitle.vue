@@ -3,6 +3,7 @@
 		:is="tagName"
 		:class="[
 			'text-4xl',
+			'md:text-5xl',
 			'text-center',
 			type === 'primary'
 				? [`font-['Roboto']`, 'font-thin']

@@ -1,20 +1,22 @@
 <template>
 	<div v-for="(schedule, index) in schedules" :key="index">
 		<div
-			class="bg-none bg-no-repeat w-full bg-contain md:blur-xl md:opacity-30 md:absolute md:top-0 md:left-0 md:min-h-full"
+			class="bg-none w-full md:blur-xl md:opacity-30 md:absolute md:top-0 md:left-0 md:min-h-full"
 			:style="[
 				{
-					'background-image':
-						'url(' +
-						`${schedule._embedded['wp:featuredmedia'][0].source_url}` +
-						')',
-				},
-				{
+					'background-image': `url(${
+						schedule._embedded['wp:featuredmedia']
+							? schedule._embedded['wp:featuredmedia'][0]
+									.source_url
+							: ''
+					})`,
 					'background-repeat': 'no-repeat',
+					'background-size': 'contain',
 				},
 			]"
-		></div>
-		<div class="relative pb-8 md:pb-10 max-w-5xl md:mx-auto z-[10]">
+		/>
+
+		<div class="relative pb-8 md:pb-12 max-w-5xl md:mx-auto z-[10]">
 			<figure v-if="schedule._embedded['wp:featuredmedia']">
 				<img
 					:src="schedule._embedded['wp:featuredmedia'][0].source_url"
@@ -26,7 +28,7 @@
 				/>
 			</figure>
 
-			<header class="mt-6 px-6">
+			<header class="mt-6 md:mt-10 px-6">
 				<TheTitle tag-name="h1" type="secondary">
 					<span
 						class="schedule_shadow"
@@ -35,7 +37,7 @@
 				</TheTitle>
 			</header>
 
-			<div class="text-center px-6 text-2xl">
+			<div class="text-center px-6 text-2xl md:text-3xl">
 				<time
 					:datetime="
 						useDateString({
@@ -43,7 +45,7 @@
 							format: 'YYYY/MM/DD ddd',
 						})
 					"
-					class="block mt-6 schedule_shadow"
+					class="block mt-6 md:mt-10 schedule_shadow"
 				>
 					{{
 						useDateString({
@@ -55,34 +57,34 @@
 
 				<p
 					v-if="schedule.acf.party_genre"
-					class="mt-6 schedule_shadow"
+					class="mt-6 md:mt-10 schedule_shadow"
 					v-html="schedule.acf.party_genre"
 				/>
 				<p
 					v-if="schedule.acf.party_open"
-					class="mt-6 schedule_shadow"
+					class="mt-6 md:mt-10 schedule_shadow"
 					v-html="schedule.acf.party_open"
 				/>
 				<p
 					v-if="schedule.acf.party_charge"
-					class="mt-6 schedule_shadow"
+					class="schedule_shadow"
 					v-html="schedule.acf.party_charge"
 				/>
 				<p
 					v-if="schedule.acf.party_guest"
-					class="mt-6 schedule_shadow"
+					class="mt-6 md:mt-10 schedule_shadow"
 					v-html="schedule.acf.party_guest"
 				/>
 				<p
 					v-if="schedule.acf.party_dj"
-					class="mt-6 schedule_shadow"
+					class="mt-6 md:mt-10 schedule_shadow"
 					v-html="schedule.acf.party_dj"
 				/>
 			</div>
 
 			<div
 				v-if="schedule.acf.party_freetxt"
-				class="mt-8 px-4 text-xl schedule_shadow schedule__freetxt"
+				class="mt-8 md:mt-12 px-4 text-xl schedule_shadow schedule__freetxt"
 				v-html="schedule.acf.party_freetxt"
 			/>
 
@@ -90,7 +92,7 @@
 				<li
 					v-for="media in mediaData"
 					:key="media.title"
-					class="mt-8 px-6"
+					class="mt-8 md:mt-12 px-6"
 				>
 					<figure>
 						<img
@@ -109,7 +111,7 @@
 				</li>
 			</ul>
 
-			<ul class="mt-8 px-6 flex justify-between">
+			<ul class="mt-8 md:mt-12 px-6 flex justify-between">
 				<li v-if="schedule.previous">
 					<Button
 						icon-left="fa-solid fa-chevron-left"
@@ -144,6 +146,35 @@
 <script setup lang="ts">
 	const router = useRouter()
 	const schedules: any = await useSinglePost()
+
+	useHead({
+		title: `${
+			schedules.value[0].title.rendered
+		} - Schedule - ${useDateString({
+			date: schedules.value[0].date,
+			format: 'YYYY/MM/DD',
+		})} | SHeLTeR`,
+		meta: [
+			{
+				property: 'og:title',
+				content: `${
+					schedules.value[0].title.rendered
+				} - Schedule - ${useDateString({
+					date: schedules.value[0].date,
+					format: 'YYYY/MM/DD',
+				})} | SHeLTeR`,
+			},
+			{
+				property: 'og:image',
+				content: `${
+					schedules.value[0]._embedded['wp:featuredmedia']
+						? schedules.value[0]._embedded['wp:featuredmedia'][0]
+								.source_url
+						: '/images/noimage.gif'
+				}`,
+			},
+		],
+	})
 
 	const partyProfileField: any[] = schedules.value[0].acf.party_profile_field
 	const mediaData: any = partyProfileField
