@@ -72,6 +72,10 @@
 	const totalPages = ref(1)
 	const currentPage = ref(+route.params.page || 1)
 
+	useHead({
+		title: `BLOG | SHeLTeR`,
+	})
+
 	const { data: blogs, refresh } = await useFetch<any>(`/blog`, {
 		key: `blog-${Date.now()}`,
 		baseURL: apiBase,

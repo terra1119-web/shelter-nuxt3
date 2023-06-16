@@ -43,4 +43,31 @@
 
 <script setup lang="ts">
 	const blogs: any = await useSinglePost({ postType: 'blog' })
+
+	useHead({
+		title: `${blogs.value[0].title.rendered} - Blog - ${useDateString({
+			date: blogs.value[0].date,
+			format: 'YYYY/MM/DD',
+		})} | SHeLTeR`,
+		meta: [
+			{
+				property: 'og:title',
+				content: `${
+					blogs.value[0].title.rendered
+				} - Schedule - ${useDateString({
+					date: blogs.value[0].date,
+					format: 'YYYY/MM/DD',
+				})} | SHeLTeR`,
+			},
+			{
+				property: 'og:image',
+				content: `${
+					blogs.value[0]._embedded['wp:featuredmedia']
+						? blogs.value[0]._embedded['wp:featuredmedia'][0]
+								.source_url
+						: '/images/noimage.gif'
+				}`,
+			},
+		],
+	})
 </script>

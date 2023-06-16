@@ -166,6 +166,10 @@
 		dayjs(new Date(year.value, month.value)).endOf('month').date()
 	)
 
+	useHead({
+		title: `SCHEDULE | SHeLTeR`,
+	})
+
 	const previousMonthDays = ref(
 		dayjs(new Date(year.value, month.value)).subtract(1, 'month')
 	)
