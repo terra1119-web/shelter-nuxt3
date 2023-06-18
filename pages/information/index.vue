@@ -126,15 +126,15 @@
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 
-	useHead({
-		title: `INFORMATION | SHeLTeR`,
-	})
-
 	const { data: information } = await useFetch<any>(`/pages/4`, {
 		baseURL: apiBase,
 		params: {
 			_embed: true,
 		},
+	})
+
+	useHead({
+		title: `INFORMATION | SHeLTeR`,
 	})
 
 	const slides: any = ref([])
