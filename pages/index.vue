@@ -6,7 +6,7 @@
 
 		<SlideShow :slides="slides" size="pt-[61.875%] md:pt-[480px]" />
 
-		<div class="mt-6 flex justify-center">
+		<div class="mt-6 md:mt-8 flex justify-center">
 			<Button
 				icon-right="fa-solid fa-chevron-right"
 				@click="onScheduleClick"
@@ -25,7 +25,7 @@
 			<li
 				v-for="(item, index) in topStoreItems"
 				:key="index"
-				class="mt-6 flex"
+				class="mt-6 md:mt-8 flex"
 			>
 				<Card
 					:url="item.store_item_url"
@@ -37,7 +37,7 @@
 			</li>
 		</ul>
 
-		<div class="mt-6 flex justify-center">
+		<div class="mt-6 md:mt-8 flex justify-center">
 			<Button
 				icon-right="fa-solid fa-chevron-right"
 				@click="onStoreClick"
@@ -56,7 +56,7 @@
 			<li
 				v-for="(blog, index) in blogs"
 				:key="index"
-				class="mt-6 relative"
+				class="mt-6 md:mt-8 relative"
 			>
 				<Card
 					:url="`/blog/${useDateString({
@@ -76,7 +76,7 @@
 			</li>
 		</ul>
 
-		<div class="mt-6 flex justify-center">
+		<div class="mt-6 md:mt-8 flex justify-center">
 			<Button icon-right="fa-solid fa-chevron-right" @click="onBlogClick">
 				VIEW MORE BLOG
 			</Button>
@@ -89,7 +89,7 @@
 		</header>
 
 		<div class="md:grid gap-6 grid-cols-2">
-			<figure class="mt-6">
+			<figure class="mt-6 md:mt-8">
 				<img
 					src="/images/top_image.jpg"
 					alt="Image shot at SHeLTeR"
@@ -98,11 +98,11 @@
 			</figure>
 
 			<div>
-				<p class="mt-6 px-6">
+				<p class="mt-6 md:mt-8 px-6">
 					SHeLTeRは東京の西端、八王子で四半世紀に渡り営業している、純度の高い音質と美味しいお酒を提供しているDJバーです。<br />
 					ディスコ、クラブ、サロン、スタジオ、ラボ、など、様々な名称や既存のイメージに捕らわれない、常に革新的かつ居心地の良い自由な空間を目指しています。
 				</p>
-				<p class="mt-6 px-6">
+				<p class="mt-6 md:mt-8 px-6">
 					SHeLTeR is a DJ bar, located in Hachiouji-Tokyo. We are
 					highly focused on providing both quality of music and tasty
 					alcohol to our customer since 1989.<br />
@@ -110,7 +110,7 @@
 					openminded without captured by any existing name nor image
 					such as disco, club, salon, studio, lab, etc&#8230;
 				</p>
-				<div class="mt-6 flex justify-center">
+				<div class="mt-6 md:mt-8 flex justify-center">
 					<Button
 						icon-right="fa-solid fa-chevron-right"
 						@click="onInformationClick"

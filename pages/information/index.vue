@@ -6,7 +6,7 @@
 	<div
 		class="relative z-1 bg-background md:text-lg md:mt-[100vh] md:py-10 md:px-[calc((100%-960px)/2)]"
 	>
-		<header class="mt-6 md:mt-0 mb-6">
+		<header class="mt-6 md:mt-0 mb-6 md:mb-8">
 			<TheTitle tag-name="h1" type="primary">INFORMATION</TheTitle>
 		</header>
 
@@ -15,7 +15,7 @@
 				SHeLTeRは東京の西端、八王子で四半世紀に渡り営業している、純度の高い音質と美味しいお酒を提供しているDJバーです。<br />
 				ディスコ、クラブ、サロン、スタジオ、ラボ、など、様々な名称や既存のイメージに捕らわれない、常に革新的かつ居心地の良い自由な空間を目指しています。
 			</p>
-			<p class="mt-6">
+			<p class="mt-6 md:mt-8">
 				SHeLTeR is a DJ bar, located in Hachiouji-Tokyo. We are highly
 				focused on providing both quality of music and tasty alcohol to
 				our customer since 1989.<br />
@@ -23,13 +23,13 @@
 				openminded without captured by any existing name nor image such
 				as disco, club, salon, studio, lab, etc&#8230;
 			</p>
-			<p class="mt-6">
+			<p class="mt-6 md:mt-8">
 				東京都八王子市八日町1-1 NKビルB1F<br />
 				B1F NK bldg. 1-1 Yokamachi Hachioji Tokyo<br />
 				#192-0071
 			</p>
 			<ul>
-				<li class="mt-6">
+				<li class="mt-6 md:mt-8">
 					<NuxtLink to="tel:0426253213" class="flex items-center">
 						<FontAwesomeIcon
 							icon="fa-solid fa-phone"
@@ -97,11 +97,11 @@
 				<TheTitle tag-name="h2" type="primary">ACCESS</TheTitle>
 			</header>
 
-			<p class="mt-6">
+			<p class="mt-6 md:mt-8">
 				【JR八王子駅から】<br />
 				北口階段を降り、すぐ左手に沿っていき（富士そばを通過し）横断歩道へ。アーケードが目印の放射線通りをしばらく直進（ドン・キホーテを右手にさらに直進）。右手にローソンストア100がある信号をななめ左へ。一個目の信号（国道16号線）を渡ってホルモン屋の隣ビルのB1です。
 			</p>
-			<p class="mt-6">
+			<p class="mt-6 md:mt-8">
 				【京王八王子駅から】<br />
 				京王八王子駅中央口を出て、ロータリーの右奥方向にある交差点へ進み、左手にタクシー会社がある角を左折。左折してすぐ左側にファミリーマート、右側に公園があることを確認して、国道16号線までそのままひたすら直進。国道16号線を渡ってすぐ右手のビルのB1です。
 			</p>
