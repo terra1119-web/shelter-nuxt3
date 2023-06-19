@@ -75,8 +75,8 @@
 	})
 </script>
 
-<style scoped>
-	.blog__wrapper > p {
+<style>
+	.blog__wrapper p {
 		@apply mt-6 md:mt-8;
 	}
 </style>
