@@ -151,28 +151,9 @@
 </template>
 
 <script setup lang="ts">
-	import dayjs from 'dayjs'
 	const router = useRouter()
 	const route = useRoute()
-	// const schedules: any = await useSinglePost()
-
-	const config = useRuntimeConfig()
-	const apiBase = config.public.apiBase
-	const paramsDateString: string = route.params.date as string
-	const year: number = dayjs(paramsDateString).year()
-	const month: number = dayjs(paramsDateString).month() + 1
-	const date: number = dayjs(paramsDateString).date()
-	const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
-
-	const { data: schedules } = await useFetch<any>(`/posts`, {
-		baseURL: apiBase,
-		params: {
-			_embed: true,
-			order: 'asc',
-			per_page: 1,
-			after: dateString,
-		},
-	})
+	const schedules: any = await useSinglePost()
 
 	useHead({
 		title: `${schedules.value[0].title.rendered} - ${useDateString({
