@@ -15,7 +15,7 @@ export default defineNuxtConfig({
 	modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
 	googleFonts: {
 		families: {
-			'Roboto Condensed': {
+			'Roboto+Condensed': {
 				wght: [100, 300, 400],
 			},
 			Roboto: {
