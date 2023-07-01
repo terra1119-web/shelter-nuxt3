@@ -151,30 +151,47 @@
 </template>
 
 <script setup lang="ts">
+	import dayjs from 'dayjs'
 	const router = useRouter()
 	const route = useRoute()
-	const schedules: any = await useSinglePost()
+	const config = useRuntimeConfig()
+	const apiBase = config.public.apiBase
+	const paramsDateString: string = route.params.date as string
+	const year: number = dayjs(paramsDateString).year()
+	const month: number = dayjs(paramsDateString).month() + 1
+	const date: number = dayjs(paramsDateString).date()
+	const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
+
+	const { data: schedules } = await useFetch<any>(`/posts`, {
+		baseURL: apiBase,
+		params: {
+			_embed: true,
+			order: 'asc',
+			per_page: 1,
+			after: dateString,
+		},
+	})
 
 	useHead({
-		title: `${schedules.value[0].title.rendered} - ${useDateString({
-			date: schedules.value[0].date,
+		title: `${schedules.value[0]?.title.rendered} - ${useDateString({
+			date: schedules.value[0]?.date,
 			format: 'YYYY/MM/DD',
 		})} | SHeLTeR`,
 		meta: [
 			{
 				property: 'og:title',
 				content: `${
-					schedules.value[0].title.rendered
+					schedules.value[0]?.title.rendered
 				} - ${useDateString({
-					date: schedules.value[0].date,
+					date: schedules.value[0]?.date,
 					format: 'YYYY/MM/DD',
 				})} | SHeLTeR`,
 			},
 			{
 				property: 'og:image',
 				content: `${
-					schedules.value[0]._embedded['wp:featuredmedia']
-						? schedules.value[0]._embedded['wp:featuredmedia'][0]
+					schedules.value[0]?._embedded['wp:featuredmedia']
+						? schedules.value[0]?._embedded['wp:featuredmedia'][0]
 								.source_url
 						: '/images/noimage.gif'
 				}`,
@@ -186,7 +203,7 @@
 		],
 	})
 
-	const partyProfileField: any[] = schedules.value[0].acf.party_profile_field
+	const partyProfileField: any[] = schedules.value[0]?.acf.party_profile_field
 	const mediaData: any = partyProfileField
 		? await Promise.all(
 				partyProfileField.map(async (profile: any) => {
