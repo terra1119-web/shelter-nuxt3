@@ -131,14 +131,12 @@
 	const [{ data: schedules }, { data: blogs }] = await Promise.all([
 		useFetch<any>(`/pages/2`, {
 			baseURL: apiBase,
-			key: `/pages/2-${Date.now()}`,
 			params: {
 				_embed: true,
 			},
 		}),
 		useFetch<any>(`/blog`, {
 			baseURL: apiBase,
-			key: `/blog/index-${Date.now()}`,
 			params: {
 				_embed: true,
 				per_page: 3,
