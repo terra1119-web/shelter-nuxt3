@@ -4,6 +4,7 @@ export const useMedia = async (id: string) => {
 
 	const { data } = await useFetch<any>(`/media/${id}`, {
 		baseURL: apiBase,
+		key: `${apiBase}/media/${id}`,
 	})
 
 	return data
