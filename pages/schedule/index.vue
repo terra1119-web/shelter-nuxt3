@@ -206,7 +206,6 @@
 	] = await Promise.all([
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
-			key: `/posts-${Date.now()}`,
 			params: {
 				_embed: true,
 				after: `${year.value}-${dayjs(
@@ -238,7 +237,6 @@
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
-			key: `/posts-previous-${Date.now()}`,
 			params: {
 				after: `${previousMonthDays.value.year()}-${dayjs(
 					new Date(
@@ -278,7 +276,6 @@
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
-			key: `/posts-next-${Date.now()}`,
 			params: {
 				after: `${nextMonthDays.value.year()}-${dayjs(
 					new Date(
