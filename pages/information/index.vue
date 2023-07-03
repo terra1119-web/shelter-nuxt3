@@ -128,6 +128,7 @@
 
 	const { data: information } = await useFetch<any>(`/pages/4`, {
 		baseURL: apiBase,
+		key: `/pages/4-${Date.now()}`,
 		params: {
 			_embed: true,
 		},

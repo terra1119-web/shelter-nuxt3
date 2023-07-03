@@ -84,6 +84,7 @@
 			status: 'publish',
 			per_page: perPage,
 			page: currentPage,
+			initialCache: false,
 		},
 		onResponse({ response }: { response: any }) {
 			totalCount.value = response.headers.get('x-wp-total')
