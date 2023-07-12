@@ -12,7 +12,7 @@ export const useSinglePost = async (
 	const date: number = dayjs(paramsDateString).date()
 	const dateString: string = dayjs(`${year}/${month}/${date}`).toISOString()
 
-	const { data, refresh } = await useFetch<any>(`/${postType}`, {
+	const { data } = await useFetch<any>(`/${postType}`, {
 		baseURL: apiBase,
 		key: `${apiBase}/${postType}/${dateString}`,
 		params: {
@@ -23,8 +23,8 @@ export const useSinglePost = async (
 		},
 	})
 
-	watchEffect(() => {
-		refresh()
-	})
+	// watchEffect(() => {
+	// 	refresh()
+	// })
 	return data
 }

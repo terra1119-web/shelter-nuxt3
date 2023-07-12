@@ -29,12 +29,12 @@
 
 <script setup lang="ts">
 	type Props = {
-		url: string
+		url?: string
 		image?: string | boolean
-		title: string
+		title?: string
 		date?: string
 		target?: string
-		size: string
+		size?: string
 	}
 
 	defineProps<Props>()
