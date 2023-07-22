@@ -24,7 +24,7 @@ export const useSinglePost = async (
 	})
 
 	watchEffect(() => {
-		if (!data.value) refresh()
+		refresh()
 	})
 
 	return data

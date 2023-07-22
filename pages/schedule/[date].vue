@@ -216,7 +216,7 @@
 			`/schedule/${useDateString({
 				date,
 				format: 'YYYYMMDD',
-			})}`
+			})}/`
 		)
 	}
 </script>

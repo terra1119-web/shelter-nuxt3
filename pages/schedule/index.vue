@@ -63,7 +63,7 @@
 						]"
 					>
 						<NuxtLink
-							:to="`/schedule/${day.dateUrl}`"
+							:to="`/schedule/${day.dateUrl}/`"
 							:class="[
 								'block',
 								'h-full',
