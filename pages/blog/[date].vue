@@ -43,10 +43,7 @@
 
 <script setup lang="ts">
 	const route = useRoute()
-	// const blogs: any = await useSinglePost({ postType: 'blog' })
-	const { data: blogs, refresh } = await useSinglePost({
-		postType: 'blog',
-	})
+	const blogs = await useSinglePost({ postType: 'blog' })
 
 	// if (blogs.value.length === 0) refresh()
 

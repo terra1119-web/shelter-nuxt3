@@ -153,7 +153,7 @@
 <script setup lang="ts">
 	const router = useRouter()
 	const route = useRoute()
-	const { data: schedules, refresh } = await useSinglePost()
+	const schedules = await useSinglePost()
 
 	// if (schedules.value.length === 0) refresh()
 
