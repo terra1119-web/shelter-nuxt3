@@ -34,7 +34,7 @@
 		iconLeft?: string
 		iconRight?: string
 		type?: string
-		disabled: boolean
+		disabled?: boolean
 	}
 
 	type Emits = {

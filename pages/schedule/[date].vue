@@ -153,7 +153,9 @@
 <script setup lang="ts">
 	const router = useRouter()
 	const route = useRoute()
-	const schedules: any = await useSinglePost()
+	const schedules = await useSinglePost()
+
+	// if (schedules.value.length === 0) refresh()
 
 	useHead({
 		title: `${schedules.value[0].title.rendered} - ${useDateString({
