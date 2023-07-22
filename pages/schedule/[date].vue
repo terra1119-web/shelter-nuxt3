@@ -155,7 +155,7 @@
 	const route = useRoute()
 	const { data: schedules, refresh } = await useSinglePost()
 
-	if (schedules.value.length === 0) refresh()
+	// if (schedules.value.length === 0) refresh()
 
 	useHead({
 		title: `${schedules.value[0].title.rendered} - ${useDateString({
