@@ -45,8 +45,6 @@
 	const route = useRoute()
 	const blogs = await useSinglePost({ postType: 'blog' })
 
-	// if (blogs.value.length === 0) refresh()
-
 	useHead({
 		title: `${blogs.value[0].title.rendered} - ${useDateString({
 			date: blogs.value[0].date,
