@@ -3,7 +3,7 @@
   "scripts": {
     "build": "nuxi build",
     "dev": "nuxi dev",
-    "generate": "nuxt generate",
+    "generate": "nuxi generate",
     "preview": "nuxi preview",
     "style-dictionary:build": "npx style-dictionary build -c ./style-dictionary-config.json",
     "token-transformer": "npx token-transformer ./tokens.json ./tokens/SHeLTeR-alias.json global,SHeLTeR-alias"
