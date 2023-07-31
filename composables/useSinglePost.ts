@@ -19,7 +19,6 @@ export const useSinglePost = async (
 
 	const { data } = await useFetch<any>(`/${postType}`, {
 		baseURL: apiBase,
-		key: `${apiBase}/${postType}/${beforeDateString}`,
 		params: {
 			_embed: true,
 			orderby: 'date',
