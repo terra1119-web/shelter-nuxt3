@@ -141,9 +141,12 @@
 	const slides: any = ref([])
 	const informationImageFields: any =
 		information.value?.acf.information_image_field
-	informationImageFields.forEach((field: any) => {
-		slides.value.push({
-			imagePath: field.information_image,
+
+	if (informationImageFields.length) {
+		informationImageFields.forEach((field: any) => {
+			slides.value.push({
+				imagePath: field.information_image,
+			})
 		})
-	})
+	}
 </script>
