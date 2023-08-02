@@ -40,7 +40,7 @@
 				</TheTitle>
 			</header>
 
-			<div class="text-center px-6">
+			<div class="text-center px-6 break-all">
 				<time
 					:datetime="
 						useDateString({
