@@ -128,7 +128,6 @@
 
 	const { data: information } = await useFetch<any>(`/pages/4`, {
 		baseURL: apiBase,
-		key: `/pages/4-${Date.now()}`,
 		params: {
 			_embed: true,
 		},
@@ -140,10 +139,13 @@
 
 	const slides: any = ref([])
 	const informationImageFields: any =
-		information.value?.acf.information_image_field
-	informationImageFields.forEach((field: any) => {
-		slides.value.push({
-			imagePath: field.information_image,
+		information.value.acf.information_image_field
+
+	if (informationImageFields) {
+		informationImageFields.forEach((field: any) => {
+			slides.value.push({
+				imagePath: field.information_image,
+			})
 		})
-	})
+	}
 </script>
