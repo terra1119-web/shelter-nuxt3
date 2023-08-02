@@ -142,7 +142,7 @@
 	const informationImageFields: any =
 		information.value?.acf.information_image_field
 
-	if (informationImageFields.length) {
+	if (informationImageFields) {
 		informationImageFields.forEach((field: any) => {
 			slides.value.push({
 				imagePath: field.information_image,
