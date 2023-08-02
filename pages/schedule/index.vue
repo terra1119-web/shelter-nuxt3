@@ -421,24 +421,24 @@
 
 	const calendars = ref(getCalendar())
 
-	watch(
-		() => month.value,
-		async () => {
-			window.scrollTo(0, 0)
-			await refresh()
-			calendars.value = getCalendar()
-			await refreshPreviousData()
-			await refreshNextData()
-		}
-	)
+	// watch(
+	// 	() => month.value,
+	// 	async () => {
+	// 		window.scrollTo(0, 0)
+	// 		await refresh()
+	// 		calendars.value = getCalendar()
+	// 		await refreshPreviousData()
+	// 		await refreshNextData()
+	// 	}
+	// )
 
-	watch(
-		() => route.query.ym,
-		() => {
-			if (!route.query.ym) {
-				window.scrollTo(0, 0)
-				location.reload()
-			}
-		}
-	)
+	// watch(
+	// 	() => route.query.ym,
+	// 	() => {
+	// 		if (!route.query.ym) {
+	// 			window.scrollTo(0, 0)
+	// 			location.reload()
+	// 		}
+	// 	}
+	// )
 </script>
