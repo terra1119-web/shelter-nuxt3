@@ -206,21 +206,21 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					_embed: true,
-					after: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-01T00:00:00`,
-					before: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-${lastDate.value}T23:59:59`,
-					order: 'asc',
-					category_name: 'party',
-					status: 'publish',
-					per_page: 31,
-				}
-			},
+			// onRequest(ctx: any) {
+			// 	ctx.options.params = {
+			// 		_embed: true,
+			// 		after: `${year.value}-${dayjs(
+			// 			new Date(year.value, month.value)
+			// 		).format('MM')}-01T00:00:00`,
+			// 		before: `${year.value}-${dayjs(
+			// 			new Date(year.value, month.value)
+			// 		).format('MM')}-${lastDate.value}T23:59:59`,
+			// 		order: 'asc',
+			// 		category_name: 'party',
+			// 		status: 'publish',
+			// 		per_page: 31,
+			// 	}
+			// },
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -241,25 +241,25 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					after: `${previousMonthDays.value.year()}-${dayjs(
-						new Date(
-							previousMonthDays.value.year(),
-							previousMonthDays.value.month()
-						)
-					).format('MM')}-01T00:00:00`,
-					before: `${previousMonthDays.value.year()}-${dayjs(
-						new Date(
-							previousMonthDays.value.year(),
-							previousMonthDays.value.month()
-						)
-					).format('MM')}-${previousLastDate.value}T23:59:59`,
-					category_name: 'party',
-					status: 'publish',
-					per_page: 31,
-				}
-			},
+			// onRequest(ctx: any) {
+			// 	ctx.options.params = {
+			// 		after: `${previousMonthDays.value.year()}-${dayjs(
+			// 			new Date(
+			// 				previousMonthDays.value.year(),
+			// 				previousMonthDays.value.month()
+			// 			)
+			// 		).format('MM')}-01T00:00:00`,
+			// 		before: `${previousMonthDays.value.year()}-${dayjs(
+			// 			new Date(
+			// 				previousMonthDays.value.year(),
+			// 				previousMonthDays.value.month()
+			// 			)
+			// 		).format('MM')}-${previousLastDate.value}T23:59:59`,
+			// 		category_name: 'party',
+			// 		status: 'publish',
+			// 		per_page: 31,
+			// 	}
+			// },
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -280,25 +280,25 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					after: `${nextMonthDays.value.year()}-${dayjs(
-						new Date(
-							nextMonthDays.value.year(),
-							nextMonthDays.value.month()
-						)
-					).format('MM')}-01T00:00:00`,
-					before: `${nextMonthDays.value.year()}-${dayjs(
-						new Date(
-							nextMonthDays.value.year(),
-							nextMonthDays.value.month()
-						)
-					).format('MM')}-${nextLastDate.value}T23:59:59`,
-					category_name: 'party',
-					status: 'publish',
-					per_page: 31,
-				}
-			},
+			// onRequest(ctx: any) {
+			// 	ctx.options.params = {
+			// 		after: `${nextMonthDays.value.year()}-${dayjs(
+			// 			new Date(
+			// 				nextMonthDays.value.year(),
+			// 				nextMonthDays.value.month()
+			// 			)
+			// 		).format('MM')}-01T00:00:00`,
+			// 		before: `${nextMonthDays.value.year()}-${dayjs(
+			// 			new Date(
+			// 				nextMonthDays.value.year(),
+			// 				nextMonthDays.value.month()
+			// 			)
+			// 		).format('MM')}-${nextLastDate.value}T23:59:59`,
+			// 		category_name: 'party',
+			// 		status: 'publish',
+			// 		per_page: 31,
+			// 	}
+			// },
 		}),
 	])
 
