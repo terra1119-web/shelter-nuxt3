@@ -421,16 +421,16 @@
 
 	const calendars = ref(getCalendar())
 
-	// watch(
-	// 	() => month.value,
-	// 	async () => {
-	// 		window.scrollTo(0, 0)
-	// 		await refresh()
-	// 		calendars.value = getCalendar()
-	// 		await refreshPreviousData()
-	// 		await refreshNextData()
-	// 	}
-	// )
+	watch(
+		() => month.value,
+		async () => {
+			window.scrollTo(0, 0)
+			await refresh()
+			calendars.value = getCalendar()
+			await refreshPreviousData()
+			await refreshNextData()
+		}
+	)
 
 	// watch(
 	// 	() => route.query.ym,
