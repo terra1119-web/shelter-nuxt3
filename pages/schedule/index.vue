@@ -145,7 +145,6 @@
 	const router = useRouter()
 
 	const { ym } = route.query
-	console.log(ym)
 	const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
 	const monthQuery = ym ? +ym.slice(4, 6) - 1 : dayjs().month()
 	const year = ref(yearQuery)
@@ -205,7 +204,7 @@
 				order: 'asc',
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				// per_page: 31,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -219,7 +218,7 @@
 					order: 'asc',
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					// per_page: 31,
 				}
 			},
 		}),
@@ -240,7 +239,7 @@
 				).format('MM')}-${previousLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				// per_page: 31,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -258,7 +257,7 @@
 					).format('MM')}-${previousLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					// per_page: 31,
 				}
 			},
 		}),
@@ -279,7 +278,7 @@
 				).format('MM')}-${nextLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				// per_page: 31,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -297,7 +296,7 @@
 					).format('MM')}-${nextLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					// per_page: 31,
 				}
 			},
 		}),
