@@ -183,13 +183,19 @@
 	const currentDate = ref(dayjs(new Date(year.value, month.value)))
 
 	const [
-		{ data: schedules, refresh, pending },
+		{ data: schedules, refresh, pending, error },
 		{
 			data: previousData,
 			refresh: refreshPreviousData,
 			pending: pendingPreviousData,
+			error: errorPreviousData,
 		},
-		{ data: nextData, refresh: refreshNextData, pending: pendingNextData },
+		{
+			data: nextData,
+			refresh: refreshNextData,
+			pending: pendingNextData,
+			error: errorNextData,
+		},
 	] = await Promise.all([
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -301,6 +307,12 @@
 			},
 		}),
 	])
+
+	if (error.value || errorPreviousData.value || errorNextData.value) {
+		console.error(error.value)
+		console.error(errorPreviousData.value)
+		console.error(errorNextData.value)
+	}
 
 	const onClickPrev = () => {
 		changeMonth('previous')
