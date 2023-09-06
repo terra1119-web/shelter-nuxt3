@@ -453,4 +453,7 @@
 	// 		}
 	// 	}
 	// )
+	onErrorCaptured((err) => {
+		console.log('onErrorCaptured', err)
+	})
 </script>
