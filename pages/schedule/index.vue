@@ -183,19 +183,13 @@
 	const currentDate = ref(dayjs(new Date(year.value, month.value)))
 
 	const [
-		{ data: schedules, refresh, pending, error },
+		{ data: schedules, refresh, pending },
 		{
 			data: previousData,
 			refresh: refreshPreviousData,
 			pending: pendingPreviousData,
-			error: errorPreviousData,
 		},
-		{
-			data: nextData,
-			refresh: refreshNextData,
-			pending: pendingNextData,
-			error: errorNextData,
-		},
+		{ data: nextData, refresh: refreshNextData, pending: pendingNextData },
 	] = await Promise.all([
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -307,12 +301,6 @@
 			},
 		}),
 	])
-
-	if (error.value || errorPreviousData.value || errorNextData.value) {
-		console.error(error.value)
-		console.error(errorPreviousData.value)
-		console.error(errorNextData.value)
-	}
 
 	const onClickPrev = () => {
 		changeMonth('previous')
@@ -433,27 +421,14 @@
 
 	const calendars = ref(getCalendar())
 
-	watch(
-		() => month.value,
-		async () => {
-			window.scrollTo(0, 0)
-			await refresh()
-			calendars.value = getCalendar()
-			await refreshPreviousData()
-			await refreshNextData()
-		}
-	)
-
 	// watch(
-	// 	() => route.query.ym,
-	// 	() => {
-	// 		if (!route.query.ym) {
-	// 			window.scrollTo(0, 0)
-	// 			location.reload()
-	// 		}
+	// 	() => month.value,
+	// 	async () => {
+	// 		window.scrollTo(0, 0)
+	// 		await refresh()
+	// 		calendars.value = getCalendar()
+	// 		await refreshPreviousData()
+	// 		await refreshNextData()
 	// 	}
 	// )
-	onErrorCaptured((err) => {
-		console.log('onErrorCaptured', err)
-	})
 </script>
