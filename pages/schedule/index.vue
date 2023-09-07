@@ -206,21 +206,21 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					_embed: true,
-					after: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-01T00:00:00`,
-					before: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-${lastDate.value}T23:59:59`,
-					order: 'asc',
-					category_name: 'party',
-					status: 'publish',
-					per_page: 31,
-				}
-			},
+			// onRequest(ctx: any) {
+			// 	ctx.options.params = {
+			// 		_embed: true,
+			// 		after: `${year.value}-${dayjs(
+			// 			new Date(year.value, month.value)
+			// 		).format('MM')}-01T00:00:00`,
+			// 		before: `${year.value}-${dayjs(
+			// 			new Date(year.value, month.value)
+			// 		).format('MM')}-${lastDate.value}T23:59:59`,
+			// 		order: 'asc',
+			// 		category_name: 'party',
+			// 		status: 'publish',
+			// 		per_page: 31,
+			// 	}
+			// },
 		}),
 		// useFetch<any>(`/posts`, {
 		// 	baseURL: apiBase,
