@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 		},
 	},
 	routeRules: {
-		'/schedule/': { ssr: false },
+		'/schedule': { ssr: false },
 	},
 	postcss: {
 		plugins: { tailwindcss: {} },
