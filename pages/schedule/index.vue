@@ -97,7 +97,7 @@
 			</ul>
 		</section>
 
-		<!-- <nav>
+		<nav>
 			<ul class="flex justify-between mt-6 px-6 md:px-0">
 				<li v-if="previousData.length">
 					<Button
@@ -132,7 +132,7 @@
 					</Button>
 				</li>
 			</ul>
-		</nav> -->
+		</nav>
 	</div>
 </template>
 
@@ -142,7 +142,7 @@
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 	const route = useRoute()
-	// const router = useRouter()
+	const router = useRouter()
 
 	const { ym } = route.query
 	const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
@@ -184,12 +184,12 @@
 
 	const [
 		{ data: schedules, refresh, pending },
-		// {
-		// 	data: previousData,
-		// 	refresh: refreshPreviousData,
-		// 	pending: pendingPreviousData,
-		// },
-		// { data: nextData, refresh: refreshNextData, pending: pendingNextData },
+		{
+			data: previousData,
+			refresh: refreshPreviousData,
+			pending: pendingPreviousData,
+		},
+		{ data: nextData, refresh: refreshNextData, pending: pendingNextData },
 	] = await Promise.all([
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -206,155 +206,155 @@
 				status: 'publish',
 				per_page: 31,
 			},
-			// onRequest(ctx: any) {
-			// 	ctx.options.params = {
-			// 		_embed: true,
-			// 		after: `${year.value}-${dayjs(
-			// 			new Date(year.value, month.value)
-			// 		).format('MM')}-01T00:00:00`,
-			// 		before: `${year.value}-${dayjs(
-			// 			new Date(year.value, month.value)
-			// 		).format('MM')}-${lastDate.value}T23:59:59`,
-			// 		order: 'asc',
-			// 		category_name: 'party',
-			// 		status: 'publish',
-			// 		per_page: 31,
-			// 	}
-			// },
+			onRequest(ctx: any) {
+				ctx.options.params = {
+					_embed: true,
+					after: `${year.value}-${dayjs(
+						new Date(year.value, month.value)
+					).format('MM')}-01T00:00:00`,
+					before: `${year.value}-${dayjs(
+						new Date(year.value, month.value)
+					).format('MM')}-${lastDate.value}T23:59:59`,
+					order: 'asc',
+					category_name: 'party',
+					status: 'publish',
+					per_page: 31,
+				}
+			},
 		}),
-		// useFetch<any>(`/posts`, {
-		// 	baseURL: apiBase,
-		// 	params: {
-		// 		after: `${previousMonthDays.value.year()}-${dayjs(
-		// 			new Date(
-		// 				previousMonthDays.value.year(),
-		// 				previousMonthDays.value.month()
-		// 			)
-		// 		).format('MM')}-01T00:00:00`,
-		// 		before: `${previousMonthDays.value.year()}-${dayjs(
-		// 			new Date(
-		// 				previousMonthDays.value.year(),
-		// 				previousMonthDays.value.month()
-		// 			)
-		// 		).format('MM')}-${previousLastDate.value}T23:59:59`,
-		// 		category_name: 'party',
-		// 		status: 'publish',
-		// 		per_page: 31,
-		// 	},
-		// 	onRequest(ctx: any) {
-		// 		ctx.options.params = {
-		// 			after: `${previousMonthDays.value.year()}-${dayjs(
-		// 				new Date(
-		// 					previousMonthDays.value.year(),
-		// 					previousMonthDays.value.month()
-		// 				)
-		// 			).format('MM')}-01T00:00:00`,
-		// 			before: `${previousMonthDays.value.year()}-${dayjs(
-		// 				new Date(
-		// 					previousMonthDays.value.year(),
-		// 					previousMonthDays.value.month()
-		// 				)
-		// 			).format('MM')}-${previousLastDate.value}T23:59:59`,
-		// 			category_name: 'party',
-		// 			status: 'publish',
-		// 			per_page: 31,
-		// 		}
-		// 	},
-		// }),
-		// useFetch<any>(`/posts`, {
-		// 	baseURL: apiBase,
-		// 	params: {
-		// 		after: `${nextMonthDays.value.year()}-${dayjs(
-		// 			new Date(
-		// 				nextMonthDays.value.year(),
-		// 				nextMonthDays.value.month()
-		// 			)
-		// 		).format('MM')}-01T00:00:00`,
-		// 		before: `${nextMonthDays.value.year()}-${dayjs(
-		// 			new Date(
-		// 				nextMonthDays.value.year(),
-		// 				nextMonthDays.value.month()
-		// 			)
-		// 		).format('MM')}-${nextLastDate.value}T23:59:59`,
-		// 		category_name: 'party',
-		// 		status: 'publish',
-		// 		per_page: 31,
-		// 	},
-		// 	onRequest(ctx: any) {
-		// 		ctx.options.params = {
-		// 			after: `${nextMonthDays.value.year()}-${dayjs(
-		// 				new Date(
-		// 					nextMonthDays.value.year(),
-		// 					nextMonthDays.value.month()
-		// 				)
-		// 			).format('MM')}-01T00:00:00`,
-		// 			before: `${nextMonthDays.value.year()}-${dayjs(
-		// 				new Date(
-		// 					nextMonthDays.value.year(),
-		// 					nextMonthDays.value.month()
-		// 				)
-		// 			).format('MM')}-${nextLastDate.value}T23:59:59`,
-		// 			category_name: 'party',
-		// 			status: 'publish',
-		// 			per_page: 31,
-		// 		}
-		// 	},
-		// }),
+		useFetch<any>(`/posts`, {
+			baseURL: apiBase,
+			params: {
+				after: `${previousMonthDays.value.year()}-${dayjs(
+					new Date(
+						previousMonthDays.value.year(),
+						previousMonthDays.value.month()
+					)
+				).format('MM')}-01T00:00:00`,
+				before: `${previousMonthDays.value.year()}-${dayjs(
+					new Date(
+						previousMonthDays.value.year(),
+						previousMonthDays.value.month()
+					)
+				).format('MM')}-${previousLastDate.value}T23:59:59`,
+				category_name: 'party',
+				status: 'publish',
+				per_page: 31,
+			},
+			onRequest(ctx: any) {
+				ctx.options.params = {
+					after: `${previousMonthDays.value.year()}-${dayjs(
+						new Date(
+							previousMonthDays.value.year(),
+							previousMonthDays.value.month()
+						)
+					).format('MM')}-01T00:00:00`,
+					before: `${previousMonthDays.value.year()}-${dayjs(
+						new Date(
+							previousMonthDays.value.year(),
+							previousMonthDays.value.month()
+						)
+					).format('MM')}-${previousLastDate.value}T23:59:59`,
+					category_name: 'party',
+					status: 'publish',
+					per_page: 31,
+				}
+			},
+		}),
+		useFetch<any>(`/posts`, {
+			baseURL: apiBase,
+			params: {
+				after: `${nextMonthDays.value.year()}-${dayjs(
+					new Date(
+						nextMonthDays.value.year(),
+						nextMonthDays.value.month()
+					)
+				).format('MM')}-01T00:00:00`,
+				before: `${nextMonthDays.value.year()}-${dayjs(
+					new Date(
+						nextMonthDays.value.year(),
+						nextMonthDays.value.month()
+					)
+				).format('MM')}-${nextLastDate.value}T23:59:59`,
+				category_name: 'party',
+				status: 'publish',
+				per_page: 31,
+			},
+			onRequest(ctx: any) {
+				ctx.options.params = {
+					after: `${nextMonthDays.value.year()}-${dayjs(
+						new Date(
+							nextMonthDays.value.year(),
+							nextMonthDays.value.month()
+						)
+					).format('MM')}-01T00:00:00`,
+					before: `${nextMonthDays.value.year()}-${dayjs(
+						new Date(
+							nextMonthDays.value.year(),
+							nextMonthDays.value.month()
+						)
+					).format('MM')}-${nextLastDate.value}T23:59:59`,
+					category_name: 'party',
+					status: 'publish',
+					per_page: 31,
+				}
+			},
+		}),
 	])
 
-	// const onClickPrev = () => {
-	// 	changeMonth('previous')
-	// }
+	const onClickPrev = () => {
+		changeMonth('previous')
+	}
 
-	// const onClickNext = () => {
-	// 	changeMonth('next')
-	// }
+	const onClickNext = () => {
+		changeMonth('next')
+	}
 
-	// const changeMonth = (tagetMonth: string) => {
-	// 	const days =
-	// 		tagetMonth === 'previous'
-	// 			? dayjs(new Date(year.value, month.value)).subtract(1, 'month')
-	// 			: dayjs(new Date(year.value, month.value)).add(1, 'month')
-	// 	month.value = days.month()
-	// 	year.value = days.year()
-	// 	lastDate.value = dayjs(new Date(year.value, month.value))
-	// 		.endOf('month')
-	// 		.date()
+	const changeMonth = (tagetMonth: string) => {
+		const days =
+			tagetMonth === 'previous'
+				? dayjs(new Date(year.value, month.value)).subtract(1, 'month')
+				: dayjs(new Date(year.value, month.value)).add(1, 'month')
+		month.value = days.month()
+		year.value = days.year()
+		lastDate.value = dayjs(new Date(year.value, month.value))
+			.endOf('month')
+			.date()
 
-	// 	previousMonthDays.value = dayjs(
-	// 		new Date(year.value, month.value)
-	// 	).subtract(1, 'month')
-	// 	previousLastDate.value = dayjs(
-	// 		new Date(
-	// 			previousMonthDays.value.year(),
-	// 			previousMonthDays.value.month()
-	// 		)
-	// 	)
-	// 		.endOf('month')
-	// 		.date()
+		previousMonthDays.value = dayjs(
+			new Date(year.value, month.value)
+		).subtract(1, 'month')
+		previousLastDate.value = dayjs(
+			new Date(
+				previousMonthDays.value.year(),
+				previousMonthDays.value.month()
+			)
+		)
+			.endOf('month')
+			.date()
 
-	// 	nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(
-	// 		1,
-	// 		'month'
-	// 	)
-	// 	nextLastDate.value = dayjs(
-	// 		new Date(nextMonthDays.value.year(), nextMonthDays.value.month())
-	// 	)
-	// 		.endOf('month')
-	// 		.date()
+		nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(
+			1,
+			'month'
+		)
+		nextLastDate.value = dayjs(
+			new Date(nextMonthDays.value.year(), nextMonthDays.value.month())
+		)
+			.endOf('month')
+			.date()
 
-	// 	currentDate.value = dayjs(new Date(year.value, month.value))
-	// 	calendars.value = getCalendar()
+		currentDate.value = dayjs(new Date(year.value, month.value))
+		calendars.value = getCalendar()
 
-	// 	router.push({
-	// 		path: '/schedule/',
-	// 		query: {
-	// 			ym: `${year.value}${dayjs(
-	// 				new Date(year.value, month.value)
-	// 			).format('MM')}`,
-	// 		},
-	// 	})
-	// }
+		router.push({
+			path: '/schedule/',
+			query: {
+				ym: `${year.value}${dayjs(
+					new Date(year.value, month.value)
+				).format('MM')}`,
+			},
+		})
+	}
 
 	const getStartDate = (currentDate: dayjs.Dayjs) => {
 		const date = dayjs(currentDate).startOf('month')
@@ -427,8 +427,8 @@
 			window.scrollTo(0, 0)
 			await refresh()
 			calendars.value = getCalendar()
-			// await refreshPreviousData()
-			// await refreshNextData()
+			await refreshPreviousData()
+			await refreshNextData()
 		}
 	)
 </script>
