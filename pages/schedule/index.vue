@@ -59,40 +59,90 @@
 						day.isToday ? 'bg-surface-neutral-highlight' : '',
 					]"
 				>
-					<NuxtLink
-						:to="`/schedule/${day.dateUrl}/`"
-						:class="[
-							'block',
-							'h-full',
-							'py-4',
-							'pl-6',
-							'pr-14',
-							'md:pl-4',
-							'md:pr-4',
-							'relative',
-							!day.title ? 'pointer-events-none' : '',
-						]"
-					>
-						<p
-							class="text-xl font-bold"
+					<template v-if="day.title !== '' && day.dateUrl !== ''">
+						<NuxtLink
+							:to="`/schedule/${day.dateUrl}/`"
 							:class="[
-								day.isHoliday
-									? 'text-text-accent'
-									: day.isSaturday
-									? 'text-text-info'
-									: '',
+								'block',
+								'h-full',
+								'py-4',
+								'pl-6',
+								'pr-14',
+								'md:pl-4',
+								'md:pr-4',
+								'relative',
+								!day.title ? 'pointer-events-none' : '',
 							]"
 						>
-							{{ day.date }}
-							<span class="pl-2 md:hidden">{{ day.days }}</span>
-						</p>
-						<h2 class="mt-2 text-xl font-bold" v-html="day.title" />
-						<span
-							class="block md:hidden absolute top-[calc(50%-8px)] right-6"
+							<p
+								class="text-xl font-bold"
+								:class="[
+									day.isHoliday
+										? 'text-text-accent'
+										: day.isSaturday
+										? 'text-text-info'
+										: '',
+								]"
+							>
+								{{ day.date }}
+								<span class="pl-2 md:hidden">{{
+									day.days
+								}}</span>
+							</p>
+							<h2
+								class="mt-2 text-xl font-bold"
+								v-html="day.title"
+							/>
+							<span
+								class="block md:hidden absolute top-[calc(50%-8px)] right-6"
+							>
+								<FontAwesomeIcon
+									icon="fa-solid fa-chevron-right"
+								/>
+							</span>
+						</NuxtLink>
+					</template>
+					<template v-else>
+						<div
+							:class="[
+								'block',
+								'h-full',
+								'py-4',
+								'pl-6',
+								'pr-14',
+								'md:pl-4',
+								'md:pr-4',
+								'relative',
+							]"
 						>
-							<FontAwesomeIcon icon="fa-solid fa-chevron-right" />
-						</span>
-					</NuxtLink>
+							<p
+								class="text-xl font-bold"
+								:class="[
+									day.isHoliday
+										? 'text-text-accent'
+										: day.isSaturday
+										? 'text-text-info'
+										: '',
+								]"
+							>
+								{{ day.date }}
+								<span class="pl-2 md:hidden">{{
+									day.days
+								}}</span>
+							</p>
+							<h2
+								class="mt-2 text-xl font-bold"
+								v-html="day.title"
+							/>
+							<span
+								class="block md:hidden absolute top-[calc(50%-8px)] right-6"
+							>
+								<FontAwesomeIcon
+									icon="fa-solid fa-chevron-right"
+								/>
+							</span>
+						</div>
+					</template>
 				</li>
 			</ul>
 		</section>
@@ -382,7 +432,7 @@
 				const targetDays = dayjs(
 					new Date(year.value, targetMonth, targetDate)
 				).format('ddd')
-				const nowScheduleDay = schedules.value.filter(
+				const nowScheduleDay = schedules.value.find(
 					(scheduleDay: any) => {
 						return (
 							targetDate === dayjs(scheduleDay.date).date() &&
@@ -393,11 +443,13 @@
 				weekRow.push({
 					date: targetDate,
 					days: targetDays,
-					title: nowScheduleDay[0]?.title.rendered,
-					dateUrl: useDateString({
-						date: nowScheduleDay[0]?.date,
-						format: 'YYYYMMDD',
-					}),
+					title: nowScheduleDay?.title.rendered || '',
+					dateUrl: nowScheduleDay?.date
+						? useDateString({
+								date: nowScheduleDay.date,
+								format: 'YYYYMMDD',
+						  })
+						: '',
 					isNowMonth: month.value === targetMonth,
 					isToday:
 						targetMonth === dayjs().month() &&
