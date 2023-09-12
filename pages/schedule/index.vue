@@ -52,14 +52,23 @@
 				</li>
 				<li
 					v-for="(day, index) in calendars"
-					:key="index"
+					:key="`${useDateString({
+						date: `${year}${month + 1}`,
+						format: 'YYYYMMMM',
+					})}-schedule-${year}-${month + 1}-${day.date}-${index}`"
 					class="md:min-h-[112px] border-r border-b border-border-secondary break-all"
 					:class="[
 						!day.isNowMonth || !day.title ? 'hidden md:block' : '',
 						day.isToday ? 'bg-surface-neutral-highlight' : '',
 					]"
 				>
-					<template v-if="day.title !== '' && day.dateUrl !== ''">
+					<template
+						v-if="
+							day.isNowMonth &&
+							day.title !== '' &&
+							day.dateUrl !== ''
+						"
+					>
 						<NuxtLink
 							:to="`/schedule/${day.dateUrl}/`"
 							:class="[
@@ -71,7 +80,6 @@
 								'md:pl-4',
 								'md:pr-4',
 								'relative',
-								!day.title ? 'pointer-events-none' : '',
 							]"
 						>
 							<p
@@ -130,17 +138,6 @@
 									day.days
 								}}</span>
 							</p>
-							<h2
-								class="mt-2 text-xl font-bold"
-								v-html="day.title"
-							/>
-							<span
-								class="block md:hidden absolute top-[calc(50%-8px)] right-6"
-							>
-								<FontAwesomeIcon
-									icon="fa-solid fa-chevron-right"
-								/>
-							</span>
 						</div>
 					</template>
 				</li>
@@ -468,6 +465,7 @@
 			calendars.push(weekRow)
 		}
 		const flatCalendars = calendars.flat()
+		console.log(flatCalendars)
 		return flatCalendars
 	}
 
