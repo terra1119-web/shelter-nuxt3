@@ -204,7 +204,7 @@
 				order: 'asc',
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				per_page: 100,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -218,7 +218,7 @@
 					order: 'asc',
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					per_page: 100,
 				}
 			},
 		}),
@@ -239,7 +239,7 @@
 				).format('MM')}-${previousLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				per_page: 100,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -257,7 +257,7 @@
 					).format('MM')}-${previousLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					per_page: 100,
 				}
 			},
 		}),
@@ -278,7 +278,7 @@
 				).format('MM')}-${nextLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				per_page: 100,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -296,7 +296,7 @@
 					).format('MM')}-${nextLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					per_page: 100,
 				}
 			},
 		}),

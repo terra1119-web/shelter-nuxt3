@@ -5,10 +5,6 @@ export default defineNuxtConfig({
 			apiBase: process.env.NUXT_WP_API_URL,
 		},
 	},
-	routeRules: {
-		'/schedule': { ssr: false },
-		'/schedule/npx ': { ssr: false },
-	},
 	postcss: {
 		plugins: { tailwindcss: {} },
 	},
