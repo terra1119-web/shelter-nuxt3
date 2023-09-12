@@ -465,7 +465,6 @@
 			calendars.push(weekRow)
 		}
 		const flatCalendars = calendars.flat()
-		console.log(flatCalendars)
 		return flatCalendars
 	}
 
