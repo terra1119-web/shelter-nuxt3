@@ -5,7 +5,7 @@
 			:style="[
 				{
 					'background-image': `url(${
-						schedule._embedded['wp:featuredmedia'].length
+						schedule._embedded['wp:featuredmedia']
 							? schedule._embedded['wp:featuredmedia'][0]
 									.source_url
 							: ''
@@ -18,7 +18,7 @@
 
 		<div class="relative pb-8 md:pb-12 max-w-5xl md:mx-auto z-[10]">
 			<figure
-				v-if="schedule._embedded['wp:featuredmedia'].length"
+				v-if="schedule._embedded['wp:featuredmedia']"
 				class="mt-6 md:mt-10"
 			>
 				<img
