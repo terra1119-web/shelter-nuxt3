@@ -186,8 +186,8 @@
 		],
 	})
 
-	const partyProfileField: any[] = schedules.value[0].acf.party_profile_field
-	const mediaData: any = partyProfileField
+	const partyProfileField: any[] = schedules.value[0]?.acf.party_profile_field
+	const mediaData: any[] = partyProfileField
 		? await Promise.all(
 				partyProfileField.map(async (profile: any) => {
 					const image: any = await useMedia(profile.pofile_image)
@@ -195,15 +195,22 @@
 						// eslint-disable-next-line
 						/^<p class\=\"attachment\">.*<\/p>/
 
-					const description =
-						image.value.description.rendered.replace(
-							descriptionRegExp,
-							''
-						)
+					const imageUrl: string = image.value
+						? image.value.source_url
+						: ''
+					const title: string = image.value
+						? image.value.title.rendered
+						: ''
+					const description: string = image.value
+						? image.value.description.rendered.replace(
+								descriptionRegExp,
+								''
+						  )
+						: ''
 
 					const obj = {
-						image: image.value.source_url,
-						title: image.value.title.rendered,
+						image: imageUrl,
+						title,
 						description,
 					}
 					return obj
