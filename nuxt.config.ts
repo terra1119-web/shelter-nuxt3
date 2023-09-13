@@ -81,4 +81,7 @@ export default defineNuxtConfig({
 		},
 	},
 	nitro: { prerender: { failOnError: false } },
+	routeRules: {
+		'/schedule/': { ssr: false },
+	},
 })
