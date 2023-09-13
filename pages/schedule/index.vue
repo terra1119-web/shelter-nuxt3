@@ -52,47 +52,94 @@
 				</li>
 				<li
 					v-for="(day, index) in calendars"
-					:key="index"
+					:key="`${useDateString({
+						date: `${year}${month + 1}`,
+						format: 'YYYYMMMM',
+					})}-schedule-${year}-${month + 1}-${day.date}-${index}`"
 					class="md:min-h-[112px] border-r border-b border-border-secondary break-all"
 					:class="[
 						!day.isNowMonth || !day.title ? 'hidden md:block' : '',
 						day.isToday ? 'bg-surface-neutral-highlight' : '',
 					]"
 				>
-					<NuxtLink
-						:to="`/schedule/${day.dateUrl}/`"
-						:class="[
-							'block',
-							'h-full',
-							'py-4',
-							'pl-6',
-							'pr-14',
-							'md:pl-4',
-							'md:pr-4',
-							'relative',
-							!day.title ? 'pointer-events-none' : '',
-						]"
+					<template
+						v-if="
+							day.isNowMonth &&
+							day.title !== '' &&
+							day.dateUrl !== ''
+						"
 					>
-						<p
-							class="text-xl font-bold"
+						<NuxtLink
+							:to="`/schedule/${day.dateUrl}/`"
 							:class="[
-								day.isHoliday
-									? 'text-text-accent'
-									: day.isSaturday
-									? 'text-text-info'
-									: '',
+								'block',
+								'h-full',
+								'py-4',
+								'pl-6',
+								'pr-14',
+								'md:pl-4',
+								'md:pr-4',
+								'relative',
 							]"
 						>
-							{{ day.date }}
-							<span class="pl-2 md:hidden">{{ day.days }}</span>
-						</p>
-						<h2 class="mt-2 text-xl font-bold" v-html="day.title" />
-						<span
-							class="block md:hidden absolute top-[calc(50%-8px)] right-6"
+							<p
+								class="text-xl font-bold"
+								:class="[
+									day.isHoliday
+										? 'text-text-accent'
+										: day.isSaturday
+										? 'text-text-info'
+										: '',
+								]"
+							>
+								{{ day.date }}
+								<span class="pl-2 md:hidden">{{
+									day.days
+								}}</span>
+							</p>
+							<h2
+								class="mt-2 text-xl font-bold"
+								v-html="day.title"
+							/>
+							<span
+								class="block md:hidden absolute top-[calc(50%-8px)] right-6"
+							>
+								<FontAwesomeIcon
+									icon="fa-solid fa-chevron-right"
+								/>
+							</span>
+						</NuxtLink>
+					</template>
+					<template v-else>
+						<div
+							:class="[
+								'block',
+								'h-full',
+								'py-4',
+								'pl-6',
+								'pr-14',
+								'md:pl-4',
+								'md:pr-4',
+								'relative',
+							]"
 						>
-							<FontAwesomeIcon icon="fa-solid fa-chevron-right" />
-						</span>
-					</NuxtLink>
+							<p
+								class="text-xl font-bold"
+								:class="[
+									day.isHoliday
+										? 'text-text-accent'
+										: day.isSaturday
+										? 'text-text-info'
+										: '',
+								]"
+							>
+								{{ day.date }}
+								<span class="pl-2 md:hidden">{{
+									day.days
+								}}</span>
+							</p>
+						</div>
+					</template>
 				</li>
 			</ul>
 		</section>
@@ -204,7 +251,7 @@
 				order: 'asc',
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				per_page: 100,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -218,7 +265,7 @@
 					order: 'asc',
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					per_page: 100,
 				}
 			},
 		}),
@@ -239,7 +286,7 @@
 				).format('MM')}-${previousLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				per_page: 100,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -257,7 +304,7 @@
 					).format('MM')}-${previousLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					per_page: 100,
 				}
 			},
 		}),
@@ -278,7 +325,7 @@
 				).format('MM')}-${nextLastDate.value}T23:59:59`,
 				category_name: 'party',
 				status: 'publish',
-				per_page: 31,
+				per_page: 100,
 			},
 			onRequest(ctx: any) {
 				ctx.options.params = {
@@ -296,7 +343,7 @@
 					).format('MM')}-${nextLastDate.value}T23:59:59`,
 					category_name: 'party',
 					status: 'publish',
-					per_page: 31,
+					per_page: 100,
 				}
 			},
 		}),
@@ -382,7 +429,7 @@
 				const targetDays = dayjs(
 					new Date(year.value, targetMonth, targetDate)
 				).format('ddd')
-				const nowScheduleDay = schedules.value.filter(
+				const nowScheduleDay = schedules.value.find(
 					(scheduleDay: any) => {
 						return (
 							targetDate === dayjs(scheduleDay.date).date() &&
@@ -393,11 +440,13 @@
 				weekRow.push({
 					date: targetDate,
 					days: targetDays,
-					title: nowScheduleDay[0]?.title.rendered,
-					dateUrl: useDateString({
-						date: nowScheduleDay[0]?.date,
-						format: 'YYYYMMDD',
-					}),
+					title: nowScheduleDay?.title.rendered || '',
+					dateUrl: nowScheduleDay?.date
+						? useDateString({
+								date: nowScheduleDay.date,
+								format: 'YYYYMMDD',
+						  })
+						: '',
 					isNowMonth: month.value === targetMonth,
 					isToday:
 						targetMonth === dayjs().month() &&
@@ -431,14 +480,4 @@
 			await refreshNextData()
 		}
 	)
-
-	// watch(
-	// 	() => route.query.ym,
-	// 	() => {
-	// 		if (!route.query.ym) {
-	// 			window.scrollTo(0, 0)
-	// 			location.reload()
-	// 		}
-	// 	}
-	// )
 </script>
