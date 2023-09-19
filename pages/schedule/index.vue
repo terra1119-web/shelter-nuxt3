@@ -420,7 +420,7 @@
 		const endDate = getEndDate(currentDate.value)
 		const weekNumber = Math.ceil(endDate.diff(startDate, 'day') / 7)
 
-		const calendars = []
+		const calendar = []
 		for (let week = 0; week < weekNumber; week++) {
 			const weekRow: any[] = []
 			for (let day = 0; day < 7; day++) {
@@ -453,18 +453,19 @@
 						targetDate === dayjs().date(),
 					isSaturday: day === 6,
 					isHoliday:
-						day === 0 ||
-						useHoliday({
-							date: `${year.value}-${
-								targetMonth + 1
-							}-${targetDate}`,
-						}),
+						// day === 0 ||
+						// useHoliday({
+						// 	date: `${year.value}-${
+						// 		targetMonth + 1
+						// 	}-${targetDate}`,
+						// }),
+						day === 0,
 				})
 				startDate = startDate.add(1, 'day')
 			}
-			calendars.push(weekRow)
+			calendar.push(weekRow)
 		}
-		const flatCalendars = calendars.flat()
+		const flatCalendars = calendar.flat()
 		return flatCalendars
 	}
 
