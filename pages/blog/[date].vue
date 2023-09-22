@@ -4,7 +4,7 @@
 		:key="index"
 		class="pb-8 md:pb-10 md:max-w-5xl md:mx-auto"
 	>
-		<figure v-if="blog._embedded['wp:featuredmedia']" class="mt-6 md:mt-10">
+		<figure v-if="blog._embedded" class="mt-6 md:mt-10">
 			<img
 				:src="blog._embedded['wp:featuredmedia'][0].source_url"
 				class="w-full"
@@ -61,7 +61,7 @@
 			{
 				property: 'og:image',
 				content: `${
-					blogs.value[0]._embedded['wp:featuredmedia']
+					blogs.value[0]._embedded
 						? blogs.value[0]._embedded['wp:featuredmedia'][0]
 								.source_url
 						: '/images/noimage.gif'

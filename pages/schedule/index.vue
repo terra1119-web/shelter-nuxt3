@@ -189,7 +189,6 @@
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 	const route = useRoute()
-	const router = useRouter()
 
 	const { ym } = route.query
 	const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
@@ -357,7 +356,7 @@
 		changeMonth('next')
 	}
 
-	const changeMonth = (tagetMonth: string) => {
+	const changeMonth = async (tagetMonth: string) => {
 		const days =
 			tagetMonth === 'previous'
 				? dayjs(new Date(year.value, month.value)).subtract(1, 'month')
@@ -393,7 +392,7 @@
 		currentDate.value = dayjs(new Date(year.value, month.value))
 		calendars.value = getCalendar()
 
-		router.push({
+		await navigateTo({
 			path: '/schedule/',
 			query: {
 				ym: `${year.value}${dayjs(
@@ -449,6 +448,7 @@
 						: '',
 					isNowMonth: month.value === targetMonth,
 					isToday:
+						year.value === dayjs().year() &&
 						targetMonth === dayjs().month() &&
 						targetDate === dayjs().date(),
 					isSaturday: day === 6,

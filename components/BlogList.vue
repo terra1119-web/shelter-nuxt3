@@ -64,7 +64,6 @@
 <script setup lang="ts">
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
-	const router = useRouter()
 	const route = useRoute()
 
 	const perPage = 21
@@ -76,7 +75,7 @@
 		title: `BLOG | SHeLTeR`,
 	})
 
-	const { data: blogs, refresh } = await useFetch<any>(`/blog`, {
+	const { data: blogs } = await useFetch<any>(`/blog`, {
 		key: `blog-${Date.now()}`,
 		baseURL: apiBase,
 		params: {
@@ -84,7 +83,6 @@
 			status: 'publish',
 			per_page: perPage,
 			page: currentPage,
-			initialCache: false,
 		},
 		onResponse({ response }: { response: any }) {
 			totalCount.value = response.headers.get('x-wp-total')
@@ -94,15 +92,15 @@
 		},
 	})
 
-	const onClickPage = (page: number) => {
+	const onClickPage = async (page: number) => {
 		if (currentPage.value === page) return
 
 		currentPage.value = page
 		const path =
 			currentPage.value === 1
 				? `/blog/`
-				: `/blog/pages/${currentPage.value}/`
-		router.push({
+				: `/blog/page/${currentPage.value}/`
+		await navigateTo({
 			path,
 		})
 	}
@@ -114,17 +112,17 @@
 	}
 
 	const getSourceUrl = (blog: any) => {
-		const sourceUrl: string | undefined = blog._embedded
+		const sourceUrl: string = blog._embedded
 			? blog._embedded['wp:featuredmedia'][0]?.source_url
 			: ''
 		return sourceUrl
 	}
 
-	watch(
-		() => currentPage.value,
-		async () => {
-			window.scrollTo(0, 0)
-			await refresh()
-		}
-	)
+	// watch(
+	// 	() => currentPage.value,
+	// 	async () => {
+	// 		window.scrollTo(0, 0)
+	// 		await refresh()
+	// 	}
+	// )
 </script>
