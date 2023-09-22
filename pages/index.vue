@@ -124,7 +124,6 @@
 </template>
 
 <script setup lang="ts">
-	const router = useRouter()
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
 
@@ -164,7 +163,7 @@
 	const topStoreItems = schedules.value?.acf.store_item
 
 	const onScheduleClick = () => {
-		router.push('/schedule/')
+		navigateTo('/schedule/')
 	}
 
 	const onStoreClick = () => {
@@ -173,10 +172,10 @@
 	}
 
 	const onBlogClick = () => {
-		router.push('/blog/')
+		navigateTo('/blog/')
 	}
 
 	const onInformationClick = () => {
-		router.push('/information/')
+		navigateTo('/information/')
 	}
 </script>
