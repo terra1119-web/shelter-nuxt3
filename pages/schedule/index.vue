@@ -146,10 +146,10 @@
 
 		<nav>
 			<ul class="flex justify-between mt-6 px-6 md:px-0">
-				<li v-if="previousData.length">
+				<li v-if="previousData">
 					<Button
 						icon-left="fa-solid fa-chevron-left"
-						:disabled="pending || pendingPreviousData"
+						:disabled="pending"
 						@click="onClickPrev"
 					>
 						{{
@@ -162,10 +162,10 @@
 						}}
 					</Button>
 				</li>
-				<li v-if="nextData.length" class="ml-auto">
+				<li v-if="nextData" class="ml-auto">
 					<Button
 						icon-right="fa-solid fa-chevron-right"
-						:disabled="pending || pendingNextData"
+						:disabled="pending"
 						@click="onClickNext"
 					>
 						{{
@@ -206,40 +206,34 @@
 	const previousMonthDays = ref(
 		dayjs(new Date(year.value, month.value)).subtract(1, 'month')
 	)
-	const previousLastDate = ref(
-		dayjs(
-			new Date(
-				previousMonthDays.value.year(),
-				previousMonthDays.value.month()
-			)
-		)
-			.endOf('month')
-			.date()
-	)
 
 	const nextMonthDays = ref(
 		dayjs(new Date(year.value, month.value)).add(1, 'month')
 	)
-	const nextLastDate = ref(
-		dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month()))
-			.endOf('month')
-			.date()
-	)
 
 	const currentDate = ref(dayjs(new Date(year.value, month.value)))
 
-	const [
-		{ data: schedules, refresh, pending },
-		{
-			data: previousData,
-			refresh: refreshPreviousData,
-			pending: pendingPreviousData,
+	const {
+		data: schedules,
+		refresh,
+		pending,
+	} = await useFetch<any>(`/posts`, {
+		baseURL: apiBase,
+		params: {
+			_embed: true,
+			after: `${year.value}-${dayjs(
+				new Date(year.value, month.value)
+			).format('MM')}-01T00:00:00`,
+			before: `${year.value}-${dayjs(
+				new Date(year.value, month.value)
+			).format('MM')}-${lastDate.value}T23:59:59`,
+			order: 'asc',
+			category_name: 'party',
+			status: 'publish',
+			per_page: 100,
 		},
-		{ data: nextData, refresh: refreshNextData, pending: pendingNextData },
-	] = await Promise.all([
-		useFetch<any>(`/posts`, {
-			baseURL: apiBase,
-			params: {
+		onRequest(ctx: any) {
+			ctx.options.params = {
 				_embed: true,
 				after: `${year.value}-${dayjs(
 					new Date(year.value, month.value)
@@ -251,102 +245,12 @@
 				category_name: 'party',
 				status: 'publish',
 				per_page: 100,
-			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					_embed: true,
-					after: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-01T00:00:00`,
-					before: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-${lastDate.value}T23:59:59`,
-					order: 'asc',
-					category_name: 'party',
-					status: 'publish',
-					per_page: 100,
-				}
-			},
-		}),
-		useFetch<any>(`/posts`, {
-			baseURL: apiBase,
-			params: {
-				after: `${previousMonthDays.value.year()}-${dayjs(
-					new Date(
-						previousMonthDays.value.year(),
-						previousMonthDays.value.month()
-					)
-				).format('MM')}-01T00:00:00`,
-				before: `${previousMonthDays.value.year()}-${dayjs(
-					new Date(
-						previousMonthDays.value.year(),
-						previousMonthDays.value.month()
-					)
-				).format('MM')}-${previousLastDate.value}T23:59:59`,
-				category_name: 'party',
-				status: 'publish',
-				per_page: 100,
-			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					after: `${previousMonthDays.value.year()}-${dayjs(
-						new Date(
-							previousMonthDays.value.year(),
-							previousMonthDays.value.month()
-						)
-					).format('MM')}-01T00:00:00`,
-					before: `${previousMonthDays.value.year()}-${dayjs(
-						new Date(
-							previousMonthDays.value.year(),
-							previousMonthDays.value.month()
-						)
-					).format('MM')}-${previousLastDate.value}T23:59:59`,
-					category_name: 'party',
-					status: 'publish',
-					per_page: 100,
-				}
-			},
-		}),
-		useFetch<any>(`/posts`, {
-			baseURL: apiBase,
-			params: {
-				after: `${nextMonthDays.value.year()}-${dayjs(
-					new Date(
-						nextMonthDays.value.year(),
-						nextMonthDays.value.month()
-					)
-				).format('MM')}-01T00:00:00`,
-				before: `${nextMonthDays.value.year()}-${dayjs(
-					new Date(
-						nextMonthDays.value.year(),
-						nextMonthDays.value.month()
-					)
-				).format('MM')}-${nextLastDate.value}T23:59:59`,
-				category_name: 'party',
-				status: 'publish',
-				per_page: 100,
-			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					after: `${nextMonthDays.value.year()}-${dayjs(
-						new Date(
-							nextMonthDays.value.year(),
-							nextMonthDays.value.month()
-						)
-					).format('MM')}-01T00:00:00`,
-					before: `${nextMonthDays.value.year()}-${dayjs(
-						new Date(
-							nextMonthDays.value.year(),
-							nextMonthDays.value.month()
-						)
-					).format('MM')}-${nextLastDate.value}T23:59:59`,
-					category_name: 'party',
-					status: 'publish',
-					per_page: 100,
-				}
-			},
-		}),
-	])
+			}
+		},
+	})
+
+	const previousData: any = ref(schedules.value[0].previous)
+	const nextData: any = ref(schedules.value[schedules.value.length - 1].next)
 
 	const onClickPrev = () => {
 		changeMonth('previous')
@@ -364,28 +268,6 @@
 		month.value = days.month()
 		year.value = days.year()
 		lastDate.value = dayjs(new Date(year.value, month.value))
-			.endOf('month')
-			.date()
-
-		previousMonthDays.value = dayjs(
-			new Date(year.value, month.value)
-		).subtract(1, 'month')
-		previousLastDate.value = dayjs(
-			new Date(
-				previousMonthDays.value.year(),
-				previousMonthDays.value.month()
-			)
-		)
-			.endOf('month')
-			.date()
-
-		nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(
-			1,
-			'month'
-		)
-		nextLastDate.value = dayjs(
-			new Date(nextMonthDays.value.year(), nextMonthDays.value.month())
-		)
 			.endOf('month')
 			.date()
 
@@ -477,8 +359,15 @@
 			window.scrollTo(0, 0)
 			await refresh()
 			calendars.value = getCalendar()
-			await refreshPreviousData()
-			await refreshNextData()
+			previousData.value = schedules.value[0].previous
+			nextData.value = schedules.value[schedules.value.length - 1].next
+			previousMonthDays.value = dayjs(
+				new Date(year.value, month.value)
+			).subtract(1, 'month')
+			nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(
+				1,
+				'month'
+			)
 		}
 	)
 </script>
