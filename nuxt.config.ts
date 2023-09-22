@@ -81,4 +81,7 @@ export default defineNuxtConfig({
 		},
 	},
 	nitro: { prerender: { failOnError: false } },
+	generate: {
+		routes: ['/blog/page/2/', '/blog/page/3/', '/blog/page/4/'],
+	},
 })
