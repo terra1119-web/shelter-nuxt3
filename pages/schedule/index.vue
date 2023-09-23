@@ -437,7 +437,7 @@
 	const calendars = ref(getCalendar())
 
 	watch(
-		() => route.query,
+		() => month.value,
 		async () => {
 			window.scrollTo(0, 0)
 			await refresh()
