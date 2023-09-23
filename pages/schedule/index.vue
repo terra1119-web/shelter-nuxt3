@@ -180,6 +180,32 @@
 				</li>
 			</ul>
 		</nav>
+
+		<ul class="hidden">
+			<li v-for="previous in previousSchedules" :key="previous.id">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: previous.date,
+						format: 'YYYYMMDD',
+					})}/`"
+				>
+					{{ previous.title.rendered }}
+				</NuxtLink>
+			</li>
+		</ul>
+
+		<ul class="hidden">
+			<li v-for="next in nextSchedules" :key="next.id">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: next.date,
+						format: 'YYYYMMDD',
+					})}/`"
+				>
+					{{ next.title.rendered }}
+				</NuxtLink>
+			</li>
+		</ul>
 	</div>
 </template>
 
@@ -190,6 +216,10 @@
 	const apiBase = config.public.apiBase
 	const route = useRoute()
 
+	useHead({
+		title: `SCHEDULE | SHeLTeR`,
+	})
+
 	const { ym } = route.query
 	const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
 	const monthQuery = ym ? +ym.slice(4, 6) - 1 : dayjs().month()
@@ -199,41 +229,39 @@
 		dayjs(new Date(year.value, month.value)).endOf('month').date()
 	)
 
-	useHead({
-		title: `SCHEDULE | SHeLTeR`,
-	})
-
 	const previousMonthDays = ref(
 		dayjs(new Date(year.value, month.value)).subtract(1, 'month')
+	)
+	const previousLastDate = ref(
+		dayjs(
+			new Date(
+				previousMonthDays.value.year(),
+				previousMonthDays.value.month()
+			)
+		)
+			.endOf('month')
+			.date()
 	)
 
 	const nextMonthDays = ref(
 		dayjs(new Date(year.value, month.value)).add(1, 'month')
 	)
+	const nextLastDate = ref(
+		dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month()))
+			.endOf('month')
+			.date()
+	)
 
 	const currentDate = ref(dayjs(new Date(year.value, month.value)))
 
-	const {
-		data: schedules,
-		refresh,
-		pending,
-	} = await useFetch<any>(`/posts`, {
-		baseURL: apiBase,
-		params: {
-			_embed: true,
-			after: `${year.value}-${dayjs(
-				new Date(year.value, month.value)
-			).format('MM')}-01T00:00:00`,
-			before: `${year.value}-${dayjs(
-				new Date(year.value, month.value)
-			).format('MM')}-${lastDate.value}T23:59:59`,
-			order: 'asc',
-			category_name: 'party',
-			status: 'publish',
-			per_page: 100,
-		},
-		onRequest(ctx: any) {
-			ctx.options.params = {
+	const [
+		{ data: schedules, refresh, pending },
+		{ data: previousSchedules },
+		{ data: nextSchedules },
+	] = await Promise.all([
+		useFetch<any>(`/posts`, {
+			baseURL: apiBase,
+			params: {
 				_embed: true,
 				after: `${year.value}-${dayjs(
 					new Date(year.value, month.value)
@@ -245,9 +273,64 @@
 				category_name: 'party',
 				status: 'publish',
 				per_page: 100,
-			}
-		},
-	})
+			},
+			onRequest(ctx: any) {
+				ctx.options.params = {
+					_embed: true,
+					after: `${year.value}-${dayjs(
+						new Date(year.value, month.value)
+					).format('MM')}-01T00:00:00`,
+					before: `${year.value}-${dayjs(
+						new Date(year.value, month.value)
+					).format('MM')}-${lastDate.value}T23:59:59`,
+					order: 'asc',
+					category_name: 'party',
+					status: 'publish',
+					per_page: 100,
+				}
+			},
+		}),
+		useFetch<any>(`/posts`, {
+			baseURL: apiBase,
+			params: {
+				after: `${previousMonthDays.value.year()}-${dayjs(
+					new Date(
+						previousMonthDays.value.year(),
+						previousMonthDays.value.month()
+					)
+				).format('MM')}-01T00:00:00`,
+				before: `${previousMonthDays.value.year()}-${dayjs(
+					new Date(
+						previousMonthDays.value.year(),
+						previousMonthDays.value.month()
+					)
+				).format('MM')}-${previousLastDate.value}T23:59:59`,
+				category_name: 'party',
+				status: 'publish',
+				per_page: 100,
+			},
+		}),
+		useFetch<any>(`/posts`, {
+			baseURL: apiBase,
+			params: {
+				after: `${nextMonthDays.value.year()}-${dayjs(
+					new Date(
+						nextMonthDays.value.year(),
+						nextMonthDays.value.month()
+					)
+				).format('MM')}-01T00:00:00`,
+				before: `${nextMonthDays.value.year()}-${dayjs(
+					new Date(
+						nextMonthDays.value.year(),
+						nextMonthDays.value.month()
+					)
+				).format('MM')}-${nextLastDate.value}T23:59:59`,
+				category_name: 'party',
+				status: 'publish',
+				per_page: 100,
+			},
+		}),
+	])
 
 	const previousData: any = ref(schedules.value[0].previous)
 	const nextData: any = ref(schedules.value[schedules.value.length - 1].next)
@@ -354,7 +437,7 @@
 	const calendars = ref(getCalendar())
 
 	watch(
-		() => month.value,
+		() => route.query,
 		async () => {
 			window.scrollTo(0, 0)
 			await refresh()
