@@ -332,8 +332,14 @@
 		}),
 	])
 
-	const previousData: any = ref(schedules.value[0].previous)
-	const nextData: any = ref(schedules.value[schedules.value.length - 1].next)
+	const isSchedule: boolean = schedules.value
+
+	const previousData: any = ref(
+		isSchedule ? schedules.value[0].previous : null
+	)
+	const nextData: any = ref(
+		isSchedule ? schedules.value[schedules.value.length - 1].next : null
+	)
 
 	const onClickPrev = () => {
 		changeMonth('previous')
@@ -393,21 +399,21 @@
 				const targetDays = dayjs(
 					new Date(year.value, targetMonth, targetDate)
 				).format('ddd')
-				const nowScheduleDay = schedules.value.find(
-					(scheduleDay: any) => {
-						return (
-							targetDate === dayjs(scheduleDay.date).date() &&
-							targetMonth === dayjs(scheduleDay.date).month()
-						)
-					}
-				)
+				const nowScheduleDay = schedules.value
+					? schedules.value.find((scheduleDay: any) => {
+							return (
+								targetDate === dayjs(scheduleDay.date).date() &&
+								targetMonth === dayjs(scheduleDay.date).month()
+							)
+					  })
+					: null
 				weekRow.push({
 					date: targetDate,
 					days: targetDays,
 					title: nowScheduleDay?.title.rendered || '',
 					dateUrl: nowScheduleDay?.date
 						? useDateString({
-								date: nowScheduleDay.date,
+								date: nowScheduleDay?.date,
 								format: 'YYYYMMDD',
 						  })
 						: '',
@@ -442,8 +448,12 @@
 			window.scrollTo(0, 0)
 			await refresh()
 			calendars.value = getCalendar()
-			previousData.value = schedules.value[0].previous
-			nextData.value = schedules.value[schedules.value.length - 1].next
+			previousData.value = schedules.value
+				? schedules.value[0].previous
+				: null
+			nextData.value = schedules.value
+				? schedules.value[schedules.value.length - 1].next
+				: null
 			previousMonthDays.value = dayjs(
 				new Date(year.value, month.value)
 			).subtract(1, 'month')
