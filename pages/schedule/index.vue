@@ -146,10 +146,10 @@
 
 		<nav>
 			<ul class="flex justify-between mt-6 px-6 md:px-0">
-				<li v-if="previousData.length">
+				<li v-if="previousData">
 					<Button
 						icon-left="fa-solid fa-chevron-left"
-						:disabled="pending || pendingPreviousData"
+						:disabled="pending"
 						@click="onClickPrev"
 					>
 						{{
@@ -162,10 +162,10 @@
 						}}
 					</Button>
 				</li>
-				<li v-if="nextData.length" class="ml-auto">
+				<li v-if="nextData" class="ml-auto">
 					<Button
 						icon-right="fa-solid fa-chevron-right"
-						:disabled="pending || pendingNextData"
+						:disabled="pending"
 						@click="onClickNext"
 					>
 						{{
@@ -180,6 +180,32 @@
 				</li>
 			</ul>
 		</nav>
+
+		<ul class="hidden">
+			<li v-for="previous in previousSchedules" :key="previous.id">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: previous.date,
+						format: 'YYYYMMDD',
+					})}/`"
+				>
+					{{ previous.title.rendered }}
+				</NuxtLink>
+			</li>
+		</ul>
+
+		<ul class="hidden">
+			<li v-for="next in nextSchedules" :key="next.id">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: next.date,
+						format: 'YYYYMMDD',
+					})}/`"
+				>
+					{{ next.title.rendered }}
+				</NuxtLink>
+			</li>
+		</ul>
 	</div>
 </template>
 
@@ -190,6 +216,10 @@
 	const apiBase = config.public.apiBase
 	const route = useRoute()
 
+	useHead({
+		title: `SCHEDULE | SHeLTeR`,
+	})
+
 	const { ym } = route.query
 	const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
 	const monthQuery = ym ? +ym.slice(4, 6) - 1 : dayjs().month()
@@ -198,10 +228,6 @@
 	const lastDate = ref(
 		dayjs(new Date(year.value, month.value)).endOf('month').date()
 	)
-
-	useHead({
-		title: `SCHEDULE | SHeLTeR`,
-	})
 
 	const previousMonthDays = ref(
 		dayjs(new Date(year.value, month.value)).subtract(1, 'month')
@@ -230,12 +256,8 @@
 
 	const [
 		{ data: schedules, refresh, pending },
-		{
-			data: previousData,
-			refresh: refreshPreviousData,
-			pending: pendingPreviousData,
-		},
-		{ data: nextData, refresh: refreshNextData, pending: pendingNextData },
+		{ data: previousSchedules },
+		{ data: nextSchedules },
 	] = await Promise.all([
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -287,25 +309,6 @@
 				status: 'publish',
 				per_page: 100,
 			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					after: `${previousMonthDays.value.year()}-${dayjs(
-						new Date(
-							previousMonthDays.value.year(),
-							previousMonthDays.value.month()
-						)
-					).format('MM')}-01T00:00:00`,
-					before: `${previousMonthDays.value.year()}-${dayjs(
-						new Date(
-							previousMonthDays.value.year(),
-							previousMonthDays.value.month()
-						)
-					).format('MM')}-${previousLastDate.value}T23:59:59`,
-					category_name: 'party',
-					status: 'publish',
-					per_page: 100,
-				}
-			},
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -326,27 +329,17 @@
 				status: 'publish',
 				per_page: 100,
 			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					after: `${nextMonthDays.value.year()}-${dayjs(
-						new Date(
-							nextMonthDays.value.year(),
-							nextMonthDays.value.month()
-						)
-					).format('MM')}-01T00:00:00`,
-					before: `${nextMonthDays.value.year()}-${dayjs(
-						new Date(
-							nextMonthDays.value.year(),
-							nextMonthDays.value.month()
-						)
-					).format('MM')}-${nextLastDate.value}T23:59:59`,
-					category_name: 'party',
-					status: 'publish',
-					per_page: 100,
-				}
-			},
 		}),
 	])
+
+	const isSchedule: boolean = schedules.value
+
+	const previousData: any = ref(
+		isSchedule ? schedules.value[0].previous : null
+	)
+	const nextData: any = ref(
+		isSchedule ? schedules.value[schedules.value.length - 1].next : null
+	)
 
 	const onClickPrev = () => {
 		changeMonth('previous')
@@ -364,28 +357,6 @@
 		month.value = days.month()
 		year.value = days.year()
 		lastDate.value = dayjs(new Date(year.value, month.value))
-			.endOf('month')
-			.date()
-
-		previousMonthDays.value = dayjs(
-			new Date(year.value, month.value)
-		).subtract(1, 'month')
-		previousLastDate.value = dayjs(
-			new Date(
-				previousMonthDays.value.year(),
-				previousMonthDays.value.month()
-			)
-		)
-			.endOf('month')
-			.date()
-
-		nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(
-			1,
-			'month'
-		)
-		nextLastDate.value = dayjs(
-			new Date(nextMonthDays.value.year(), nextMonthDays.value.month())
-		)
 			.endOf('month')
 			.date()
 
@@ -428,21 +399,21 @@
 				const targetDays = dayjs(
 					new Date(year.value, targetMonth, targetDate)
 				).format('ddd')
-				const nowScheduleDay = schedules.value.find(
-					(scheduleDay: any) => {
-						return (
-							targetDate === dayjs(scheduleDay.date).date() &&
-							targetMonth === dayjs(scheduleDay.date).month()
-						)
-					}
-				)
+				const nowScheduleDay = schedules.value
+					? schedules.value.find((scheduleDay: any) => {
+							return (
+								targetDate === dayjs(scheduleDay.date).date() &&
+								targetMonth === dayjs(scheduleDay.date).month()
+							)
+					  })
+					: null
 				weekRow.push({
 					date: targetDate,
 					days: targetDays,
 					title: nowScheduleDay?.title.rendered || '',
 					dateUrl: nowScheduleDay?.date
 						? useDateString({
-								date: nowScheduleDay.date,
+								date: nowScheduleDay?.date,
 								format: 'YYYYMMDD',
 						  })
 						: '',
@@ -477,8 +448,19 @@
 			window.scrollTo(0, 0)
 			await refresh()
 			calendars.value = getCalendar()
-			await refreshPreviousData()
-			await refreshNextData()
+			previousData.value = schedules.value
+				? schedules.value[0].previous
+				: null
+			nextData.value = schedules.value
+				? schedules.value[schedules.value.length - 1].next
+				: null
+			previousMonthDays.value = dayjs(
+				new Date(year.value, month.value)
+			).subtract(1, 'month')
+			nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(
+				1,
+				'month'
+			)
 		}
 	)
 </script>
