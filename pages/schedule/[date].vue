@@ -97,14 +97,14 @@
 					:key="media.title"
 					class="mt-8 md:mt-12 px-6 md:grid md:gap-6 grid-cols-2"
 				>
-					<figure class="block md:w-[480px]">
+					<figure class="block w-full md:w-[480px]">
 						<img
 							:src="media.image"
 							:alt="media.title"
 							class="w-full"
 						/>
 					</figure>
-					<div>
+					<div class="break-all">
 						<p
 							class="text-xl leading-8 md:text-2xl md:leading-9 font-bold mt-6 md:mt-0 schedule_shadow"
 						>
