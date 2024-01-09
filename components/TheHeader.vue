@@ -18,9 +18,9 @@
 				<li>
 					<NuxtLink :to="`/`">TOP</NuxtLink>
 				</li>
-				<li>
+				<!-- <li>
 					<NuxtLink :to="`/schedule/`">SCHEDULE</NuxtLink>
-				</li>
+				</li> -->
 				<li>
 					<NuxtLink to="https://store.at-shelter.com/" target="_blank"
 						>STORE</NuxtLink
