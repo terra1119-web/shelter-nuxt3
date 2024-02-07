@@ -218,6 +218,12 @@
 
 	useHead({
 		title: `SCHEDULE | SHeLTeR`,
+		meta: [
+			{
+				name: 'robots',
+				content: 'noindex',
+			},
+		],
 	})
 
 	const { ym } = route.query

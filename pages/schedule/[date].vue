@@ -183,6 +183,10 @@
 				property: 'og:url',
 				content: `https://www.at-shelter.com${route.path}`,
 			},
+			{
+				name: 'robots',
+				content: 'noindex',
+			},
 		],
 	})
 
