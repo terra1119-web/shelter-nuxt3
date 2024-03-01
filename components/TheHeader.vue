@@ -18,9 +18,9 @@
 				<li>
 					<NuxtLink :to="`/`">TOP</NuxtLink>
 				</li>
-				<!-- <li>
+				<li>
 					<NuxtLink :to="`/schedule/`">SCHEDULE</NuxtLink>
-				</li> -->
+				</li>
 				<li>
 					<NuxtLink to="https://store.at-shelter.com/" target="_blank"
 						>STORE</NuxtLink
@@ -57,11 +57,11 @@
 				<li>
 					<NuxtLink :to="`/`" class="block pt-4 pb-4">TOP</NuxtLink>
 				</li>
-				<!-- <li>
+				<li>
 					<NuxtLink :to="`/schedule/`" class="block pt-4 pb-4"
 						>SCHEDULE</NuxtLink
 					>
-				</li> -->
+				</li>
 				<li>
 					<NuxtLink
 						to="https://store.at-shelter.com/"
