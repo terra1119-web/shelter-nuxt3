@@ -1,5 +1,5 @@
 <template>
-	<!-- <section>
+	<section>
 		<header class="mt-6 mb-6">
 			<TheTitle tag-name="h2" type="primary">FEATURED</TheTitle>
 		</header>
@@ -14,7 +14,7 @@
 				VIEW MORE SCHEDULE
 			</Button>
 		</div>
-	</section> -->
+	</section>
 
 	<section>
 		<header class="mt-8 md:mt-10">
@@ -162,9 +162,9 @@
 
 	const topStoreItems = schedules.value?.acf.store_item
 
-	// const onScheduleClick = () => {
-	// 	navigateTo('/schedule/')
-	// }
+	const onScheduleClick = () => {
+		navigateTo('/schedule/')
+	}
 
 	const onStoreClick = () => {
 		const url = 'https://store.at-shelter.com/'
