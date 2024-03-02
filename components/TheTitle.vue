@@ -1,3 +1,15 @@
+<script setup lang="ts">
+	type Props = {
+		tagName: string
+		type: string
+	}
+
+	withDefaults(defineProps<Props>(), {
+		tagName: 'h2',
+		type: 'primary',
+	})
+</script>
+
 <template>
 	<Component
 		:is="tagName"
@@ -15,15 +27,3 @@
 		<slot />
 	</Component>
 </template>
-
-<script setup lang="ts">
-	type Props = {
-		tagName: string
-		type: string
-	}
-
-	withDefaults(defineProps<Props>(), {
-		tagName: 'h2',
-		type: 'primary',
-	})
-</script>

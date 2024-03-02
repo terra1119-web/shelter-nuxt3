@@ -1,3 +1,16 @@
+<script setup lang="ts">
+	type Props = {
+		url?: string
+		image?: string | boolean
+		title?: string
+		date?: string
+		target?: string
+		size?: string
+	}
+
+	defineProps<Props>()
+</script>
+
 <template>
 	<div
 		class="relative w-full h-0 overflow-hidden bg-no-repeat bg-center bg-cover"
@@ -26,16 +39,3 @@
 		</NuxtLink>
 	</div>
 </template>
-
-<script setup lang="ts">
-	type Props = {
-		url?: string
-		image?: string | boolean
-		title?: string
-		date?: string
-		target?: string
-		size?: string
-	}
-
-	defineProps<Props>()
-</script>

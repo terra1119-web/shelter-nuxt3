@@ -1,3 +1,22 @@
+<script setup lang="ts">
+	type Slide = {
+		url: string
+		imagePath: string
+		title: string
+		date: string
+		size: string
+	}
+
+	type Props = {
+		slides: Slide[]
+		size: string
+	}
+
+	defineProps<Props>()
+
+	const fadeSecondTime = 8
+</script>
+
 <template>
 	<div class="relative h-0" :class="size">
 		<div
@@ -21,22 +40,3 @@
 		</div>
 	</div>
 </template>
-
-<script setup lang="ts">
-	type Slide = {
-		url: string
-		imagePath: string
-		title: string
-		date: string
-		size: string
-	}
-
-	type Props = {
-		slides: Slide[]
-		size: string
-	}
-
-	defineProps<Props>()
-
-	const fadeSecondTime = 8
-</script>

@@ -1,5 +1,87 @@
+<script setup lang="ts">
+	const router = useRouter()
+	const route = useRoute()
+	const schedules = await useSinglePost()
+
+	useHead({
+		title: `${schedules.value[0].title.rendered} - ${useDateString({
+			date: schedules.value[0].date,
+			format: 'YYYY/MM/DD',
+		})} | SHeLTeR`,
+		meta: [
+			{
+				property: 'og:title',
+				content: `${
+					schedules.value[0].title.rendered
+				} - ${useDateString({
+					date: schedules.value[0].date,
+					format: 'YYYY/MM/DD',
+				})} | SHeLTeR`,
+			},
+			{
+				property: 'og:image',
+				content: `${
+					schedules.value[0]._embedded['wp:featuredmedia']
+						? schedules.value[0]._embedded['wp:featuredmedia'][0]
+								.source_url
+						: '/images/noimage.gif'
+				}`,
+			},
+			{
+				property: 'og:url',
+				content: `https://www.at-shelter.com${route.path}`,
+			},
+			{
+				name: 'robots',
+				content: 'noindex',
+			},
+		],
+	})
+
+	const partyProfileField: any[] = schedules.value[0]?.acf.party_profile_field
+	const mediaData: any[] = partyProfileField
+		? await Promise.all(
+				partyProfileField.map(async (profile: any) => {
+					const image: any = await useMedia(profile.pofile_image)
+					const descriptionRegExp =
+						// eslint-disable-next-line
+						/^<p class\=\"attachment\">.*<\/p>/
+
+					const imageUrl: string = image.value
+						? image.value.source_url
+						: ''
+					const title: string = image.value
+						? image.value.title.rendered
+						: ''
+					const description: string = image.value
+						? image.value.description.rendered.replace(
+								descriptionRegExp,
+								''
+						  )
+						: ''
+
+					const obj = {
+						image: imageUrl,
+						title,
+						description,
+					}
+					return obj
+				})
+		  )
+		: []
+
+	const onClick = (date: string) => {
+		router.push(
+			`/schedule/${useDateString({
+				date,
+				format: 'YYYYMMDD',
+			})}/`
+		)
+	}
+</script>
+
 <template>
-	<div v-for="(schedule, index) in schedules" :key="index">
+	<template v-for="(schedule, index) in schedules" :key="index">
 		<div
 			class="bg-none w-full md:blur-xl md:opacity-30 md:absolute md:top-0 md:left-0 md:min-h-full"
 			:style="[
@@ -147,90 +229,8 @@
 				</li>
 			</ul>
 		</div>
-	</div>
+	</template>
 </template>
-
-<script setup lang="ts">
-	const router = useRouter()
-	const route = useRoute()
-	const schedules = await useSinglePost()
-
-	useHead({
-		title: `${schedules.value[0].title.rendered} - ${useDateString({
-			date: schedules.value[0].date,
-			format: 'YYYY/MM/DD',
-		})} | SHeLTeR`,
-		meta: [
-			{
-				property: 'og:title',
-				content: `${
-					schedules.value[0].title.rendered
-				} - ${useDateString({
-					date: schedules.value[0].date,
-					format: 'YYYY/MM/DD',
-				})} | SHeLTeR`,
-			},
-			{
-				property: 'og:image',
-				content: `${
-					schedules.value[0]._embedded['wp:featuredmedia']
-						? schedules.value[0]._embedded['wp:featuredmedia'][0]
-								.source_url
-						: '/images/noimage.gif'
-				}`,
-			},
-			{
-				property: 'og:url',
-				content: `https://www.at-shelter.com${route.path}`,
-			},
-			{
-				name: 'robots',
-				content: 'noindex',
-			},
-		],
-	})
-
-	const partyProfileField: any[] = schedules.value[0]?.acf.party_profile_field
-	const mediaData: any[] = partyProfileField
-		? await Promise.all(
-				partyProfileField.map(async (profile: any) => {
-					const image: any = await useMedia(profile.pofile_image)
-					const descriptionRegExp =
-						// eslint-disable-next-line
-						/^<p class\=\"attachment\">.*<\/p>/
-
-					const imageUrl: string = image.value
-						? image.value.source_url
-						: ''
-					const title: string = image.value
-						? image.value.title.rendered
-						: ''
-					const description: string = image.value
-						? image.value.description.rendered.replace(
-								descriptionRegExp,
-								''
-						  )
-						: ''
-
-					const obj = {
-						image: imageUrl,
-						title,
-						description,
-					}
-					return obj
-				})
-		  )
-		: []
-
-	const onClick = (date: string) => {
-		router.push(
-			`/schedule/${useDateString({
-				date,
-				format: 'YYYYMMDD',
-			})}/`
-		)
-	}
-</script>
 
 <style>
 	.schedule__freetxt iframe {
