@@ -225,7 +225,6 @@
 								targetMonth + 1
 							}-${targetDate}`,
 						}),
-					// day === 0,
 				})
 				startDate = startDate.add(1, 'day')
 			}
