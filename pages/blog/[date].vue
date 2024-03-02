@@ -1,3 +1,37 @@
+<script setup lang="ts">
+	const route = useRoute()
+	const blogs = await useSinglePost({ postType: 'blog' })
+
+	useHead({
+		title: `${blogs.value[0].title.rendered} - ${useDateString({
+			date: blogs.value[0].date,
+			format: 'YYYY/MM/DD',
+		})} | SHeLTeR`,
+		meta: [
+			{
+				property: 'og:title',
+				content: `${blogs.value[0].title.rendered} - ${useDateString({
+					date: blogs.value[0].date,
+					format: 'YYYY/MM/DD',
+				})} | SHeLTeR`,
+			},
+			{
+				property: 'og:image',
+				content: `${
+					blogs.value[0]._embedded
+						? blogs.value[0]._embedded['wp:featuredmedia'][0]
+								.source_url
+						: '/images/noimage.gif'
+				}`,
+			},
+			{
+				property: 'og:url',
+				content: `https://www.at-shelter.com${route.path}`,
+			},
+		],
+	})
+</script>
+
 <template>
 	<article
 		v-for="(blog, index) in blogs"
@@ -40,40 +74,6 @@
 		/>
 	</article>
 </template>
-
-<script setup lang="ts">
-	const route = useRoute()
-	const blogs = await useSinglePost({ postType: 'blog' })
-
-	useHead({
-		title: `${blogs.value[0].title.rendered} - ${useDateString({
-			date: blogs.value[0].date,
-			format: 'YYYY/MM/DD',
-		})} | SHeLTeR`,
-		meta: [
-			{
-				property: 'og:title',
-				content: `${blogs.value[0].title.rendered} - ${useDateString({
-					date: blogs.value[0].date,
-					format: 'YYYY/MM/DD',
-				})} | SHeLTeR`,
-			},
-			{
-				property: 'og:image',
-				content: `${
-					blogs.value[0]._embedded
-						? blogs.value[0]._embedded['wp:featuredmedia'][0]
-								.source_url
-						: '/images/noimage.gif'
-				}`,
-			},
-			{
-				property: 'og:url',
-				content: `https://www.at-shelter.com${route.path}`,
-			},
-		],
-	})
-</script>
 
 <style>
 	.blog__wrapper p {

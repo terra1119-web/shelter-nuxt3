@@ -1,3 +1,31 @@
+<script setup lang="ts">
+	const config = useRuntimeConfig()
+	const apiBase = config.public.apiBase
+
+	const { data: information } = await useFetch<any>(`/pages/4`, {
+		baseURL: apiBase,
+		params: {
+			_embed: true,
+		},
+	})
+
+	useHead({
+		title: `INFORMATION | SHeLTeR`,
+	})
+
+	const slides: any = ref([])
+	const informationImageFields: any =
+		information.value.acf.information_image_field
+
+	if (informationImageFields) {
+		informationImageFields.forEach((field: any) => {
+			slides.value.push({
+				imagePath: field.information_image,
+			})
+		})
+	}
+</script>
+
 <template>
 	<div class="md:fixed md:z-0 md:top-0 md:left-0 md:right-0 md:bottom-0">
 		<SlideShow :slides="slides" size="pt-[61.875%]" />
@@ -121,31 +149,3 @@
 		</article>
 	</div>
 </template>
-
-<script setup lang="ts">
-	const config = useRuntimeConfig()
-	const apiBase = config.public.apiBase
-
-	const { data: information } = await useFetch<any>(`/pages/4`, {
-		baseURL: apiBase,
-		params: {
-			_embed: true,
-		},
-	})
-
-	useHead({
-		title: `INFORMATION | SHeLTeR`,
-	})
-
-	const slides: any = ref([])
-	const informationImageFields: any =
-		information.value.acf.information_image_field
-
-	if (informationImageFields) {
-		informationImageFields.forEach((field: any) => {
-			slides.value.push({
-				imagePath: field.information_image,
-			})
-		})
-	}
-</script>

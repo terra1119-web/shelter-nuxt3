@@ -1,214 +1,3 @@
-<template>
-	<div class="pb-8 md:pb-10 md:max-w-5xl md:px-8 md:mx-auto">
-		<section>
-			<header class="mt-6 px-6">
-				<TheTitle tag-name="h1" type="primary">
-					{{
-						useDateString({
-							date: `${year}${month + 1}`,
-							format: 'YYYY MMMM',
-						})
-					}}
-				</TheTitle>
-			</header>
-
-			<ul
-				class="w-full bg-surface-nuetral-primary border-l border-t border-border-secondary grid mt-6 md:grid-cols-7"
-			>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-accent"
-				>
-					Sun
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Mon
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Tue
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Wed
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Thu
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
-				>
-					Fri
-				</li>
-				<li
-					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-info"
-				>
-					Sat
-				</li>
-				<li
-					v-for="(day, index) in calendars"
-					:key="`${useDateString({
-						date: `${year}${month + 1}`,
-						format: 'YYYYMMMM',
-					})}-schedule-${year}-${month + 1}-${day.date}-${index}`"
-					class="md:min-h-[112px] border-r border-b border-border-secondary break-all"
-					:class="[
-						!day.isNowMonth || !day.title ? 'hidden md:block' : '',
-						day.isToday ? 'bg-surface-neutral-highlight' : '',
-					]"
-				>
-					<template
-						v-if="
-							day.isNowMonth &&
-							day.title !== '' &&
-							day.dateUrl !== ''
-						"
-					>
-						<NuxtLink
-							:to="`/schedule/${day.dateUrl}/`"
-							:class="[
-								'block',
-								'h-full',
-								'py-4',
-								'pl-6',
-								'pr-14',
-								'md:pl-4',
-								'md:pr-4',
-								'relative',
-							]"
-						>
-							<p
-								class="text-xl font-bold"
-								:class="[
-									day.isHoliday
-										? 'text-text-accent'
-										: day.isSaturday
-										? 'text-text-info'
-										: '',
-								]"
-							>
-								{{ day.date }}
-								<span class="pl-2 md:hidden">{{
-									day.days
-								}}</span>
-							</p>
-							<h2
-								class="mt-2 text-xl font-bold"
-								v-html="day.title"
-							/>
-							<span
-								class="block md:hidden absolute top-[calc(50%-8px)] right-6"
-							>
-								<FontAwesomeIcon
-									icon="fa-solid fa-chevron-right"
-								/>
-							</span>
-						</NuxtLink>
-					</template>
-					<template v-else>
-						<div
-							:class="[
-								'block',
-								'h-full',
-								'py-4',
-								'pl-6',
-								'pr-14',
-								'md:pl-4',
-								'md:pr-4',
-								'relative',
-							]"
-						>
-							<p
-								class="text-xl font-bold"
-								:class="[
-									day.isHoliday
-										? 'text-text-accent'
-										: day.isSaturday
-										? 'text-text-info'
-										: '',
-								]"
-							>
-								{{ day.date }}
-								<span class="pl-2 md:hidden">{{
-									day.days
-								}}</span>
-							</p>
-						</div>
-					</template>
-				</li>
-			</ul>
-		</section>
-
-		<nav>
-			<ul class="flex justify-between mt-6 px-6 md:px-0">
-				<li v-if="previousData">
-					<Button
-						icon-left="fa-solid fa-chevron-left"
-						:disabled="pending"
-						@click="onClickPrev"
-					>
-						{{
-							useDateString({
-								date:
-									previousMonthDays.year().toString() +
-									(previousMonthDays.month() + 1).toString(),
-								format: 'MMMM',
-							})
-						}}
-					</Button>
-				</li>
-				<li v-if="nextData" class="ml-auto">
-					<Button
-						icon-right="fa-solid fa-chevron-right"
-						:disabled="pending"
-						@click="onClickNext"
-					>
-						{{
-							useDateString({
-								date:
-									nextMonthDays.year().toString() +
-									(nextMonthDays.month() + 1).toString(),
-								format: 'MMMM',
-							})
-						}}
-					</Button>
-				</li>
-			</ul>
-		</nav>
-
-		<ul class="hidden">
-			<li v-for="previous in previousSchedules" :key="previous.id">
-				<NuxtLink
-					:to="`/schedule/${useDateString({
-						date: previous.date,
-						format: 'YYYYMMDD',
-					})}/`"
-				>
-					{{ previous.title.rendered }}
-				</NuxtLink>
-			</li>
-		</ul>
-
-		<ul class="hidden">
-			<li v-for="next in nextSchedules" :key="next.id">
-				<NuxtLink
-					:to="`/schedule/${useDateString({
-						date: next.date,
-						format: 'YYYYMMDD',
-					})}/`"
-				>
-					{{ next.title.rendered }}
-				</NuxtLink>
-			</li>
-		</ul>
-	</div>
-</template>
-
 <script setup lang="ts">
 	import dayjs from 'dayjs'
 
@@ -430,13 +219,13 @@
 						targetDate === dayjs().date(),
 					isSaturday: day === 6,
 					isHoliday:
-						// day === 0 ||
-						// useHoliday({
-						// 	date: `${year.value}-${
-						// 		targetMonth + 1
-						// 	}-${targetDate}`,
-						// }),
-						day === 0,
+						day === 0 ||
+						useHoliday({
+							date: `${year.value}-${
+								targetMonth + 1
+							}-${targetDate}`,
+						}),
+					// day === 0,
 				})
 				startDate = startDate.add(1, 'day')
 			}
@@ -470,3 +259,214 @@
 		}
 	)
 </script>
+
+<template>
+	<div class="pb-8 md:pb-10 md:max-w-5xl md:px-8 md:mx-auto">
+		<section>
+			<header class="mt-6 px-6">
+				<TheTitle tag-name="h1" type="primary">
+					{{
+						useDateString({
+							date: `${year}${month + 1}`,
+							format: 'YYYY MMMM',
+						})
+					}}
+				</TheTitle>
+			</header>
+
+			<ul
+				class="w-full bg-surface-nuetral-primary border-l border-t border-border-secondary grid mt-6 md:grid-cols-7"
+			>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-accent"
+				>
+					Sun
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+				>
+					Mon
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+				>
+					Tue
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+				>
+					Wed
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+				>
+					Thu
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary"
+				>
+					Fri
+				</li>
+				<li
+					class="hidden md:block p-4 text-center text-xl font-bold border-r border-b border-border-secondary text-text-info"
+				>
+					Sat
+				</li>
+				<li
+					v-for="(day, index) in calendars"
+					:key="`${useDateString({
+						date: `${year}${month + 1}`,
+						format: 'YYYYMMMM',
+					})}-schedule-${year}-${month + 1}-${day.date}-${index}`"
+					class="md:min-h-[112px] border-r border-b border-border-secondary break-all"
+					:class="[
+						!day.isNowMonth || !day.title ? 'hidden md:block' : '',
+						day.isToday ? 'bg-surface-neutral-highlight' : '',
+					]"
+				>
+					<template
+						v-if="
+							day.isNowMonth &&
+							day.title !== '' &&
+							day.dateUrl !== ''
+						"
+					>
+						<NuxtLink
+							:to="`/schedule/${day.dateUrl}/`"
+							:class="[
+								'block',
+								'h-full',
+								'py-4',
+								'pl-6',
+								'pr-14',
+								'md:pl-4',
+								'md:pr-4',
+								'relative',
+							]"
+						>
+							<p
+								class="text-xl font-bold"
+								:class="[
+									day.isHoliday
+										? 'text-text-accent'
+										: day.isSaturday
+										? 'text-text-info'
+										: '',
+								]"
+							>
+								{{ day.date }}
+								<span class="pl-2 md:hidden">{{
+									day.days
+								}}</span>
+							</p>
+							<h2
+								class="mt-2 text-xl font-bold"
+								v-html="day.title"
+							/>
+							<span
+								class="block md:hidden absolute top-[calc(50%-8px)] right-6"
+							>
+								<FontAwesomeIcon
+									icon="fa-solid fa-chevron-right"
+								/>
+							</span>
+						</NuxtLink>
+					</template>
+					<template v-else>
+						<div
+							:class="[
+								'block',
+								'h-full',
+								'py-4',
+								'pl-6',
+								'pr-14',
+								'md:pl-4',
+								'md:pr-4',
+								'relative',
+							]"
+						>
+							<p
+								class="text-xl font-bold"
+								:class="[
+									day.isHoliday
+										? 'text-text-accent'
+										: day.isSaturday
+										? 'text-text-info'
+										: '',
+								]"
+							>
+								{{ day.date }}
+								<span class="pl-2 md:hidden">{{
+									day.days
+								}}</span>
+							</p>
+						</div>
+					</template>
+				</li>
+			</ul>
+		</section>
+
+		<nav>
+			<ul class="flex justify-between mt-6 px-6 md:px-0">
+				<li v-if="previousData">
+					<Button
+						icon-left="fa-solid fa-chevron-left"
+						:disabled="pending"
+						@click="onClickPrev"
+					>
+						{{
+							useDateString({
+								date:
+									previousMonthDays.year().toString() +
+									(previousMonthDays.month() + 1).toString(),
+								format: 'MMMM',
+							})
+						}}
+					</Button>
+				</li>
+				<li v-if="nextData" class="ml-auto">
+					<Button
+						icon-right="fa-solid fa-chevron-right"
+						:disabled="pending"
+						@click="onClickNext"
+					>
+						{{
+							useDateString({
+								date:
+									nextMonthDays.year().toString() +
+									(nextMonthDays.month() + 1).toString(),
+								format: 'MMMM',
+							})
+						}}
+					</Button>
+				</li>
+			</ul>
+		</nav>
+
+		<ul class="hidden">
+			<li v-for="previous in previousSchedules" :key="previous.id">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: previous.date,
+						format: 'YYYYMMDD',
+					})}/`"
+				>
+					{{ previous.title.rendered }}
+				</NuxtLink>
+			</li>
+		</ul>
+
+		<ul class="hidden">
+			<li v-for="next in nextSchedules" :key="next.id">
+				<NuxtLink
+					:to="`/schedule/${useDateString({
+						date: next.date,
+						format: 'YYYYMMDD',
+					})}/`"
+				>
+					{{ next.title.rendered }}
+				</NuxtLink>
+			</li>
+		</ul>
+	</div>
+</template>

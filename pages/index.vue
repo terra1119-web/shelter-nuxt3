@@ -1,3 +1,60 @@
+<script setup lang="ts">
+	const config = useRuntimeConfig()
+	const apiBase = config.public.apiBase
+
+	const [{ data: schedules }, { data: blogs }] = await Promise.all([
+		useFetch<any>(`/pages/2`, {
+			baseURL: apiBase,
+			params: {
+				_embed: true,
+			},
+		}),
+		useFetch<any>(`/blog`, {
+			baseURL: apiBase,
+			params: {
+				_embed: true,
+				per_page: 3,
+			},
+		}),
+	])
+
+	const slides: any = ref([])
+	const topImageFields = schedules.value?.acf.top_image_field
+	topImageFields.forEach((field: any) => {
+		slides.value.push({
+			url: `/schedule/${useDateString({
+				date: field.top_image_field_date,
+				format: 'YYYYMMDD',
+			})}/`,
+			imagePath: field.top_image_field_image,
+			title: field.top_image_field_text,
+			date: useDateString({
+				date: field.top_image_field_date,
+				format: 'YYYY/MM/DD ddd',
+			}),
+		})
+	})
+
+	const topStoreItems = schedules.value?.acf.store_item
+
+	const onScheduleClick = () => {
+		navigateTo('/schedule/')
+	}
+
+	const onStoreClick = () => {
+		const url = 'https://store.at-shelter.com/'
+		window.open(url)
+	}
+
+	const onBlogClick = () => {
+		navigateTo('/blog/')
+	}
+
+	const onInformationClick = () => {
+		navigateTo('/information/')
+	}
+</script>
+
 <template>
 	<section>
 		<header class="mt-6 mb-6">
@@ -122,60 +179,3 @@
 		</div>
 	</section>
 </template>
-
-<script setup lang="ts">
-	const config = useRuntimeConfig()
-	const apiBase = config.public.apiBase
-
-	const [{ data: schedules }, { data: blogs }] = await Promise.all([
-		useFetch<any>(`/pages/2`, {
-			baseURL: apiBase,
-			params: {
-				_embed: true,
-			},
-		}),
-		useFetch<any>(`/blog`, {
-			baseURL: apiBase,
-			params: {
-				_embed: true,
-				per_page: 3,
-			},
-		}),
-	])
-
-	const slides: any = ref([])
-	const topImageFields = schedules.value?.acf.top_image_field
-	topImageFields.forEach((field: any) => {
-		slides.value.push({
-			url: `/schedule/${useDateString({
-				date: field.top_image_field_date,
-				format: 'YYYYMMDD',
-			})}/`,
-			imagePath: field.top_image_field_image,
-			title: field.top_image_field_text,
-			date: useDateString({
-				date: field.top_image_field_date,
-				format: 'YYYY/MM/DD ddd',
-			}),
-		})
-	})
-
-	const topStoreItems = schedules.value?.acf.store_item
-
-	const onScheduleClick = () => {
-		navigateTo('/schedule/')
-	}
-
-	const onStoreClick = () => {
-		const url = 'https://store.at-shelter.com/'
-		window.open(url)
-	}
-
-	const onBlogClick = () => {
-		navigateTo('/blog/')
-	}
-
-	const onInformationClick = () => {
-		navigateTo('/information/')
-	}
-</script>

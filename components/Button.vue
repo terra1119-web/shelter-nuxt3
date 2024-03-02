@@ -1,3 +1,28 @@
+<script setup lang="ts">
+	type Props = {
+		iconLeft?: string
+		iconRight?: string
+		type?: string
+		disabled?: boolean
+	}
+
+	type Emits = {
+		(e: 'click'): void
+	}
+
+	withDefaults(defineProps<Props>(), {
+		iconLeft: undefined,
+		iconRight: undefined,
+		type: 'primary',
+		disabled: false,
+	})
+
+	const emit = defineEmits<Emits>()
+	const onClick = () => {
+		emit('click')
+	}
+</script>
+
 <template>
 	<button
 		:class="[
@@ -28,28 +53,3 @@
 		<FontAwesomeIcon v-if="iconRight" :icon="iconRight" class="ml-2" />
 	</button>
 </template>
-
-<script setup lang="ts">
-	type Props = {
-		iconLeft?: string
-		iconRight?: string
-		type?: string
-		disabled?: boolean
-	}
-
-	type Emits = {
-		(e: 'click'): void
-	}
-
-	withDefaults(defineProps<Props>(), {
-		iconLeft: undefined,
-		iconRight: undefined,
-		type: 'primary',
-		disabled: false,
-	})
-
-	const emit = defineEmits<Emits>()
-	const onClick = () => {
-		emit('click')
-	}
-</script>

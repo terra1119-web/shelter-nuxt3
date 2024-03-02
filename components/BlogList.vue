@@ -1,66 +1,3 @@
-<template>
-	<section class="md:max-w-5xl md:mx-auto">
-		<header class="mt-6 mb-6">
-			<TheTitle tag-name="h1" type="primary">BLOG</TheTitle>
-		</header>
-
-		<ul class="md:grid gap-6 grid-cols-3">
-			<li
-				v-for="(blog, index) in blogs"
-				:key="index"
-				class="mt-6 md:mt-0"
-			>
-				<Card
-					:url="`/blog/${useDateString({
-						date: blog.date,
-						format: 'YYYYMMDD',
-					})}/`"
-					:image="getSourceUrl(blog)"
-					:title="blog.title.rendered"
-					:date="
-						useDateString({
-							date: blog.date,
-							format: 'YYYY/MM/DD',
-						})
-					"
-					size="pt-[61.875%] md:pt-[320px]"
-				/>
-			</li>
-		</ul>
-	</section>
-
-	<nav class="pb-8 md:pb-10">
-		<ul class="flex flex-wrap mt-6 gap-4 justify-center">
-			<li v-if="currentPage !== 1">
-				<Button
-					type="primary"
-					class="py-3"
-					@click="onClickPage(currentPage - 1)"
-				>
-					<FontAwesomeIcon icon="fa-solid fa-chevron-left" />
-				</Button>
-			</li>
-			<li v-for="(page, index) in totalPages" :key="index">
-				<Button
-					:type="computedButtonType(index + 1)"
-					@click="onClickPage(index + 1)"
-				>
-					{{ index + 1 }}
-				</Button>
-			</li>
-			<li v-if="currentPage !== totalPages">
-				<Button
-					type="primary"
-					class="py-3"
-					@click="onClickPage(currentPage + 1)"
-				>
-					<FontAwesomeIcon icon="fa-solid fa-chevron-right" />
-				</Button>
-			</li>
-		</ul>
-	</nav>
-</template>
-
 <script setup lang="ts">
 	const config = useRuntimeConfig()
 	const apiBase = config.public.apiBase
@@ -126,3 +63,66 @@
 	// 	}
 	// )
 </script>
+
+<template>
+	<section class="md:max-w-5xl md:mx-auto">
+		<header class="mt-6 mb-6">
+			<TheTitle tag-name="h1" type="primary">BLOG</TheTitle>
+		</header>
+
+		<ul class="md:grid gap-6 grid-cols-3">
+			<li
+				v-for="(blog, index) in blogs"
+				:key="index"
+				class="mt-6 md:mt-0"
+			>
+				<Card
+					:url="`/blog/${useDateString({
+						date: blog.date,
+						format: 'YYYYMMDD',
+					})}/`"
+					:image="getSourceUrl(blog)"
+					:title="blog.title.rendered"
+					:date="
+						useDateString({
+							date: blog.date,
+							format: 'YYYY/MM/DD',
+						})
+					"
+					size="pt-[61.875%] md:pt-[320px]"
+				/>
+			</li>
+		</ul>
+	</section>
+
+	<nav class="pb-8 md:pb-10">
+		<ul class="flex flex-wrap mt-6 gap-4 justify-center">
+			<li v-if="currentPage !== 1">
+				<Button
+					type="primary"
+					class="py-3"
+					@click="onClickPage(currentPage - 1)"
+				>
+					<FontAwesomeIcon icon="fa-solid fa-chevron-left" />
+				</Button>
+			</li>
+			<li v-for="(page, index) in totalPages" :key="index">
+				<Button
+					:type="computedButtonType(index + 1)"
+					@click="onClickPage(index + 1)"
+				>
+					{{ index + 1 }}
+				</Button>
+			</li>
+			<li v-if="currentPage !== totalPages">
+				<Button
+					type="primary"
+					class="py-3"
+					@click="onClickPage(currentPage + 1)"
+				>
+					<FontAwesomeIcon icon="fa-solid fa-chevron-right" />
+				</Button>
+			</li>
+		</ul>
+	</nav>
+</template>
