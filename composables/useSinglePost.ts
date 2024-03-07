@@ -22,7 +22,7 @@ export const useSinglePost = async (
 		params: {
 			_embed: true,
 			orderby: 'date',
-			order: 'desc',
+			order: 'asc',
 			before: beforeDateString,
 			after: afterDateString,
 		},
