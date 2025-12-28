@@ -16,8 +16,11 @@
 	})
 
 	const { ym } = route.query
-	const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
-	const monthQuery = ym ? +ym.slice(4, 6) - 1 : dayjs().month()
+	const ymStr = Array.isArray(ym) ? ym[0] : (ym as string | null)
+	const yearQuery =
+		ymStr && /^\d{6}$/.test(ymStr) ? +ymStr.slice(0, 4) : dayjs().year()
+	const monthQuery =
+		ymStr && /^\d{6}$/.test(ymStr) ? +ymStr.slice(4, 6) - 1 : dayjs().month()
 	const year = ref(yearQuery)
 	const month = ref(monthQuery)
 	const lastDate = ref(
