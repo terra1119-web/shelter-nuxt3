@@ -27,7 +27,7 @@
     "eslint-plugin-vue": "^9.14.1",
     "nuxt": "^3.20.2",
     "prettier": "^2.8.8",
-    "style-dictionary": "^3.8.0",
+    "style-dictionary": "^5.1.1",
     "token-transformer": "^0.0.33",
     "typescript": "^5.1.3"
   },
