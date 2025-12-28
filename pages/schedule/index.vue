@@ -183,6 +183,7 @@
 		return date.add(6 - weekNum, 'day')
 	}
 
+	const isMounted = ref(false)
 	const getCalendar = () => {
 		let startDate = getStartDate(currentDate.value)
 		const endDate = getEndDate(currentDate.value)
@@ -213,6 +214,7 @@
 						dateUrl: '',
 						isNowMonth: month.value === targetMonth,
 						isToday:
+							isMounted.value &&
 							year.value === dayjs().year() &&
 							targetMonth === dayjs().month() &&
 							targetDate === dayjs().date(),
@@ -241,6 +243,7 @@
 								: '',
 							isNowMonth: month.value === targetMonth,
 							isToday:
+								isMounted.value &&
 								year.value === dayjs().year() &&
 								targetMonth === dayjs().month() &&
 								targetDate === dayjs().date(),
@@ -265,6 +268,11 @@
 	}
 
 	const calendars = ref(getCalendar())
+
+	onMounted(() => {
+		isMounted.value = true
+		calendars.value = getCalendar()
+	})
 
 	watch(
 		() => month.value,
