@@ -23,14 +23,14 @@
 		ymStr && /^\d{6}$/.test(ymStr) ? +ymStr.slice(4, 6) - 1 : dayjs().month()
 	const year = ref(yearQuery)
 	const month = ref(monthQuery)
-	const lastDate = ref(
+	const lastDate = computed(() =>
 		dayjs(new Date(year.value, month.value)).endOf('month').date()
 	)
 
-	const previousMonthDays = ref(
+	const previousMonthDays = computed(() =>
 		dayjs(new Date(year.value, month.value)).subtract(1, 'month')
 	)
-	const previousLastDate = ref(
+	const previousLastDate = computed(() =>
 		dayjs(
 			new Date(
 				previousMonthDays.value.year(),
@@ -41,16 +41,16 @@
 			.date()
 	)
 
-	const nextMonthDays = ref(
+	const nextMonthDays = computed(() =>
 		dayjs(new Date(year.value, month.value)).add(1, 'month')
 	)
-	const nextLastDate = ref(
+	const nextLastDate = computed(() =>
 		dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month()))
 			.endOf('month')
 			.date()
 	)
 
-	const currentDate = ref(dayjs(new Date(year.value, month.value)))
+	const currentDate = computed(() => dayjs(new Date(year.value, month.value)))
 
 	const [
 		{ data: schedules, refresh, pending },
@@ -117,13 +117,11 @@
 		}),
 	])
 
-	const isSchedule: boolean = schedules.value
-
-	const previousData: any = ref(
-		isSchedule ? schedules.value[0].previous : null
+	const previousData = computed(() =>
+		schedules.value ? schedules.value[0].previous : null
 	)
-	const nextData: any = ref(
-		isSchedule ? schedules.value[schedules.value.length - 1].next : null
+	const nextData = computed(() =>
+		schedules.value ? schedules.value[schedules.value.length - 1].next : null
 	)
 
 	const onClickPrev = () => {
@@ -133,8 +131,6 @@
 	const onClickNext = () => {
 		changeMonth('next')
 	}
-
-	// const isMounted = ref(false) // Moved up
 
 	const changeMonth = async (tagetMonth: string) => {
 		const days =
@@ -171,6 +167,9 @@
 		const endDate = getEndDate(currentDate.value)
 		const weekNumber = Math.ceil(endDate.diff(startDate, 'day') / 7)
 
+        // If pending, do not show events yet
+        const currentSchedules = pending.value ? null : schedules.value
+
 		const calendar = []
 		for (let week = 0; week < weekNumber; week++) {
 			const weekRow: any[] = []
@@ -180,8 +179,8 @@
 				const targetDays = dayjs(
 					new Date(year.value, targetMonth, targetDate)
 				).format('ddd')
-				const nowScheduleDay = schedules.value
-					? schedules.value.filter((scheduleDay: any) => {
+				const nowScheduleDay = currentSchedules
+					? currentSchedules.filter((scheduleDay: any) => {
 							return (
 								targetDate === dayjs(scheduleDay.date).date() &&
 								targetMonth === dayjs(scheduleDay.date).month()
@@ -210,7 +209,7 @@
 							}),
 					},
 				]
-				if (nowScheduleDay.length) {
+				if (nowScheduleDay && nowScheduleDay.length) {
 					nowScheduleDayArray = []
 					for (const schedule of nowScheduleDay) {
 						nowScheduleDayArray.push({
@@ -249,19 +248,10 @@
 		return flatCalendars
 	}
 
-	// const calendars = computed(() => getCalendar())
-	const calendars = ref(getCalendar())
-
-    // Watch for schedule updates
-    watch(schedules, () => {
-		calendars.value = getCalendar()
-        previousData.value = schedules.value ? schedules.value[0].previous : null
-        nextData.value = schedules.value ? schedules.value[schedules.value.length - 1].next : null
-	})
+	const calendars = computed(() => getCalendar())
 
 	onMounted(() => {
 		isMounted.value = true
-		calendars.value = getCalendar()
 	})
 
 	watch(
@@ -276,30 +266,9 @@
                 month.value = newMonth
             }
 
-            // Update derived state
-            lastDate.value = dayjs(new Date(year.value, month.value)).endOf('month').date()
-            currentDate.value = dayjs(new Date(year.value, month.value))
-
-            previousMonthDays.value = dayjs(new Date(year.value, month.value)).subtract(1, 'month')
-            nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(1, 'month')
-             previousLastDate.value = dayjs(
-                new Date(
-                    previousMonthDays.value.year(),
-                    previousMonthDays.value.month()
-                )
-             )
-                .endOf('month')
-                .date()
-            nextLastDate.value = dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month()))
-                .endOf('month')
-                .date()
-
 			if (import.meta.client) {
 				window.scrollTo(0, 0)
 			}
-
-			// refresh() handled by computed params
-            // calendars update handled by watch(schedules)
 		},
         { immediate: true }
 	)
