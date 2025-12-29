@@ -16,18 +16,21 @@
 	})
 
 	const { ym } = route.query
-	const yearQuery = ym ? +ym.slice(0, 4) : dayjs().year()
-	const monthQuery = ym ? +ym.slice(4, 6) - 1 : dayjs().month()
+	const ymStr = Array.isArray(ym) ? ym[0] : (ym as string | null)
+	const yearQuery =
+		ymStr && /^\d{6}$/.test(ymStr) ? +ymStr.slice(0, 4) : dayjs().year()
+	const monthQuery =
+		ymStr && /^\d{6}$/.test(ymStr) ? +ymStr.slice(4, 6) - 1 : dayjs().month()
 	const year = ref(yearQuery)
 	const month = ref(monthQuery)
-	const lastDate = ref(
+	const lastDate = computed(() =>
 		dayjs(new Date(year.value, month.value)).endOf('month').date()
 	)
 
-	const previousMonthDays = ref(
+	const previousMonthDays = computed(() =>
 		dayjs(new Date(year.value, month.value)).subtract(1, 'month')
 	)
-	const previousLastDate = ref(
+	const previousLastDate = computed(() =>
 		dayjs(
 			new Date(
 				previousMonthDays.value.year(),
@@ -38,16 +41,16 @@
 			.date()
 	)
 
-	const nextMonthDays = ref(
+	const nextMonthDays = computed(() =>
 		dayjs(new Date(year.value, month.value)).add(1, 'month')
 	)
-	const nextLastDate = ref(
+	const nextLastDate = computed(() =>
 		dayjs(new Date(nextMonthDays.value.year(), nextMonthDays.value.month()))
 			.endOf('month')
 			.date()
 	)
 
-	const currentDate = ref(dayjs(new Date(year.value, month.value)))
+	const currentDate = computed(() => dayjs(new Date(year.value, month.value)))
 
 	const [
 		{ data: schedules, refresh, pending },
@@ -56,34 +59,21 @@
 	] = await Promise.all([
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
-			params: {
+			params: computed(() => ({
 				_embed: true,
 				after: `${year.value}-${dayjs(
 					new Date(year.value, month.value)
 				).format('MM')}-01T00:00:00`,
 				before: `${year.value}-${dayjs(
 					new Date(year.value, month.value)
-				).format('MM')}-${lastDate.value}T23:59:59`,
+				).format('MM')}-${dayjs(new Date(year.value, month.value))
+					.endOf('month')
+					.date()}T23:59:59`,
 				order: 'asc',
 				category_name: 'party',
 				status: 'publish',
 				per_page: 100,
-			},
-			onRequest(ctx: any) {
-				ctx.options.params = {
-					_embed: true,
-					after: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-01T00:00:00`,
-					before: `${year.value}-${dayjs(
-						new Date(year.value, month.value)
-					).format('MM')}-${lastDate.value}T23:59:59`,
-					order: 'asc',
-					category_name: 'party',
-					status: 'publish',
-					per_page: 100,
-				}
-			},
+			})),
 		}),
 		useFetch<any>(`/posts`, {
 			baseURL: apiBase,
@@ -127,13 +117,11 @@
 		}),
 	])
 
-	const isSchedule: boolean = schedules.value
-
-	const previousData: any = ref(
-		isSchedule ? schedules.value[0].previous : null
+	const previousData = computed(() =>
+		schedules.value ? schedules.value[0].previous : null
 	)
-	const nextData: any = ref(
-		isSchedule ? schedules.value[schedules.value.length - 1].next : null
+	const nextData = computed(() =>
+		schedules.value ? schedules.value[schedules.value.length - 1].next : null
 	)
 
 	const onClickPrev = () => {
@@ -149,21 +137,14 @@
 			tagetMonth === 'previous'
 				? dayjs(new Date(year.value, month.value)).subtract(1, 'month')
 				: dayjs(new Date(year.value, month.value)).add(1, 'month')
-		month.value = days.month()
-		year.value = days.year()
-		lastDate.value = dayjs(new Date(year.value, month.value))
-			.endOf('month')
-			.date()
 
-		currentDate.value = dayjs(new Date(year.value, month.value))
-		calendars.value = getCalendar()
+        // Calculate next YM
+        const nextYm = `${days.year()}${days.format('MM')}`
 
 		await navigateTo({
 			path: '/schedule/',
 			query: {
-				ym: `${year.value}${dayjs(
-					new Date(year.value, month.value)
-				).format('MM')}`,
+				ym: nextYm,
 			},
 		})
 	}
@@ -180,10 +161,14 @@
 		return date.add(6 - weekNum, 'day')
 	}
 
+	const isMounted = ref(false)
 	const getCalendar = () => {
 		let startDate = getStartDate(currentDate.value)
 		const endDate = getEndDate(currentDate.value)
 		const weekNumber = Math.ceil(endDate.diff(startDate, 'day') / 7)
+
+        // If pending, do not show events yet
+        const currentSchedules = pending.value ? null : schedules.value
 
 		const calendar = []
 		for (let week = 0; week < weekNumber; week++) {
@@ -194,8 +179,8 @@
 				const targetDays = dayjs(
 					new Date(year.value, targetMonth, targetDate)
 				).format('ddd')
-				const nowScheduleDay = schedules.value
-					? schedules.value.filter((scheduleDay: any) => {
+				const nowScheduleDay = currentSchedules
+					? currentSchedules.filter((scheduleDay: any) => {
 							return (
 								targetDate === dayjs(scheduleDay.date).date() &&
 								targetMonth === dayjs(scheduleDay.date).month()
@@ -210,6 +195,7 @@
 						dateUrl: '',
 						isNowMonth: month.value === targetMonth,
 						isToday:
+							isMounted.value &&
 							year.value === dayjs().year() &&
 							targetMonth === dayjs().month() &&
 							targetDate === dayjs().date(),
@@ -223,7 +209,7 @@
 							}),
 					},
 				]
-				if (nowScheduleDay.length) {
+				if (nowScheduleDay && nowScheduleDay.length) {
 					nowScheduleDayArray = []
 					for (const schedule of nowScheduleDay) {
 						nowScheduleDayArray.push({
@@ -238,6 +224,7 @@
 								: '',
 							isNowMonth: month.value === targetMonth,
 							isToday:
+								isMounted.value &&
 								year.value === dayjs().year() &&
 								targetMonth === dayjs().month() &&
 								targetDate === dayjs().date(),
@@ -261,28 +248,29 @@
 		return flatCalendars
 	}
 
-	const calendars = ref(getCalendar())
+	const calendars = computed(() => getCalendar())
+
+	onMounted(() => {
+		isMounted.value = true
+	})
 
 	watch(
-		() => month.value,
-		async () => {
-			window.scrollTo(0, 0)
-			await refresh()
-			calendars.value = getCalendar()
-			previousData.value = schedules.value
-				? schedules.value[0].previous
-				: null
-			nextData.value = schedules.value
-				? schedules.value[schedules.value.length - 1].next
-				: null
-			previousMonthDays.value = dayjs(
-				new Date(year.value, month.value)
-			).subtract(1, 'month')
-			nextMonthDays.value = dayjs(new Date(year.value, month.value)).add(
-				1,
-				'month'
-			)
-		}
+		() => route.query.ym,
+		async (newYm) => {
+            const ymStr = Array.isArray(newYm) ? newYm[0] : (newYm as string | null)
+            const newYear = ymStr && /^\d{6}$/.test(ymStr) ? +ymStr.slice(0, 4) : dayjs().year()
+            const newMonth = ymStr && /^\d{6}$/.test(ymStr) ? +ymStr.slice(4, 6) - 1 : dayjs().month()
+
+            if (year.value !== newYear || month.value !== newMonth) {
+                year.value = newYear
+                month.value = newMonth
+            }
+
+			if (import.meta.client) {
+				window.scrollTo(0, 0)
+			}
+		},
+        { immediate: true }
 	)
 </script>
 
