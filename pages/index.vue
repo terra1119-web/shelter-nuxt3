@@ -35,6 +35,8 @@
 		})
 	})
 
+	const topBannerImage = schedules.value?.acf?.top_banner_image
+	const topBannerUrl = schedules.value?.acf?.top_banner_url
 	const topStoreItems = schedules.value?.acf.store_item
 
 	const onScheduleClick = () => {
@@ -72,6 +74,22 @@
 			</Button>
 		</div>
 	</section>
+
+	<div
+		v-if="topBannerImage && topBannerUrl"
+		class="mt-8 md:mt-10 md:max-w-5xl md:mx-auto"
+	>
+		<NuxtLink
+			:to="topBannerUrl"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="block transition-all duration-300 ease-out hover:opacity-80"
+		>
+			<figure>
+				<img :src="topBannerImage" alt="" class="w-full" />
+			</figure>
+		</NuxtLink>
+	</div>
 
 	<section>
 		<header class="mt-8 md:mt-10">
